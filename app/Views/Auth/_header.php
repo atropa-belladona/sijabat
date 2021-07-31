@@ -21,6 +21,6 @@
 
 <body>
 
-<?= view('Myth\Auth\Views\_navbar') ?>
+<?= view('App\Auth\_navbar') ?>
 
 <main role="main" class="container">

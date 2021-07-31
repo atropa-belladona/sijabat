@@ -33,10 +33,15 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 
 $routes->group('', ['filter' => 'login'], function ($routes) {
-	$routes->get('/', 'Home::index', ['as' => 'home']);
+	$routes->get('/', 'Home::index');
+	$routes->get('/home', 'Home::index', ['as' => 'home']);
 
-	// Route Pengaturan
-	$routes->get('/users', 'UserController::index', ['as' => 'user_list']);
+	// Route Pengaturan Pengguna (Group Administrator)
+	$routes->group('users', ['filter' => 'role:administrator'], function ($routes) {
+		$routes->get('/', 'UserController::index', ['as' => 'user_list']);
+		$routes->get('create', 'UserController::create', ['as' => 'user_create']);
+		$routes->post('create', 'UserController::store', ['as' => 'user_store']);
+	});
 });
 
 /*

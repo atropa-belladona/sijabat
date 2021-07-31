@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="<?= base_url('img/favicon.png'); ?>">
+    <link rel="icon" href="../../../../favicon.ico">
 
-    <title>SIJABAT | Login</title>
+    <title>Myth:Auth</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -23,7 +23,7 @@
 
 <body>
 
-    <?= view('Myth\Auth\Views\_navbar') ?>
+    <?= view('App\Auth\_navbar') ?>
 
     <main role="main" class="container">
         <?= $this->renderSection('main') ?>

@@ -9,7 +9,7 @@
                 <h2 class="card-header"><?=lang('Auth.forgotPassword')?></h2>
                 <div class="card-body">
 
-                    <?= view('Myth\Auth\Views\_message_block') ?>
+                    <?= view('App\Auth\_message_block') ?>
 
                     <p><?=lang('Auth.enterEmailForInstructions')?></p>
 

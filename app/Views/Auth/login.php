@@ -1,72 +1,193 @@
-<?= $this->extend('Auth/layout') ?>
-<?= $this->section('main') ?>
+<!DOCTYPE html>
+<html>
 
-<div class="container">
-	<div class="row">
-		<div class="col-sm-6 offset-sm-3">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="<?= base_url('img/favicon.png') ?>" type="image/x-icon">
 
-			<div class="card">
-				<h2 class="card-header"><?= lang('Auth.loginTitle') ?></h2>
-				<div class="card-body">
+  <!--====================================================================================================================================-->
+  <title>SIJABAT | Sistem Informasi Jabatan</title>
 
-					<?= view('Myth\Auth\Views\_message_block') ?>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-					<form action="<?= route_to('login') ?>" method="post">
-						<?= csrf_field() ?>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="<?= base_url(); ?>/plugins/fontawesome-free/css/all.min.css">
 
-						<?php if ($config->validFields === ['email']) : ?>
-							<div class="form-group">
-								<label for="login"><?= lang('Auth.email') ?></label>
-								<input type="email" class="form-control <?php if (session('errors.login')) : ?>is-invalid<?php endif ?>" name="login" placeholder="<?= lang('Auth.email') ?>">
-								<div class="invalid-feedback">
-									<?= session('errors.login') ?>
-								</div>
-							</div>
-						<?php else : ?>
-							<div class="form-group">
-								<label for="login"><?= lang('Auth.emailOrUsername') ?></label>
-								<input type="text" class="form-control <?php if (session('errors.login')) : ?>is-invalid<?php endif ?>" name="login" placeholder="<?= lang('Auth.emailOrUsername') ?>">
-								<div class="invalid-feedback">
-									<?= session('errors.login') ?>
-								</div>
-							</div>
-						<?php endif; ?>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed&display=swap" rel="stylesheet">
 
-						<div class="form-group">
-							<label for="password"><?= lang('Auth.password') ?></label>
-							<input type="password" name="password" class="form-control  <?php if (session('errors.password')) : ?>is-invalid<?php endif ?>" placeholder="<?= lang('Auth.password') ?>">
-							<div class="invalid-feedback">
-								<?= session('errors.password') ?>
-							</div>
-						</div>
+  <style>
+    html,
+    body {
+      /* background-image: url('img/black.jpg'); */
+      background-image: url('https://source.unsplash.com/1600x900/?nature');
+      background-color: black;
+      background-size: cover;
+      background-repeat: no-repeat;
+      height: 100vh;
+      font-family: 'IBM Plex Sans Condensed', sans-serif;
+    }
 
-						<?php if ($config->allowRemembering) : ?>
-							<div class="form-check">
-								<label class="form-check-label">
-									<input type="checkbox" name="remember" class="form-check-input" <?php if (old('remember')) : ?> checked <?php endif ?>>
-									<?= lang('Auth.rememberMe') ?>
-								</label>
-							</div>
-						<?php endif; ?>
+    .container {
+      height: 100%;
+      align-content: center;
+    }
 
-						<br>
+    .card {
+      /* height: 340px; */
+      margin-top: auto;
+      margin-bottom: auto;
+      width: 740px;
+      background-color: rgba(245, 245, 245, .925) !important;
+    }
 
-						<button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.loginAction') ?></button>
-					</form>
+    .card-header h3 {
+      color: white;
+    }
 
-					<hr>
+    .social_icon {
+      position: absolute;
+      right: 20px;
+      top: -45px;
+    }
 
-					<?php if ($config->allowRegistration) : ?>
-						<p><a href="<?= route_to('register') ?>"><?= lang('Auth.needAnAccount') ?></a></p>
-					<?php endif; ?>
-					<?php if ($config->activeResetter) : ?>
-						<p><a href="<?= route_to('forgot') ?>"><?= lang('Auth.forgotYourPassword') ?></a></p>
-					<?php endif; ?>
-				</div>
-			</div>
+    .input-group-prepend span {
+      width: 50px;
+      background-color: #FFC312;
+      color: black;
+      border: 0 !important;
+    }
 
-		</div>
-	</div>
-</div>
+    input:focus {
+      outline: 0 0 0 0 !important;
+      box-shadow: 0 0 0 0 !important;
 
-<?= $this->endSection() ?>
+    }
+
+    .remember {
+      color: white;
+    }
+
+    .remember input {
+      width: 20px;
+      height: 20px;
+      margin-left: 15px;
+      margin-right: 5px;
+    }
+
+    .login_btn {
+      color: black;
+      background-color: #FFC312;
+      width: 100px;
+    }
+
+    .login_btn:hover {
+      color: black;
+      background-color: white;
+    }
+
+    .links {
+      color: white;
+    }
+
+    .links a {
+      margin-left: 4px;
+    }
+
+    @media(max-height: 420px) {
+      .social_icon span {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body class="small">
+  <div class="container">
+    <div class="d-flex justify-content-center h-100">
+      <div id="login-box" class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 d-flex justify-content-center align-items-center mb-2">
+              <img src="<?= base_url('img/logo_unj_green.png'); ?>" width="auto" height="250" />
+            </div>
+            <div class="col-md-6">
+              <form action="<?= route_to('login') ?>" method="post">
+                <?= csrf_field() ?>
+
+                <h3 align="center" style="color: green">Sistem Informasi Jabatan</h3> <br>
+
+                <div class="form-group">
+                  <i class="fa fa-users"></i>
+                  <label for="login">Username</label>
+                  <input type="text" class="form-control <?php if (session('errors.login')) : ?>is-invalid<?php endif ?>" name="login" placeholder="Username" value="<?= old('login'); ?>" autocomplete="off">
+                  <div class="invalid-feedback">
+                    <?= session('errors.login') ?>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <i class="fa fa-key"></i>
+                  <label for="password">Password</label>
+                  <input type="password" class="form-control <?php if (session('errors.password')) : ?>is-invalid<?php endif ?>" name="password" placeholder="Password" value="">
+                  <div class="invalid-feedback">
+                    <?= session('errors.password') ?>
+                  </div>
+                </div>
+
+                <?php if ($config->allowRemembering) : ?>
+                  <div class="form-group">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" name="remember" class="form-check-input" <?php if (old('remember')) : ?> checked <?php endif ?>>
+                        <?= lang('Auth.rememberMe') ?>
+                      </label>
+                    </div>
+                  </div>
+                <?php endif; ?>
+
+                <div class="form-group">
+                  <div class="action-button mb-2">
+                    <button type="submit" class="btn btn-success btn-lg btn-block">Login</button>
+                  </div>
+                  <div class="msg-block">
+                    <?= view('App\Auth\_message_block') ?>
+                  </div>
+                </div>
+
+
+                <div class="d-flex justify-content-between">
+                  <?php if ($config->allowRegistration) : ?>
+                    <p><a href="<?= route_to('register') ?>"><?= lang('Auth.needAnAccount') ?></a></p>
+                  <?php endif; ?>
+                  <?php if ($config->activeResetter) : ?>
+                    <p><a href="<?= route_to('forgot') ?>"><?= lang('Auth.forgotYourPassword') ?></a></p>
+                  <?php endif; ?>
+                </div>
+
+              </form>
+            </div>
+          </div>
+
+        </div>
+        <div class="card-footer">
+          <div class="d-flex flex-column">
+            <h6 class="text-center text-dark">Copyright &copy; <?= (date('Y') == 2021) ? '2021' : '2021 - ' . date('Y'); ?> : Universitas Negeri Jakarta</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript
+================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

@@ -108,8 +108,8 @@
 
        <li class="nav-item dropdown no-arrow">
          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           <img class="img-profile rounded-circle" src="<?= base_url(); ?>/img/user2-160x160.jpg">
-           <span class="mr-2 d-none d-lg-inline text-gray-600 small font-weight-bold">John Doe</span>
+           <img class="img-profile rounded-circle" src="<?= base_url('img/profile/' . user()->profile_img); ?>">
+           <span class="mr-2 d-none d-lg-inline text-gray-600 small font-weight-bold"><?= (isset(user()->username)) ? user()->username : 'Guest' ?></span>
          </a>
          <!-- Dropdown - User Information -->
          <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

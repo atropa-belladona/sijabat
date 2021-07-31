@@ -17,6 +17,12 @@
   <link rel="stylesheet" href="<?= base_url(); ?>/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?= base_url(); ?>/css/adminlte.min.css">
+
+  <!-- Bootstrap selectpicker -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+
+
   <!-- My CSS -->
   <link rel="stylesheet" href="<?= base_url(); ?>/css/my.css">
 </head>
@@ -42,8 +48,33 @@
         <?= $this->renderSection('content-header'); ?>
       </div>
 
+
+
       <!-- Main content -->
       <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col">
+              <?php if (session('app_success')) : ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <strong>Sukses !</strong> <?= session('app_success'); ?>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              <?php endif ?>
+              <?php if (session('app_error')) : ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>Error !</strong> <?= session('app_error'); ?>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              <?php endif ?>
+            </div>
+          </div>
+        </div>
+
         <?= $this->renderSection('content-main'); ?>
       </section>
       <!-- /.content -->
@@ -69,8 +100,12 @@
   <script src="<?= base_url(); ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- overlayScrollbars -->
   <script src="<?= base_url(); ?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
   <!-- AdminLTE App -->
   <script src="<?= base_url(); ?>/js/adminlte.js"></script>
+
+  <!-- Bootstrap select -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
   <!-- Custom script -->
   <?= $this->renderSection('script'); ?>

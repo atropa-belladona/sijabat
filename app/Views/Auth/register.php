@@ -9,7 +9,7 @@
                 <h2 class="card-header"><?=lang('Auth.register')?></h2>
                 <div class="card-body">
 
-                    <?= view('Myth\Auth\Views\_message_block') ?>
+                    <?= view('App\Auth\_message_block') ?>
 
                     <form action="<?= route_to('register') ?>" method="post">
                         <?= csrf_field() ?>

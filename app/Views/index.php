@@ -4,11 +4,11 @@
 <?= $this->section('content-header'); ?>
 <div class="container-fluid">
   <div class="row">
-    <div class="col d-flex justify-content-between py-2">
-      <div>
-        <h1 class="m-0">Selamat Datang, <?= (isset($user->name) ? $user->name : ''); ?></h1>
+    <div class="col d-flex justify-content-between align-items-center py-1">
+      <div class="menu-title">
+        <h1 class="font-weight-bold m-0">Selamat Datang <?= (isset(user()->name) ? user()->name : ''); ?></h1>
       </div>
-      <div>
+      <div class="breadcrumbs">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a href="<?= route_to('home'); ?>">Home</a></li>
           <li class="breadcrumb-item active">Dashboard</li>

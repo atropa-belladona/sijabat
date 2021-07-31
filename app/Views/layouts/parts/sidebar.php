@@ -175,16 +175,17 @@
               </ul>
             </li>
 
-            <hr class="sidebar-divider">
+            <?php if (in_groups('administrator')) : ?>
+              <hr class="sidebar-divider">
 
-            <li class="nav-header">Pengaturan</li>
-            <li class="nav-item">
-              <a href="<?= route_to('user_list'); ?>" class="nav-link <?= (isset($menu) and $menu == 'setting-user') ? 'active' : ''; ?>">
-                <i class="nav-icon fas fa-fw fa-users"></i>
-                <p>Pengguna</p>
-              </a>
-            </li>
-
+              <li class="nav-header">Pengaturan</li>
+              <li class="nav-item">
+                <a href="<?= route_to('user_list'); ?>" class="nav-link <?= (isset($menu) and $menu == 'setting-user') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-users"></i>
+                  <p>Pengguna</p>
+                </a>
+              </li>
+            <?php endif; ?>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
