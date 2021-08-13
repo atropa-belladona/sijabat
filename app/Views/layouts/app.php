@@ -110,6 +110,7 @@
   <!-- Custom script -->
   <?= $this->renderSection('script'); ?>
   <script>
+    
 $(document).ready(function(){      
       var i=0;  
       $('#add').click(function(){  
