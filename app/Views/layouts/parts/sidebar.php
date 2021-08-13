@@ -25,6 +25,23 @@
 
             <hr class="sidebar-divider">
 
+            <?php if (in_groups('dosen')) : ?>
+              <li class="nav-header">Profil</li>
+              <li class="nav-item">
+                <a href="<?= route_to('dosen-dokumen'); ?>" class="nav-link <?= (isset($menu) and $menu == 'dokumen-dosen') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-briefcase"></i>
+                  <p>Dokumen</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?= route_to('dosen-rekap'); ?>" class="nav-link <?= (isset($menu) and $menu == 'rekap-dosen') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-table"></i>
+                  <p>Rekap</p>
+                </a>
+              </li>
+              <hr class="sidebar-divider">
+            <?php endif; ?>
+
             <li class="nav-header">Main Menu</li>
             <li class="nav-item">
               <a href="#" class="nav-link">
@@ -186,6 +203,7 @@
                 </a>
               </li>
             <?php endif; ?>
+            <<<<<<< HEAD=======>>>>>>> master
           </ul>
         </nav>
         <!-- /.sidebar-menu -->

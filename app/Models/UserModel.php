@@ -123,8 +123,6 @@ class UserModel extends Model
         return $data;
     }
 
-
-
     // custom function
     public function getAllUser()
     {
@@ -136,6 +134,13 @@ class UserModel extends Model
     public function getUserRoles()
     {
         $roles = $this->db->table('auth_groups')->get();
+
+        return $roles->getResult();
+    }
+
+    public function getUserDok()
+    {
+        $roles = $this->db->table('tbl_dokumen')->get();
 
         return $roles->getResult();
     }

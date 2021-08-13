@@ -60,6 +60,40 @@ class UserController extends BaseController
 		return view('users/create', $data);
 	}
 
+	public function indexdosen()
+	{
+		// Page Information Data
+		$data['titlePage'] = 'Profil Dosen';
+		$data['menu'] = 'profil-dosen';
+		$data['content_title'] = 'Data Dosen';
+
+		return view('users/indexdosen', $data);
+	}
+
+	public function dokumen()
+	{
+		// Page Information Data
+		$data['titlePage'] = 'Tambah Dokumen';
+		$data['menu'] = 'dokumen-dosen';
+		$data['content_title'] = 'Dokumen Persyaratan Kenaikan Pangkat';
+
+		// get user role list
+		// $data['roles'] = $this->userModel->getUserDok();
+
+		return view('users/dokumen', $data);
+	}
+
+	public function rekap()
+	{
+
+		// Page Information Data
+		$data['titlePage'] = 'Rekap Dosen';
+		$data['menu'] = 'rekap-dosen';
+		$data['content_title'] = 'Rekap DUPAK';
+
+		return view('users/rekap', $data);
+	}
+
 
 	// store data when create user
 	public function store()
