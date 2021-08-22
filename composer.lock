@@ -1345,7 +1345,6 @@
         },
         {
             "name": "phpunit/phpunit",
-<<<<<<< HEAD
             "version": "9.5.7",
             "source": {
                 "type": "git",
@@ -1356,18 +1355,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d0dc8b6999c937616df4fb046792004b33fd31c5",
                 "reference": "d0dc8b6999c937616df4fb046792004b33fd31c5",
-=======
-            "version": "9.5.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "191768ccd5c85513b4068bdbe99bb6390c7d54fb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/191768ccd5c85513b4068bdbe99bb6390c7d54fb",
-                "reference": "191768ccd5c85513b4068bdbe99bb6390c7d54fb",
->>>>>>> master
                 "shasum": ""
             },
             "require": {
@@ -1379,11 +1366,7 @@
                 "ext-xml": "*",
                 "ext-xmlwriter": "*",
                 "myclabs/deep-copy": "^1.10.1",
-<<<<<<< HEAD
                 "phar-io/manifest": "^2.0.1",
-=======
-                "phar-io/manifest": "^2.0.3",
->>>>>>> master
                 "phar-io/version": "^3.0.2",
                 "php": ">=7.3",
                 "phpspec/prophecy": "^1.12.1",
@@ -1449,11 +1432,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-<<<<<<< HEAD
                 "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.7"
-=======
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.8"
->>>>>>> master
             },
             "funding": [
                 {
@@ -1465,11 +1444,7 @@
                     "type": "github"
                 }
             ],
-<<<<<<< HEAD
             "time": "2021-07-19T06:14:47+00:00"
-=======
-            "time": "2021-07-31T15:17:34+00:00"
->>>>>>> master
         },
         {
             "name": "psr/container",

@@ -203,7 +203,6 @@
                 </a>
               </li>
             <?php endif; ?>
-            <<<<<<< HEAD=======>>>>>>> master
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
