@@ -44,7 +44,7 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 	});
 
 	// Route Dosen
-	$routes->group('users', ['filter' => 'role:dosen'], function ($routes) {
+	$routes->group('dosen', ['filter' => 'role:dosen'], function ($routes) {
 		$routes->get('/', 'UserController::indexdosen', ['as' => 'dosen_list']);
 		$routes->get('dokumen', 'UserController::dokumen', ['as' => 'dosen-dokumen']);
 		$routes->get('rekap', 'UserController::rekap', ['as' => 'dosen-rekap']);

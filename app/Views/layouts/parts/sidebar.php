@@ -42,7 +42,7 @@
               <hr class="sidebar-divider">
             <?php endif; ?>
 
-            <li class="nav-header">Main Menu</li>
+            <li class="nav-header">Example Menu</li>
             <li class="nav-item">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-calendar-alt"></i>
