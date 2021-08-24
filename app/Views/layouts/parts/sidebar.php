@@ -23,9 +23,9 @@
               </a>
             </li>
 
-            <hr class="sidebar-divider">
 
             <?php if (in_groups('dosen')) : ?>
+              <hr class="sidebar-divider">
               <li class="nav-header">Profil</li>
               <li class="nav-item">
                 <a href="<?= route_to('dosen-dokumen'); ?>" class="nav-link <?= (isset($menu) and $menu == 'dokumen-dosen') ? 'active' : ''; ?>">
@@ -42,6 +42,9 @@
               <hr class="sidebar-divider">
             <?php endif; ?>
 
+
+            <!-- Contoh Menu -->
+            <!--             
             <li class="nav-header">Example Menu</li>
             <li class="nav-item">
               <a href="#" class="nav-link">
@@ -107,77 +110,6 @@
                   </ul>
                 </li>
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>
-                      Login & Register v2
-                      <i class="fas fa-angle-left right"></i>
-                    </p>
-                  </a>
-                  <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="pages/examples/login-v2.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Login v2</p>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="pages/examples/register-v2.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Register v2</p>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="pages/examples/forgot-password-v2.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Forgot Password v2</p>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="pages/examples/recover-password-v2.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Recover Password v2</p>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/examples/lockscreen.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Lockscreen</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/examples/legacy-user-menu.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Legacy User Menu</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/examples/language-menu.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Language Menu</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/examples/404.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Error 404</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/examples/500.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Error 500</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/examples/pace.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Pace</p>
-                  </a>
-                </li>
-                <li class="nav-item">
                   <a href="pages/examples/blank.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Blank Page</p>
@@ -190,11 +122,27 @@
                   </a>
                 </li>
               </ul>
-            </li>
+            </li> -->
 
             <?php if (in_groups('administrator')) : ?>
+              <!-- Menu Data -->
               <hr class="sidebar-divider">
+              <li class="nav-header">Data</li>
+              <li class="nav-item">
+                <a href="<?= route_to('data_pegawai'); ?>" class="nav-link <?= (isset($menu) and $menu == 'data-pegawai') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-user-graduate"></i>
+                  <p>Pegawai</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?= route_to('data_referensi'); ?>" class="nav-link <?= (isset($menu) and $menu == 'data-referensi') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-database"></i>
+                  <p>Referensi</p>
+                </a>
+              </li>
 
+              <!-- Menu Pengaturan -->
+              <hr class="sidebar-divider">
               <li class="nav-header">Pengaturan</li>
               <li class="nav-item">
                 <a href="<?= route_to('user_list'); ?>" class="nav-link <?= (isset($menu) and $menu == 'setting-user') ? 'active' : ''; ?>">

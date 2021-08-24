@@ -43,6 +43,20 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 		$routes->post('create', 'UserController::store', ['as' => 'user_store']);
 	});
 
+	// Routes in Administrator which related to synchronization with sister
+	$routes->group('data', ['filter' => 'role:administrator'], function ($routes) {
+		$routes->get('pegawai', 'DataController::pegawai_index', ['as' => 'data_pegawai']);
+		$routes->post('pegawai', 'DataController::pegawai_sinkronisasi', ['as' => 'sinkronisasi_pegawai']);
+		$routes->get('pegawai/(:segment)', 'DataController::pegawai_detail/$1', ['as' => 'detail_pegawai']);
+
+		$routes->get('referensi', 'DataController::referensi_index', ['as' => 'data_referensi']);
+		$routes->post('referensi', 'DataController::referensi_sinkronisasi', ['as' => 'sinkronisasi_referensi']);
+	});
+
+	// Route detail pegawai
+	$routes->group('pegawai', function ($routes) {
+	});
+
 	// Route Dosen
 	$routes->group('dosen', ['filter' => 'role:dosen'], function ($routes) {
 		$routes->get('/', 'UserController::indexdosen', ['as' => 'dosen_list']);

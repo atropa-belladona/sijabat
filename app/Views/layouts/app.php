@@ -18,10 +18,14 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?= base_url(); ?>/css/adminlte.min.css">
 
+  <!-- JQueryUI Css -->
+  <link rel="stylesheet" href="<?= base_url(); ?>/plugins/jquery-ui/jquery-ui.min.css">
+
+  <!-- Datatable -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.25/r-2.2.9/datatables.min.css" />
+
   <!-- Bootstrap selectpicker -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-
-
 
   <!-- My CSS -->
   <link rel="stylesheet" href="<?= base_url(); ?>/css/my.css">
@@ -47,8 +51,6 @@
       <div class="content-header">
         <?= $this->renderSection('content-header'); ?>
       </div>
-
-
 
       <!-- Main content -->
       <section class="content">
@@ -101,6 +103,12 @@
   <!-- overlayScrollbars -->
   <script src="<?= base_url(); ?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 
+  <!-- JQueryUI -->
+  <script src="<?= base_url(); ?>/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+  <!-- Datatable -->
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/r-2.2.9/datatables.min.js"></script>
+
   <!-- AdminLTE App -->
   <script src="<?= base_url(); ?>/js/adminlte.js"></script>
 
@@ -109,6 +117,13 @@
 
 
   <!-- Custom script -->
+
+  <script>
+    $(document).ready(function() {
+      $("#tabs").tabs();
+    });
+  </script>
+
   <?= $this->renderSection('script'); ?>
 
 </body>
