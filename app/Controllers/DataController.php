@@ -3,14 +3,16 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Entities\User;
 use App\Models\DataModel;
 use App\Models\PegawaiModel;
+use App\Models\UserModel;
 use Config\Database;
 use Exception;
 
 class DataController extends BaseController
 {
-
+	protected $userModel;
 	protected $pegawaiModel;
 	protected $dataModel;
 	protected $db;
@@ -23,6 +25,9 @@ class DataController extends BaseController
 			helper('sisterws');
 			sister_authorize();
 		}
+
+		// User Model
+		$this->userModel = new UserModel();
 
 		// Dosen Model
 		$this->pegawaiModel = new PegawaiModel();
@@ -42,7 +47,16 @@ class DataController extends BaseController
 		$data['content_title'] = 'Data Pegawai';
 
 		// get all pegawai data
-		$data['pegawai'] = $this->pegawaiModel->orderBy('nama_sdm', 'asc')->findAll();
+		$pegawai = $this->pegawaiModel->orderBy('nama_sdm', 'asc')->findAll();
+		$status_aktif = $this->pegawaiModel->groupBy('status_aktif')
+			->select('status_aktif, count(id) as jumlah')
+			->get()
+			->getResult();
+
+
+		$data['pegawai'] = $pegawai;
+		$data['status_aktif'] = $status_aktif;
+
 
 		return view('data/pegawai_index', $data);
 	}
@@ -53,7 +67,7 @@ class DataController extends BaseController
 		try {
 			$response = sister_getDataPegawai();
 
-			$this->db->transBegin();
+			// $this->db->transBegin();
 
 			// empty table pegawai
 			$this->pegawaiModel->truncate();
@@ -62,6 +76,19 @@ class DataController extends BaseController
 				$pegawai = json_decode($response->getBody());
 
 				foreach ($pegawai as $dos) {
+					// insert data into table pegawai
+					$this->pegawaiModel->ignore(true)->insert([
+						'id_sdm' => $dos->id_sdm,
+						'nama_sdm' => $dos->nama_sdm,
+						'nidn' => $dos->nidn,
+						'nip' => $dos->nip,
+						'status_aktif' => $dos->nama_status_aktif,
+						'status_pegawai' => $dos->nama_status_pegawai,
+						'jenis_sdm' => $dos->jenis_sdm,
+					]);
+
+					// create account to login
+
 
 					// get data penugasan pegawai
 					// $res_tugas = sister_getDataPenugasanPegawai($dos->id_sdm);
@@ -80,8 +107,6 @@ class DataController extends BaseController
 					// 		if ($res_detail->getStatusCode() == 200) {
 					// 			$detail = json_decode($res_detail->getBody());
 
-					// 			// dd($detail);
-
 					// 			$this->db->table('t_pegawai_penugasan')->insert([
 					// 				'id' => $detail->id,
 					// 				'id_sdm' => $detail->id_sdm,
@@ -99,24 +124,15 @@ class DataController extends BaseController
 					// }
 
 
-					// insert data into table pegawai
-					$this->pegawaiModel->ignore(true)->insert([
-						'id_sdm' => $dos->id_sdm,
-						'nama_sdm' => $dos->nama_sdm,
-						'nidn' => $dos->nidn,
-						'nip' => $dos->nip,
-						'status_aktif' => $dos->nama_status_aktif,
-						'status_pegawai' => $dos->nama_status_pegawai,
-						'jenis_sdm' => $dos->jenis_sdm
-					]);
+
 				}
 			}
 
-			$this->db->transCommit();
+			// $this->db->transCommit();
 
 			return redirect()->back()->with('app_success', 'Data berhasil disinkronisasi');
 		} catch (Exception $ex) {
-			$this->db->transRollback();
+			// $this->db->transRollback();
 			return redirect()->back()->with('app_error', $ex->getMessage());
 		}
 	}
@@ -124,7 +140,26 @@ class DataController extends BaseController
 
 	public function pegawai_detail($id_sdm)
 	{
-		return view('data/pegawai_detail');
+		// Page Information Data
+		$data['titlePage'] = 'Pegawai';
+		$data['menu'] = 'data-pegawai';
+		$data['content_title'] = 'Data Pegawai';
+
+		$pegawai = $this->pegawaiModel->where('id_sdm', $id_sdm)->get();
+		$data['pegawai'] = $pegawai->getRow();
+
+		$pendidikan = sister_getListDataPendidikanFormal($id_sdm);
+		$data['pendidikan'] = $pendidikan;
+
+		$kelahiran = sister_getDataProfileSDM($id_sdm);
+		$data['kelahiran'] = $kelahiran;
+
+		$alamat = sister_getDataAlamatSDM($id_sdm);
+		$data['alamat'] = $alamat;
+
+		$data['foto'] = 'data:image/png;base64,' . base64_encode(sister_getDataFotoSDM($id_sdm));
+
+		return view('data/pegawai_detail', $data);
 	}
 
 

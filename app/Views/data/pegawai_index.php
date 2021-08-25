@@ -17,6 +17,28 @@
 <?= $this->section('content'); ?>
 <div class="content">
   <div class="row">
+    <?php foreach ($status_aktif as $keaktifan) : ?>
+      <div class="col-6 col-sm-4 col-md-2">
+        <div class="info-box">
+          <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text text-primary font-weight-bold"><?= $keaktifan->status_aktif; ?></span>
+            <span class="info-box-number">
+              <?= $keaktifan->jumlah . ' Pegawai'; ?>
+            </span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <!-- /.col -->
+    <?php endforeach; ?>
+  </div>
+
+  <hr>
+
+  <div class="row">
     <div class="col">
       <table id="table-pegawai" class="table table-sm table-success" style="width: 100%;">
         <thead class="bg-gradient-dark text-white">

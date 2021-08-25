@@ -7,7 +7,7 @@ function getSisterWSOptions()
 {
   $options = [
     'baseURI' => 'http://sister.unj.ac.id/ws.php/1.0/',
-    'timeout'  => 3,
+    'timeout'  => 5,
     'http_errors' => false
   ];
 
@@ -96,6 +96,27 @@ function sister_getDataPegawai()
 }
 
 // get data penugasan
+function sister_getProfileSDM($id_sdm)
+{
+  helper('cookie');
+
+  // if it doesnt have token to authorize
+  if (!has_cookie('sister_token')) {
+    $sa = sister_authorize();
+  }
+
+  $client = Services::curlrequest(getSisterWSOptions());
+
+  $response = $client->request('GET', 'data_pribadi/profil/' . $id_sdm, [
+    'headers' => [
+      'Authorization' => get_cookie('sister_token')
+    ]
+  ]);
+
+  return $response;
+}
+
+// get data penugasan
 function sister_getDataPenugasanPegawai($id_sdm)
 {
   helper('cookie');
@@ -131,14 +152,106 @@ function sister_getDataPenugasanDetail($id_penugasan)
 
   $client = Services::curlrequest(getSisterWSOptions());
 
-  $response = $client->request('GET', 'penugasan', [
+  $response = $client->request('GET', 'penugasan/' . $id_penugasan, [
     'headers' => [
       'Authorization' => get_cookie('sister_token')
-    ],
-    'query' => [
-      'id' => $id_penugasan
     ]
   ]);
 
   return $response;
+}
+
+// -------------------------------------------------------------------------------------
+
+/**
+ * general function to get data using PATH parameter by id_sdm
+ * @get_path is GET PATH without "/" mark at the beginning 
+ */
+function sister_query_getDataByIdSDM($get_path, $id_sdm)
+{
+  helper('cookie');
+
+  // if it doesnt have token to authorize
+  if (!has_cookie('sister_token')) {
+    $sa = sister_authorize();
+  }
+
+  $client = Services::curlrequest(getSisterWSOptions());
+
+  $response = $client->request('GET', $get_path, [
+    'headers' => [
+      'Authorization' => get_cookie('sister_token')
+    ],
+    'query' => [
+      'id_sdm' => $id_sdm
+    ]
+  ]);
+
+  return $response;
+}
+
+/**
+ * general function to get data using query-string parameter by id_sdm
+ * @get_path is GET PATH without "/" mark at the beginning 
+ */
+function sister_path_getDataByIdSDM($get_path, $id_sdm)
+{
+  helper('cookie');
+
+  // if it doesnt have token to authorize
+  if (!has_cookie('sister_token')) {
+    $sa = sister_authorize();
+  }
+
+  $client = Services::curlrequest(getSisterWSOptions());
+
+  $response = $client->request('GET', $get_path . $id_sdm, [
+    'headers' => [
+      'Authorization' => get_cookie('sister_token')
+    ]
+  ]);
+
+  return $response;
+}
+
+
+// --------------------------------------------------------------------------------------
+
+// GET Data Pokok
+function sister_getDataProfileSDM($id_sdm)
+{
+  $get_path = 'data_pribadi/profil/';
+
+  $response = sister_path_getDataByIdSDM($get_path, $id_sdm);
+
+  return json_decode($response->getBody());
+}
+
+function sister_getDataAlamatSDM($id_sdm)
+{
+  $get_path = 'data_pribadi/alamat/';
+
+  $response = sister_path_getDataByIdSDM($get_path, $id_sdm);
+
+  return json_decode($response->getBody());
+}
+
+function sister_getDataFotoSDM($id_sdm)
+{
+  $get_path = 'data_pribadi/foto/';
+
+  $response = sister_path_getDataByIdSDM($get_path, $id_sdm);
+
+  return $response->getBody();
+}
+
+
+// GET Pendidikan Formal
+function sister_getListDataPendidikanFormal($id_sdm)
+{
+  $get_path = 'pendidikan_formal';
+
+  $response = sister_query_getDataByIdSDM($get_path, $id_sdm);
+
+  return json_decode($response->getBody());
 }
