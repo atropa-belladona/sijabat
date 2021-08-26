@@ -29,6 +29,8 @@
 
   <!-- My CSS -->
   <link rel="stylesheet" href="<?= base_url(); ?>/css/my.css">
+
+  <?= $this->renderSection('style'); ?>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed text-sm">

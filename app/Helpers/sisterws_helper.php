@@ -255,3 +255,22 @@ function sister_getListDataPendidikanFormal($id_sdm)
 
   return json_decode($response->getBody());
 }
+
+// GET Penugasan
+function sister_getDataListPenugasanSDM($id_sdm)
+{
+  $get_path = 'penugasan';
+
+  $response = sister_query_getDataByIdSDM($get_path, $id_sdm);
+
+  return json_decode($response->getBody());
+}
+
+function sister_getDataPenugasanSDM($id_sdm)
+{
+  $data = sister_getDataListPenugasanSDM($id_sdm);
+
+  $data = array_reverse($data);
+
+  return $data[0];
+}

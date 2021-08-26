@@ -7,6 +7,9 @@ use App\Entities\User;
 use App\Models\DataModel;
 use App\Models\PegawaiModel;
 use App\Models\UserModel;
+
+use Myth\Auth\Password;
+
 use Config\Database;
 use Exception;
 
@@ -64,13 +67,15 @@ class DataController extends BaseController
 	// Function to synchronize pegawai data with SISTER
 	public function pegawai_sinkronisasi()
 	{
+		ini_set('max_execution_time', 300);
+
 		try {
 			$response = sister_getDataPegawai();
 
 			// $this->db->transBegin();
 
 			// empty table pegawai
-			$this->pegawaiModel->truncate();
+			// $this->pegawaiModel->truncate();
 
 			if ($response->getStatusCode() == 200) {
 				$pegawai = json_decode($response->getBody());
@@ -85,6 +90,7 @@ class DataController extends BaseController
 						'status_aktif' => $dos->nama_status_aktif,
 						'status_pegawai' => $dos->nama_status_pegawai,
 						'jenis_sdm' => $dos->jenis_sdm,
+						'password_hash' => Password::hash($dos->nidn)
 					]);
 
 					// create account to login
@@ -156,6 +162,8 @@ class DataController extends BaseController
 
 		$alamat = sister_getDataAlamatSDM($id_sdm);
 		$data['alamat'] = $alamat;
+
+		$data['penugasan'] = sister_getDataPenugasanSDM($id_sdm);
 
 		$data['foto'] = 'data:image/png;base64,' . base64_encode(sister_getDataFotoSDM($id_sdm));
 

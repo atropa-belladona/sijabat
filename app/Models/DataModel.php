@@ -18,7 +18,9 @@ class DataModel extends Model
 
 	public function getReferensiUnitKerja()
 	{
-		$unit = $this->db->table('r_unitkerja')->get();
+		$unit = $this->db->table('v_unitkerja')
+			->orderBy('id_jenis_unit', 'asc')
+			->get();
 
 		return $unit->getResult();
 	}
