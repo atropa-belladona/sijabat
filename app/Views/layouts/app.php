@@ -37,9 +37,9 @@
   <div class="wrapper">
 
     <!-- Preloader -->
-    <!-- <div class="preloader flex-column justify-content-center align-items-center">
+    <div class="preloader flex-column justify-content-center align-items-center">
       <img class="animation__wobble" src="<?= base_url(); ?>/img/logo_unj.png" alt="AdminLTELogo" height="auto" width="60">
-    </div> -->
+    </div>
 
     <!-- Include parts navbar -->
     <?= $this->include('layouts/parts/navbar'); ?>
@@ -123,6 +123,10 @@
   <script>
     $(document).ready(function() {
       $("#tabs").tabs();
+
+      $('.datatable').DataTable({
+        'responsive': true
+      });
     });
   </script>
 

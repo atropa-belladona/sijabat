@@ -1,12 +1,12 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-3 fixedElement">
 
       <!-- Profile Image -->
-      <div class="card card-primary card-outline">
+      <div class="card card-primary card-outline ">
         <div class="card-body box-profile">
           <div class="text-center">
-            <img class="profile-user-img img-fluid" src="<?= $foto; ?>" alt="<?= $pegawai->nama_sdm; ?>" style="width: auto !important;">
+            <img class="profile-kategori-img img-fluid" src="<?= $foto; ?>" alt="<?= $pegawai->nama_sdm; ?>" style="width: auto !important;">
           </div>
 
           <h3 class="profile-username text-center"><?= ucwords(strtolower($pegawai->nama_sdm)); ?></h3>
@@ -67,22 +67,6 @@
               <span>Email : <?= $alamat->email; ?></span>
             </p>
           <?php endif ?>
-          <hr>
-
-          <strong><i class="fas fa-book mr-1"></i> Pendidikan Formal</strong>
-          <ul>
-            <?php if (isset($pendidikan->message)) : ?>
-
-              <p class="text-muted pl-3"><?= $pendidikan->message . ' : ' . $pendidikan->detail; ?></p>
-
-            <?php else : ?>
-
-              <?php foreach (array_reverse($pendidikan) as $pendidikan) : ?>
-                <li><?= $pendidikan->jenjang_pendidikan . ', ' . $pendidikan->bidang_studi . ' di ' . $pendidikan->nama_perguruan_tinggi . ' : ' . $pendidikan->tahun_lulus; ?></li>
-              <?php endforeach ?>
-
-            <?php endif ?>
-          </ul>
 
         </div>
         <!-- /.card-body -->
@@ -90,130 +74,503 @@
       <!-- /.card -->
     </div>
     <!-- /.col -->
+
+    <!-- right side -->
     <div class="col-md-9">
       <div class="card">
         <div class="card-header p-2">
           <ul class="nav nav-pills">
-            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Kegiatan</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#kegiatan" data-toggle="tab">Kegiatan</a></li>
             <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
             <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
           </ul>
         </div><!-- /.card-header -->
         <div class="card-body">
           <div class="tab-content">
-            <div class="active tab-pane" id="activity">
-              <!-- Post -->
-              <div class="post">
-                <div class="user-block">
-                  <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
-                  <span class="username">
-                    <a href="#">Jonathan Burke Jr.</a>
-                    <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                  </span>
-                  <span class="description">Shared publicly - 7:30 PM today</span>
+            <div class="active tab-pane" id="kegiatan">
+
+              <!-- Pendidikan -->
+              <div class="kategori-kegiatan">
+                <div class="kategori-block">
+                  <h6 class="font-weight-bold text-primary">
+                    <a href="#">Pendidikan</a>
+                  </h6>
                 </div>
-                <!-- /.user-block -->
-                <p>
-                  Lorem ipsum represents a long-held tradition for designers,
-                  typographers and the like. Some people hate it and argue for
-                  its demise, but others ignore the hate as they create awesome
-                  tools to help create filler text for everyone from bacon lovers
-                  to Charlie Sheen fans.
-                </p>
+                <div>
+                  <ul>
+                    <?php if (isset($pendidikan->message)) : ?>
 
-                <p>
-                  <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                  <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                  <span class="float-right">
-                    <a href="#" class="link-black text-sm">
-                      <i class="far fa-comments mr-1"></i> Comments (5)
-                    </a>
-                  </span>
-                </p>
+                      <p class="text-muted pl-3"><?= $pendidikan->message . ' : ' . $pendidikan->detail; ?></p>
 
-                <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
+                    <?php else : ?>
+
+                      <?php foreach (array_reverse($pendidikan) as $pendidikan) : ?>
+                        <li><?= $pendidikan->jenjang_pendidikan . ', ' . $pendidikan->bidang_studi . ' di ' . $pendidikan->nama_perguruan_tinggi . ' : ' . $pendidikan->tahun_lulus; ?></li>
+                      <?php endforeach ?>
+
+                    <?php endif ?>
+                  </ul>
+                </div>
               </div>
-              <!-- /.post -->
+              <!-- /. Pendidikan -->
 
-              <!-- Post -->
-              <div class="post clearfix">
-                <div class="user-block">
-                  <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
-                  <span class="username">
-                    <a href="#">Sarah Ross</a>
-                    <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                  </span>
-                  <span class="description">Sent you a message - 3 days ago</span>
+
+              <!-- Pelaksanaan Pendidikan -->
+              <hr>
+              <div class="kategori-kegiatan">
+                <div class="kategori-block">
+                  <h6 class="font-weight-bold text-primary">
+                    <a href="#">Pelaksanaan Pendidikan</a>
+                  </h6>
                 </div>
-                <!-- /.user-block -->
-                <p>
-                  Lorem ipsum represents a long-held tradition for designers,
-                  typographers and the like. Some people hate it and argue for
-                  its demise, but others ignore the hate as they create awesome
-                  tools to help create filler text for everyone from bacon lovers
-                  to Charlie Sheen fans.
-                </p>
 
-                <form class="form-horizontal">
-                  <div class="input-group input-group-sm mb-0">
-                    <input class="form-control form-control-sm" placeholder="Response">
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-danger">Send</button>
+                <div class="card card-primary card-outline card-outline-tabs elevation-0">
+                  <div class="card-header p-0 border-bottom-0">
+                    <ul class="nav nav-tabs" id="pelaksanaan-pendidikan-tab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="pengajaran-tab" data-toggle="pill" href="#pengajaran" role="tab" aria-controls="pengajaran" aria-selected="false">Pengajaran</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="visiting-tab" data-toggle="pill" href="#visiting" role="tab" aria-controls="visiting" aria-selected="false">Visiting Scientist</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="bahan-ajar-tab" data-toggle="pill" href="#bahan-ajar" role="tab" aria-controls="bahan-ajar" aria-selected="false">Bahan Ajar</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="detasering-tab" data-toggle="pill" href="#detasering" role="tab" aria-controls="detasering" aria-selected="false">Detasering</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="orasi-tab" data-toggle="pill" href="#orasi" role="tab" aria-controls="orasi" aria-selected="false">Orasi Ilmiah</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="pembimbing-tab" data-toggle="pill" href="#pembimbing" role="tab" aria-controls="pembimbing" aria-selected="false">Pembimbing dosen</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="tugas-tambahan-tab" data-toggle="pill" href="#tugas-tambahan" role="tab" aria-controls="tugas-tambahan" aria-selected="false">Tugas Tambahan</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <div class="tab-content" id="pelaksanaan-pendidikan-tabContent">
+                      <!-- tab pengajaran -->
+                      <div class="tab-pane fade active show" id="pengajaran" role="tabpanel" aria-labelledby="pengajaran-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Mata Kuliah</th>
+                              <th>Bidang Keilmuan</th>
+                              <th>SKS</th>
+                              <th>Kelas</th>
+                              <th>Semester</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($pengajaran as $ajar) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $ajar->mata_kuliah; ?></td>
+                                <td></td>
+                                <td><?= $ajar->sks; ?></td>
+                                <td><?= $ajar->kelas; ?></td>
+                                <td><?= $ajar->semester; ?></td>
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- /. tab pengajaran -->
+
+                      <!-- tab visiting scientist -->
+                      <div class="tab-pane fade" id="visiting" role="tabpanel" aria-labelledby="visiting-tab">
+                      </div>
+                      <!-- /. tab visiting scientist -->
+
+                      <!-- tab bahan-ajar -->
+                      <div class="tab-pane fade" id="bahan-ajar" role="tabpanel" aria-labelledby="bahan-ajar-tab">
+                      </div>
+                      <!-- /. tab bahan-ajar -->
+
+                      <!-- tab detasering -->
+                      <div class="tab-pane fade" id="detasering" role="tabpanel" aria-labelledby="detasering-tab">
+                      </div>
+                      <!-- /. tab detasering -->
+
+                      <!-- tab orasi -->
+                      <div class="tab-pane fade" id="orasi" role="tabpanel" aria-labelledby="orasi-tab">
+                      </div>
+                      <!-- /. tab orasi -->
+
+                      <!-- tab pembimbing -->
+                      <div class="tab-pane fade" id="pembimbing" role="tabpanel" aria-labelledby="pembimbing-tab">
+                      </div>
+                      <!-- /. tab pembimbing -->
+
+                      <!-- tab tugas-tambahan -->
+                      <div class="tab-pane fade" id="tugas-tambahan" role="tabpanel" aria-labelledby="tugas-tambahan-tab">
+                      </div>
+                      <!-- /. tab tugas-tambahan -->
+
                     </div>
                   </div>
-                </form>
-              </div>
-              <!-- /.post -->
-
-              <!-- Post -->
-              <div class="post">
-                <div class="user-block">
-                  <img class="img-circle img-bordered-sm" src="../../dist/img/user6-128x128.jpg" alt="User Image">
-                  <span class="username">
-                    <a href="#">Adam Jones</a>
-                    <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                  </span>
-                  <span class="description">Posted 5 photos - 5 days ago</span>
+                  <!-- /.card -->
                 </div>
-                <!-- /.user-block -->
-                <div class="row mb-3">
-                  <div class="col-sm-6">
-                    <img class="img-fluid" src="../../dist/img/photo1.png" alt="Photo">
+
+              </div>
+              <!-- /. Pelaksanaan Pendidikan -->
+
+              <!-- Pelaksanaan Penelitian -->
+              <hr>
+              <div class="kategori-kegiatan">
+                <div class="kategori-block">
+                  <h6 class="font-weight-bold text-primary">
+                    <a href="#">Pelaksanaan Penelitian</a>
+                  </h6>
+                </div>
+                <div class="card card-primary card-outline card-outline-tabs elevation-0">
+                  <div class="card-header p-0 border-bottom-0">
+                    <ul class="nav nav-tabs" id="pelaksanaan-penelitian-tab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="penelitian-tab" data-toggle="pill" href="#penelitian" role="tab" aria-controls="penelitian" aria-selected="false">Penelitian</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="publikasi-tab" data-toggle="pill" href="#publikasi" role="tab" aria-controls="publikasi" aria-selected="false">Publikasi</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="haki-tab" data-toggle="pill" href="#haki" role="tab" aria-controls="haki" aria-selected="false">HKI/Paten</a>
+                      </li>
+                    </ul>
                   </div>
-                  <!-- /.col -->
-                  <div class="col-sm-6">
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <img class="img-fluid mb-3" src="../../dist/img/photo2.png" alt="Photo">
-                        <img class="img-fluid" src="../../dist/img/photo3.jpg" alt="Photo">
+                  <div class="card-body">
+                    <div class="tab-content" id="pelaksanaan-penelitian-tabContent">
+                      <!-- tab penelitian -->
+                      <div class="tab-pane fade active show" id="penelitian" role="tabpanel" aria-labelledby="penelitian-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Judul</th>
+                              <th>Bidang Keilmuan</th>
+                              <th>Tahun Pelaksanaan</th>
+                              <th>Lama Kegiatan</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($penelitian as $teliti) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $teliti->judul; ?></td>
+                                <td>
+                                  <ul>
+                                    <?php foreach ($teliti->bidang_keilmuan as $bidang) : ?>
+                                      <li><?= $bidang; ?></li>
+                                    <?php endforeach ?>
+                                  </ul>
+                                </td>
+                                <td><?= $teliti->tahun_pelaksanaan; ?></td>
+                                <td><?= $teliti->lama_kegiatan; ?></td>
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
                       </div>
-                      <!-- /.col -->
-                      <div class="col-sm-6">
-                        <img class="img-fluid mb-3" src="../../dist/img/photo4.jpg" alt="Photo">
-                        <img class="img-fluid" src="../../dist/img/photo1.png" alt="Photo">
+                      <!-- /. tab penelitian -->
+
+                      <!-- tab publikasi -->
+                      <div class="tab-pane fade" id="publikasi" role="tabpanel" aria-labelledby="publikasi-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Judul</th>
+                              <th>Kategori Kegiatan</th>
+                              <th>Jenis Publikasi</th>
+                              <th>Quartile</th>
+                              <th>Tanggal Terbit</th>
+                              <th>Asal Data</th>
+                              <th>Bidang Keilmuan</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($publikasi as $publikasi) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $publikasi->judul; ?></td>
+                                <td><?= $publikasi->kategori_kegiatan; ?></td>
+                                <td><?= $publikasi->jenis_publikasi; ?></td>
+                                <td><?= $publikasi->quartile; ?></td>
+                                <td style="white-space: nowrap;"><?= $publikasi->tanggal; ?></td>
+                                <td><?= $publikasi->asal_data; ?></td>
+                                <td>
+                                  <ul>
+                                    <?php foreach ($publikasi->bidang_keilmuan as $bidang) : ?>
+                                      <li><?= $bidang; ?></li>
+                                    <?php endforeach ?>
+                                  </ul>
+                                </td>
+
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
                       </div>
-                      <!-- /.col -->
+                      <!-- /. tab publikasi -->
+
+                      <!-- tab publikasi -->
+                      <div class="tab-pane fade" id="haki" role="tabpanel" aria-labelledby="haki-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Judul</th>
+                              <th>Kategori Kegiatan</th>
+                              <th>Jenis</th>
+                              <th>Quartile</th>
+                              <th>Tanggal Terbit</th>
+                              <th>Bidang Keilmuan</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($haki as $haki) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $haki->judul; ?></td>
+                                <td><?= $haki->kategori_kegiatan; ?></td>
+                                <td><?= $haki->jenis_publikasi; ?></td>
+                                <td><?= $haki->quartile; ?></td>
+                                <td style="white-space: nowrap;"><?= $haki->tanggal; ?></td>
+                                <td>
+                                  <ul>
+                                    <?php foreach ($haki->bidang_keilmuan as $bidang) : ?>
+                                      <li><?= $bidang; ?></li>
+                                    <?php endforeach ?>
+                                  </ul>
+                                </td>
+
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- /. tab publikasi -->
                     </div>
-                    <!-- /.row -->
                   </div>
-                  <!-- /.col -->
+                  <!-- /.card -->
                 </div>
-                <!-- /.row -->
-
-                <p>
-                  <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                  <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                  <span class="float-right">
-                    <a href="#" class="link-black text-sm">
-                      <i class="far fa-comments mr-1"></i> Comments (5)
-                    </a>
-                  </span>
-                </p>
-
-                <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
               </div>
-              <!-- /.post -->
+              <!-- /. Pelaksanaan Penelitian -->
+
+              <!-- Pelaksanaan Pengabdian Kepada Masyarakat -->
+              <hr>
+              <div class="kategori-kegiatan">
+                <div class="kategori-block">
+                  <h6 class="font-weight-bold text-primary">
+                    <a href="#">Pelaksanaan Pengabdian Kepada Masyarakat</a>
+                  </h6>
+                </div>
+                <div class="card card-primary card-outline card-outline-tabs elevation-0">
+                  <div class="card-header p-0 border-bottom-0">
+                    <ul class="nav nav-tabs" id="pelaksanaan-pengabdian-tab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="pengabdian-tab" data-toggle="pill" href="#pengabdian" role="tab" aria-controls="pengabdian" aria-selected="false">Pengabdian</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="pengelola-jurnal-tab" data-toggle="pill" href="#pengelola-jurnal" role="tab" aria-controls="pengelola-jurnal" aria-selected="false">Pengelola Jurnal</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="pembicara-tab" data-toggle="pill" href="#pembicara" role="tab" aria-controls="pembicara" aria-selected="false">Pembicara</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="jabstruk-tab" data-toggle="pill" href="#jabstruk" role="tab" aria-controls="jabstruk" aria-selected="false">Jabatan Struktural</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <div class="tab-content" id="pelaksanaan-pengabdian-tabContent">
+                      <!-- tab pengabdian -->
+                      <div class="tab-pane fade active show" id="pengabdian" role="tabpanel" aria-labelledby="pengabdian-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Judul</th>
+                              <th>Bidang Keilmuan</th>
+                              <th>Tahun Pelaksanaan</th>
+                              <th>Lama Kegiatan</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($pengabdian as $abdi) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $abdi->judul; ?></td>
+                                <td>
+                                  <ul>
+                                    <?php foreach ($abdi->bidang_keilmuan as $bidang) : ?>
+                                      <li><?= $bidang; ?></li>
+                                    <?php endforeach ?>
+                                  </ul>
+                                </td>
+                                <td><?= $abdi->tahun_pelaksanaan; ?></td>
+                                <td><?= $abdi->lama_kegiatan; ?></td>
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- /. tab pengabdian -->
+
+
+                      <!-- tab pengelola-jurnal -->
+                      <div class="tab-pane fade" id="pengelola-jurnal" role="tabpanel" aria-labelledby="pengelola-jurnal-tab">
+                      </div>
+                      <!-- /. tab pengelola-jurnal -->
+
+                      <!-- tab pembicara -->
+                      <div class="tab-pane fade" id="pembicara" role="tabpanel" aria-labelledby="pembicara-tab">
+                      </div>
+                      <!-- /. tab pembicara -->
+
+                      <!-- tab jabstruk -->
+                      <div class="tab-pane fade" id="jabstruk" role="tabpanel" aria-labelledby="jabstruk-tab">
+                      </div>
+                      <!-- /. tab jabstruk -->
+                    </div>
+                  </div>
+                  <!-- /.card -->
+                </div>
+              </div>
+              <!-- /. Pelaksanaan Pengabdian Kepada Masyarakat -->
+
+              <!-- Penunjang Kegiatan Akademik Dosen -->
+              <hr>
+              <div class="kategori-kegiatan">
+                <div class="kategori-block">
+                  <h6 class="font-weight-bold text-primary">
+                    <a href="#">Penunjang Kegiatan Akademik Dosen</a>
+                  </h6>
+                </div>
+                <div class="card card-primary card-outline card-outline-tabs elevation-0">
+                  <div class="card-header p-0 border-bottom-0">
+                    <ul class="nav nav-tabs" id="pelaksanaan-pengabdian-tab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="profesi-tab" data-toggle="pill" href="#profesi" role="tab" aria-controls="profesi" aria-selected="false">Anggota Profesi</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="penghargaan-tab" data-toggle="pill" href="#penghargaan" role="tab" aria-controls="penghargaan" aria-selected="false">Penghargaan</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="penunjang-lain-tab" data-toggle="pill" href="#penunjang-lain" role="tab" aria-controls="penunjang-lain" aria-selected="false">Penunjang lain</a>
+                      </li>
+
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <div class="tab-content" id="pelaksanaan-profesi-tabContent">
+                      <!-- tab profesi -->
+                      <div class="tab-pane fade active show" id="profesi" role="tabpanel" aria-labelledby="profesi-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Nama Organisasi</th>
+                              <th>Peran/Kedudukan</th>
+                              <th>Mulai Keanggotaan</th>
+                              <th>Selesai Keanggotaan</th>
+                              <th>Instansi Profesi</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($anggota_profesi as $profesi) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $profesi->nama_organisasi; ?></td>
+                                <td><?= $profesi->peran; ?></td>
+                                <td><?= $profesi->tanggal_mulai_keanggotaan; ?></td>
+                                <td><?= $profesi->tanggal_selesai_keanggotaan; ?></td>
+                                <td><?= $profesi->instansi_profesi; ?></td>
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- /. tab profesi -->
+
+                      <!-- tab penghargaan -->
+                      <div class="tab-pane fade" id="penghargaan" role="tabpanel" aria-labelledby="penghargaan-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Penghargaan</th>
+                              <th>Jenis Penghargaan</th>
+                              <th>Instansi</th>
+                              <th>Tahun</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($penghargaan as $penghargaan) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $penghargaan->nama; ?></td>
+                                <td><?= $penghargaan->jenis_penghargaan; ?></td>
+                                <td><?= $penghargaan->instansi_pemberi; ?></td>
+                                <td><?= $penghargaan->tahun; ?></td>
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- /. tab pengelola-jurnal -->
+
+                      <!-- tab penunjang-lain -->
+                      <div class="tab-pane fade" id="penunjang-lain" role="tabpanel" aria-labelledby="penunjang-lain-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Nama Kegiatan</th>
+                              <th>Instansi Penyelenggara</th>
+                              <th>Nomor SK Penugasan</th>
+                              <th>Terhitung Mulai Tanggal</th>
+                              <th>Tanggal Selesai</th>
+                              <th>Peran</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($penunjang_lain as $penunjang) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $penunjang->nama; ?></td>
+                                <td><?= $penunjang->instansi; ?></td>
+                                <td><?= $penunjang->sk_penugasan; ?></td>
+                                <td><?= $penunjang->tanggal_mulai; ?></td>
+                                <td><?= $penunjang->tanggal_selesai; ?></td>
+                                <td><?= $penunjang->peran; ?></td>
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- /. tab penunjang lain -->
+
+                    </div>
+                  </div>
+                  <!-- /.card -->
+                </div>
+              </div>
+              <!-- /. Penunjang Kegiatan Akademik Dosen -->
+
             </div>
+
             <!-- /.tab-pane -->
             <div class="tab-pane" id="timeline">
               <!-- The timeline -->
@@ -249,7 +606,7 @@
                 <!-- END timeline item -->
                 <!-- timeline item -->
                 <div>
-                  <i class="fas fa-user bg-info"></i>
+                  <i class="fas fa-kategori bg-info"></i>
 
                   <div class="timeline-item">
                     <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
@@ -266,7 +623,7 @@
                   <div class="timeline-item">
                     <span class="time"><i class="far fa-clock"></i> 27 mins ago</span>
 
-                    <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
+                    <h3 class="timeline-header"><a href="#">Jay White</a> commented on your kategori-kegiatan</h3>
 
                     <div class="timeline-body">
                       Take me to your leader!

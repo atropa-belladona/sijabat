@@ -274,3 +274,83 @@ function sister_getDataPenugasanSDM($id_sdm)
 
   return $data[0];
 }
+
+
+// GET Pengajaran
+function sister_getDataListPengajaran($id_sdm)
+{
+  $get_path = 'pengajaran';
+
+  $response = sister_query_getDataByIdSDM($get_path, $id_sdm);
+
+  return json_decode($response->getBody());
+}
+
+
+// GET Penelitian
+function sister_getDataListPenelitianSDM($id_sdm)
+{
+  $get_path = 'penelitian';
+
+  $response = sister_query_getDataByIdSDM($get_path, $id_sdm);
+
+  return json_decode($response->getBody());
+}
+
+function sister_getDataListPublikasiSDM($id_sdm)
+{
+  $get_path = 'publikasi';
+
+  $response = sister_query_getDataByIdSDM($get_path, $id_sdm);
+
+  return json_decode($response->getBody());
+}
+
+function sister_getDataListHakiSDM($id_sdm)
+{
+  $get_path = 'kekayaan_intelektual';
+
+  $response = sister_query_getDataByIdSDM($get_path, $id_sdm);
+
+  return json_decode($response->getBody());
+}
+
+
+// GET Pengabdian
+function sister_getDataListPengabdianSDM($id_sdm)
+{
+  $get_path = 'pengabdian';
+
+  $response = sister_query_getDataByIdSDM($get_path, $id_sdm);
+
+  return json_decode($response->getBody());
+}
+
+
+// GET Penunjang
+function sister_getDataListAnggotaProfesiSDM($id_sdm)
+{
+  $get_path = 'anggota_profesi';
+
+  $response = sister_query_getDataByIdSDM($get_path, $id_sdm);
+
+  return json_decode($response->getBody());
+}
+
+function sister_getDataListPenghargaanSDM($id_sdm)
+{
+  $get_path = 'penghargaan';
+
+  $response = sister_query_getDataByIdSDM($get_path, $id_sdm);
+
+  return json_decode($response->getBody());
+}
+
+function sister_getDataListPenunjangLainSDM($id_sdm)
+{
+  $get_path = 'penunjang_lain';
+
+  $response = sister_query_getDataByIdSDM($get_path, $id_sdm);
+
+  return json_decode($response->getBody());
+}

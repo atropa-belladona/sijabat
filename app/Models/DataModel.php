@@ -24,4 +24,12 @@ class DataModel extends Model
 
 		return $unit->getResult();
 	}
+
+	public function getKategoriKegiatan()
+	{
+		$kegiatan = $this->db->table('r_kegiatan')
+			->get();
+
+		return $kegiatan->getResult();
+	}
 }

@@ -151,23 +151,9 @@ class DataController extends BaseController
 		$data['menu'] = 'data-pegawai';
 		$data['content_title'] = 'Data Pegawai';
 
-		$pegawai = $this->pegawaiModel->where('id_sdm', $id_sdm)->get();
-		$data['pegawai'] = $pegawai->getRow();
+		$data_pegawai = $this->pegawaiModel->getDetailPegawai($id_sdm);
 
-		$pendidikan = sister_getListDataPendidikanFormal($id_sdm);
-		$data['pendidikan'] = $pendidikan;
-
-		$kelahiran = sister_getDataProfileSDM($id_sdm);
-		$data['kelahiran'] = $kelahiran;
-
-		$alamat = sister_getDataAlamatSDM($id_sdm);
-		$data['alamat'] = $alamat;
-
-		$data['penugasan'] = sister_getDataPenugasanSDM($id_sdm);
-
-		$data['foto'] = 'data:image/png;base64,' . base64_encode(sister_getDataFotoSDM($id_sdm));
-
-		return view('data/pegawai_detail', $data);
+		return view('data/pegawai_detail', array_merge($data, $data_pegawai));
 	}
 
 

@@ -19,7 +19,7 @@
   <div class="row">
     <?php foreach ($status_aktif as $keaktifan) : ?>
       <div class="col-6 col-sm-4 col-md-2">
-        <div class="info-box">
+        <div class="info-box" style="font-size: .75rem;">
           <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user"></i></span>
 
           <div class="info-box-content">

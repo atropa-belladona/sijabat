@@ -15,10 +15,10 @@
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item">
-              <a href="<?= route_to('home'); ?>" class="nav-link <?= (isset($menu) and $menu == 'home') ? 'active' : ''; ?>">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
+              <a href="<?= route_to('home'); ?>" class="nav-link <?= (isset($menu) and $menu == 'beranda') ? 'active' : ''; ?>">
+                <i class="nav-icon fas fa-home"></i>
                 <p>
-                  Dashboard
+                  Beranda
                 </p>
               </a>
             </li>

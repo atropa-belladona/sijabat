@@ -36,7 +36,7 @@
         </li>
       </ul>
       <div class="tab-content">
-        <div class="tab-pane fade show active py-2" id="unit" role="tabpanel" aria-labelledby="unit-tab">
+        <div class="tab-pane fade show active p-2" id="unit" role="tabpanel" aria-labelledby="unit-tab">
           <table id="table-unitkerja" class="table table-sm table-warning" style="width: 100%;">
             <thead class="bg-gradient-dark text-white">
               <tr>

@@ -47,6 +47,11 @@ hr.sidebar-divider{
   font-weight: bold;
 }
 
+.card .nav-link:hover{
+  font-weight: bold;
+  color: black;
+}
+
 .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active{
   background-color: #005434;
   font-weight: bold;
