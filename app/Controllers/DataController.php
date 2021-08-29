@@ -11,6 +11,7 @@ use App\Models\UserModel;
 use Myth\Auth\Password;
 
 use Config\Database;
+use Config\Services;
 use Exception;
 
 class DataController extends BaseController
@@ -20,6 +21,8 @@ class DataController extends BaseController
 	protected $dataModel;
 	protected $db;
 
+	protected $validation;
+
 	public function __construct()
 	{
 		helper('cookie');
@@ -28,6 +31,8 @@ class DataController extends BaseController
 			helper('sisterws');
 			sister_authorize();
 		}
+
+		$this->validation = Services::validation();
 
 		// User Model
 		$this->userModel = new UserModel();
@@ -225,5 +230,63 @@ class DataController extends BaseController
 	// Store Periode Penilaian
 	public function periode_penilaian_store()
 	{
+		$rules = $this->validation->setRules(
+			[
+				'tgl-mulai' => 'required|valid_date',
+				'tgl-selesai' => 'required|valid_date',
+				'periode-keterangan' => 'string'
+			],
+			[
+				'tgl-mulai' => [
+					'required' => 'Tanggal mulai harus diisi',
+					'valid_date' => 'Bukan format tanggal yang valid'
+				],
+				'tgl-selesai' => [
+					'required' => 'Tanggal selesai harus diisi',
+					'valid_date' => 'Bukan format tanggal yang valid'
+				],
+				'periode-keterangan' => [
+					'string' => 'Hanya bisa berisi string',
+				],
+			]
+		);
+
+		// run input validation
+		if (!$this->validation->withRequest($this->request)->run()) {
+			return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
+		}
+
+		$tgl_mulai = $this->request->getPost('tgl-mulai');
+		$tgl_selesai = $this->request->getPost('tgl-selesai');
+		$keterangan = trim($this->request->getPost('periode-keterangan'));
+
+		// check if Tanggal Mulai tidak melebihi tanggal selesai
+		if (strtotime($tgl_mulai) > strtotime($tgl_selesai)) {
+			return redirect()->back()->withInput()->with('errors', [
+				'tgl-mulai' => 'Tanggal Mulai tidak boleh melebihi Tanggal Selesai',
+				'tgl-selesai' => 'Tanggal Selesai tidak boleh sebelum Tanggal Selesai'
+			]);
+		}
+
+		try {
+
+			$this->db->transBegin();
+
+			$periode = $this->db->table('t_periode_penilaian');
+
+			$periode->set('tgl_mulai', $tgl_mulai);
+			$periode->set('tgl_selesai', $tgl_selesai);
+			$periode->set('keterangan', $keterangan);
+			$periode->set('created_by', user()->id);
+
+			$periode->insert();
+
+			$this->db->transCommit();
+
+			return redirect()->back()->with('app_success', 'Data Periode Penilaian telah ditambahkan.');
+		} catch (Exception $ex) {
+			$this->db->transRollback();
+			return redirect()->back()->with('app_error', $ex->getMessage());
+		}
 	}
 }
