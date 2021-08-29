@@ -90,7 +90,7 @@
         <select name="fakultas" id="fakultas" class="form-control form-control-sm selectpicker show-tick <?= (session('errors.fakultas')) ? 'is-invalid' : ''; ?>" data-size="10" data-live-search="true">
           <option value="">Pilih Fakultas...</option>
           <?php foreach ($fakultas as $fak) : ?>
-            <option value="<?= $fak->kodeFakultas; ?>" <?= (old('fakultas') == $fak->kodeFakultas) ? 'selected' : ''; ?>><?= ucfirst($fak->namaFakultas); ?></option>
+            <option value="<?= $fak->id; ?>" <?= (old('fakultas') == $fak->id) ? 'selected' : ''; ?>><?= ucfirst($fak->nama); ?></option>
           <?php endforeach ?>
         </select>
         <div class="invalid-feedback">

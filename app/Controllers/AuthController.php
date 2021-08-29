@@ -96,6 +96,9 @@ class AuthController extends Controller
 		$redirectURL = session('redirect_url') ?? site_url('/');
 		unset($_SESSION['redirect_url']);
 
+		helper('sisterws');
+		sister_authorize();
+
 		return redirect()->to($redirectURL)->withCookies()->with('message', lang('Auth.loginSuccess'));
 	}
 
@@ -105,6 +108,7 @@ class AuthController extends Controller
 	public function logout()
 	{
 		if ($this->auth->check()) {
+
 			$this->auth->logout();
 		}
 
@@ -147,7 +151,7 @@ class AuthController extends Controller
 
 		// Validate basics first since some password rules rely on these fields
 		$rules = [
-			'username' => 'required|alpha_numeric_space|min_length[3]|max_length[30]|is_unique[users.username]',
+			'username' => 'required|alpha_dash|min_length[3]|max_length[30]|is_unique[users.username]',
 			'email'    => 'required|valid_email|is_unique[users.email]',
 		];
 

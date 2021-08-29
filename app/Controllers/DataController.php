@@ -24,7 +24,7 @@ class DataController extends BaseController
 	{
 		helper('cookie');
 
-		if (!has_cookie('sister_token')) {
+		if (get_cookie('sister_token') == null) {
 			helper('sisterws');
 			sister_authorize();
 		}
@@ -41,13 +41,14 @@ class DataController extends BaseController
 		$this->db = Database::connect();
 	}
 
-	// Index Menu Dosen
+	// Index Menu Pegawai
 	public function pegawai_index()
 	{
 		// Page Information Data
 		$data['titlePage'] = 'Pegawai';
 		$data['menu'] = 'data-pegawai';
 		$data['content_title'] = 'Data Pegawai';
+
 
 		// get all pegawai data
 		$pegawai = $this->pegawaiModel->orderBy('nama_sdm', 'asc')->findAll();
@@ -143,7 +144,6 @@ class DataController extends BaseController
 		}
 	}
 
-
 	public function pegawai_detail($id_sdm)
 	{
 		// Page Information Data
@@ -155,7 +155,6 @@ class DataController extends BaseController
 
 		return view('data/pegawai_detail', array_merge($data, $data_pegawai));
 	}
-
 
 	// Index view Menu Referensi
 	public function referensi_index()
@@ -169,7 +168,6 @@ class DataController extends BaseController
 
 		return view('data/referensi_index', $data);
 	}
-
 
 	// Functions to synchronize data Referensi with SISTER
 	protected function _sync_unitkerja($id_perguruantinggi)
@@ -208,5 +206,24 @@ class DataController extends BaseController
 		}
 
 		return redirect()->back()->with('app_error', 'Sinkronisasi Gagal');
+	}
+
+
+	// Periode Penilaian
+	public function periode_penilaian_index()
+	{
+		// Page Information Data
+		$data['titlePage'] = 'Periode Penilaian';
+		$data['menu'] = 'periode-penilaian';
+		$data['content_title'] = 'Periode Penilaian';
+
+		$data['periode_penilaian'] = $this->dataModel->getListPeriodePenilaian();
+
+		return view('data/periode_penilaian_index', $data);
+	}
+
+	// Store Periode Penilaian
+	public function periode_penilaian_store()
+	{
 	}
 }

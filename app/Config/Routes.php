@@ -32,6 +32,26 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
+// Login/out
+$routes->get('login', 'AuthController::login', ['as' => 'login']);
+$routes->post('login', 'AuthController::attemptLogin');
+$routes->get('logout', 'AuthController::logout');
+
+// Registration
+$routes->get('register', 'AuthController::register', ['as' => 'register']);
+$routes->post('register', 'AuthController::attemptRegister');
+
+// Activation
+$routes->get('activate-account', 'AuthController::activateAccount', ['as' => 'activate-account']);
+$routes->get('resend-activate-account', 'AuthController::resendActivateAccount', ['as' => 'resend-activate-account']);
+
+// Forgot/Resets
+$routes->get('forgot', 'AuthController::forgotPassword', ['as' => 'forgot']);
+$routes->post('forgot', 'AuthController::attemptForgot');
+$routes->get('reset-password', 'AuthController::resetPassword', ['as' => 'reset-password']);
+$routes->post('reset-password', 'AuthController::attemptReset');
+
+// Apps Routes
 $routes->group('', ['filter' => 'login'], function ($routes) {
 	$routes->get('/', 'Home::index');
 	$routes->get('/home', 'Home::index', ['as' => 'home']);
@@ -43,14 +63,20 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 		$routes->post('create', 'UserController::store', ['as' => 'user_store']);
 	});
 
-	// Routes in Administrator which related to synchronization with sister
-	$routes->group('data', ['filter' => 'role:administrator'], function ($routes) {
+	// Routes for Koordinator and Administrator
+	$routes->group('data', ['filter' => 'role:koordinator,administrator'], function ($routes) {
+		// pegawai related routes
 		$routes->get('pegawai', 'DataController::pegawai_index', ['as' => 'data_pegawai']);
 		$routes->post('pegawai', 'DataController::pegawai_sinkronisasi', ['as' => 'sinkronisasi_pegawai']);
 		$routes->get('pegawai/(:segment)', 'DataController::pegawai_detail/$1', ['as' => 'detail_pegawai']);
 
+		// referensi related routes
 		$routes->get('referensi', 'DataController::referensi_index', ['as' => 'data_referensi']);
 		$routes->post('referensi', 'DataController::referensi_sinkronisasi', ['as' => 'sinkronisasi_referensi']);
+
+		// periode penilaian related routes
+		$routes->get('periode-penilaian', 'DataController::periode_penilaian_index', ['as' => 'periode_penilaian']);
+		$routes->post('periode-penilaian', 'DataController::periode_penilaian_store', ['as' => 'periode_penilaian_store']);
 	});
 
 	// Route detail pegawai
@@ -64,6 +90,7 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 		$routes->get('rekap', 'UserController::rekap', ['as' => 'dosen-rekap']);
 	});
 });
+
 
 /*
  * --------------------------------------------------------------------

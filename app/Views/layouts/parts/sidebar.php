@@ -23,7 +23,6 @@
               </a>
             </li>
 
-
             <?php if (in_groups('dosen')) : ?>
               <hr class="sidebar-divider">
               <li class="nav-header">Profil</li>
@@ -40,6 +39,63 @@
                 </a>
               </li>
               <hr class="sidebar-divider">
+            <?php endif; ?>
+
+            <?php if (in_groups('koordinator')) : ?>
+              <!-- Menu Utama -->
+              <hr class="sidebar-divider">
+              <li class="nav-header">Menu Utama</li>
+              <li class="nav-item">
+                <a href="<?= route_to('periode_penilaian'); ?>" class="nav-link <?= (isset($menu) and $menu == 'periode-penilaian') ? 'active' : ''; ?>">
+                  <i class="nav-icon far fa-fw fa-clock"></i>
+                  <p>Periode Penilaian</p>
+                </a>
+              </li>
+
+              <!-- Menu Basis Data -->
+              <hr class="sidebar-divider">
+              <li class="nav-header">Basis Data</li>
+              <li class="nav-item">
+                <a href="<?= route_to('data_pegawai'); ?>" class="nav-link <?= (isset($menu) and $menu == 'data-pegawai') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-user-graduate"></i>
+                  <p>Pegawai</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?= route_to('data_referensi'); ?>" class="nav-link <?= (isset($menu) and $menu == 'data-referensi') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-database"></i>
+                  <p>Referensi</p>
+                </a>
+              </li>
+
+            <?php endif ?>
+
+            <?php if (in_groups('administrator')) : ?>
+              <!-- Menu Data -->
+              <hr class="sidebar-divider">
+              <li class="nav-header">Data</li>
+              <li class="nav-item">
+                <a href="<?= route_to('data_pegawai'); ?>" class="nav-link <?= (isset($menu) and $menu == 'data-pegawai') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-user-graduate"></i>
+                  <p>Pegawai</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?= route_to('data_referensi'); ?>" class="nav-link <?= (isset($menu) and $menu == 'data-referensi') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-database"></i>
+                  <p>Referensi</p>
+                </a>
+              </li>
+
+              <!-- Menu Pengaturan -->
+              <hr class="sidebar-divider">
+              <li class="nav-header">Pengaturan</li>
+              <li class="nav-item">
+                <a href="<?= route_to('user_list'); ?>" class="nav-link <?= (isset($menu) and $menu == 'setting-user') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-users"></i>
+                  <p>Pengguna</p>
+                </a>
+              </li>
             <?php endif; ?>
 
 
@@ -124,33 +180,7 @@
               </ul>
             </li> -->
 
-            <?php if (in_groups('administrator')) : ?>
-              <!-- Menu Data -->
-              <hr class="sidebar-divider">
-              <li class="nav-header">Data</li>
-              <li class="nav-item">
-                <a href="<?= route_to('data_pegawai'); ?>" class="nav-link <?= (isset($menu) and $menu == 'data-pegawai') ? 'active' : ''; ?>">
-                  <i class="nav-icon fas fa-fw fa-user-graduate"></i>
-                  <p>Pegawai</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="<?= route_to('data_referensi'); ?>" class="nav-link <?= (isset($menu) and $menu == 'data-referensi') ? 'active' : ''; ?>">
-                  <i class="nav-icon fas fa-fw fa-database"></i>
-                  <p>Referensi</p>
-                </a>
-              </li>
 
-              <!-- Menu Pengaturan -->
-              <hr class="sidebar-divider">
-              <li class="nav-header">Pengaturan</li>
-              <li class="nav-item">
-                <a href="<?= route_to('user_list'); ?>" class="nav-link <?= (isset($menu) and $menu == 'setting-user') ? 'active' : ''; ?>">
-                  <i class="nav-icon fas fa-fw fa-users"></i>
-                  <p>Pengguna</p>
-                </a>
-              </li>
-            <?php endif; ?>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->

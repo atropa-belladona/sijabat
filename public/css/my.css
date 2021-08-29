@@ -69,6 +69,10 @@ hr {
   margin-bottom: .875rem;
 }
 
+hr.bt-5{
+  border-top: 5px solid rgba(0, 0, 0, .1);
+}
+
 .dropdown-item:focus, .dropdown-item:hover {
   color: #16181b !important;
   font-weight: bold;

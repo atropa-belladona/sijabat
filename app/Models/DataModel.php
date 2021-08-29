@@ -32,4 +32,13 @@ class DataModel extends Model
 
 		return $kegiatan->getResult();
 	}
+
+	public function getListPeriodePenilaian()
+	{
+		$data = $this->db->table('t_periode_penilaian')
+			->where('active', '1')
+			->get();
+
+		return $data->getResult();
+	}
 }

@@ -7,20 +7,23 @@ use App\Entities\User;
 use App\Models\UserModel;
 use Exception;
 
+use Config\Database;
+
 class UserController extends BaseController
 {
 
 	protected $userModel;
+	protected $db;
 
 	public function __construct()
 	{
 		$this->userModel = new UserModel();
+
+		$this->db = Database::connect();
 	}
 
 	public function index()
 	{
-		helper('siakadapi');
-
 		// Page Information Data
 		$data['titlePage'] = 'Pengaturan Pengguna';
 		$data['menu'] = 'setting-user';
@@ -30,9 +33,10 @@ class UserController extends BaseController
 		$data['users'] = $this->userModel->getAllUser();
 
 		foreach ($data['users'] as $user) {
-			$fakultas = getFakultasByKode($user->kd_fakultas);
-			if ($fakultas->status) {
-				$user->fakultas = $fakultas->isi[0]->namaFakultas;
+			$fakultas = $this->db->table('r_fakultas')->where('id', $user->kd_fakultas)->get()->getRow();
+
+			if (isset($fakultas->nama)) {
+				$user->fakultas = $fakultas->nama;
 			} else {
 				$user->fakultas = '';
 			}
@@ -43,8 +47,6 @@ class UserController extends BaseController
 
 	public function create()
 	{
-		helper('siakadapi');
-
 		// Page Information Data
 		$data['titlePage'] = 'Tambah Pengguna';
 		$data['menu'] = 'setting-user';
@@ -53,9 +55,9 @@ class UserController extends BaseController
 		// get user role list
 		$data['roles'] = $this->userModel->getUserRoles();
 
-		$result = getAllFakultas();
+		$result = $this->db->table('r_fakultas')->where('active', '1')->get();
 
-		$data['fakultas'] = $result->isi;
+		$data['fakultas'] = $result->getResult();
 
 		return view('users/create', $data);
 	}
@@ -100,7 +102,7 @@ class UserController extends BaseController
 	{
 		$rules = [
 			'nama' => 'required',
-			'username' => 'required|alpha_numeric_space|min_length[3]|max_length[20]|is_unique[users.username]',
+			'username' => 'required|alpha_dash|min_length[3]|max_length[20]|is_unique[users.username]',
 			'password1' => 'required|matches[password2]',
 			'password2' => 'required|matches[password1]',
 			'role' => 'required'

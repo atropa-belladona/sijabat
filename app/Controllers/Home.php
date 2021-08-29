@@ -10,9 +10,6 @@ use Config\Database;
 
 class Home extends BaseController
 {
-
-
-
 	public function __construct()
 	{
 		// User Model
@@ -25,15 +22,6 @@ class Home extends BaseController
 		$this->dataModel = new DataModel();
 
 		$this->db = Database::connect();
-	}
-
-	protected function getPageInfo()
-	{
-		$data['titlePage'] = 'Beranda';
-		$data['menu'] = 'beranda';
-		$data['content_title'] = 'Beranda';
-
-		return $data;
 	}
 
 	public function index()

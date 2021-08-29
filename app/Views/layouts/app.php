@@ -80,11 +80,14 @@
         </div>
 
         <?= $this->renderSection('content-main'); ?>
+
       </section>
       <!-- /.content -->
 
     </div>
     <!-- /.content-wrapper -->
+
+    <?= $this->renderSection('modal'); ?>
 
     <!-- Main Footer -->
     <footer class="main-footer">
@@ -124,8 +127,11 @@
     $(document).ready(function() {
       $("#tabs").tabs();
 
-      $('.datatable').DataTable({
-        'responsive': true
+      var datatable = $('.datatable').DataTable({
+        'responsive': true,
+        'language': {
+          'emptyTable': '-- Tidak ada data --'
+        }
       });
     });
   </script>

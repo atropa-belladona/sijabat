@@ -116,7 +116,7 @@
 
 
               <!-- Pelaksanaan Pendidikan -->
-              <hr>
+              <hr class="bt-5">
               <div class="kategori-kegiatan">
                 <div class="kategori-block">
                   <h6 class="font-weight-bold text-primary">
@@ -184,31 +184,171 @@
 
                       <!-- tab visiting scientist -->
                       <div class="tab-pane fade" id="visiting" role="tabpanel" aria-labelledby="visiting-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Perguruan Tinggi Pengundang</th>
+                              <th>Lama Kegiatan</th>
+                              <th>Tanggal Pelaksanaan</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($visiting_scientist as $item) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $item->perguruan_tinggi; ?></td>
+                                <td><?= $item->lama_kegiatan; ?></td>
+                                <td><?= $item->tanggal; ?></td>
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
                       </div>
                       <!-- /. tab visiting scientist -->
 
                       <!-- tab bahan-ajar -->
                       <div class="tab-pane fade" id="bahan-ajar" role="tabpanel" aria-labelledby="bahan-ajar-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Judul Bahan Ajar</th>
+                              <th>ISBN</th>
+                              <th>Tanggal Terbit</th>
+                              <th>Penerbit</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($bahan_ajar as $item) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $item->judul; ?></td>
+                                <td><?= $item->isbn; ?></td>
+                                <td><?= $item->tanggal_terbit; ?></td>
+                                <td><?= $item->nama_terbit; ?></td>
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
                       </div>
                       <!-- /. tab bahan-ajar -->
 
                       <!-- tab detasering -->
                       <div class="tab-pane fade" id="detasering" role="tabpanel" aria-labelledby="detasering-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Perguruan Tinggi Sasaran</th>
+                              <th>Kategori Kegiatan</th>
+                              <th>No. SK Penugasan</th>
+                              <th>Tanggal SK Penugasan</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($detasering as $item) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $item->perguruan_tinggi; ?></td>
+                                <td><?= $item->kategori_kegiatan; ?></td>
+                                <td><?= $item->sk_penugasan; ?></td>
+                                <td><?= $item->tanggal_sk_penugasan; ?></td>
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
                       </div>
                       <!-- /. tab detasering -->
 
                       <!-- tab orasi -->
                       <div class="tab-pane fade" id="orasi" role="tabpanel" aria-labelledby="orasi-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Kategori Kegiatan</th>
+                              <th>Judul Makalah</th>
+                              <th>Nama Temu Ilmiah</th>
+                              <th>Penyelenggara</th>
+                              <th>Tanggal Pelaksanaan</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($orasi_ilmiah as $item) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td></td>
+                                <td><?= $item->judul_makalah; ?></td>
+                                <td><?= $item->nama_pertemuan; ?></td>
+                                <td><?= $item->penyelenggara; ?></td>
+                                <td><?= $item->tanggal_pelaksanaan; ?></td>
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
                       </div>
                       <!-- /. tab orasi -->
 
                       <!-- tab pembimbing -->
                       <div class="tab-pane fade" id="pembimbing" role="tabpanel" aria-labelledby="pembimbing-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Nama Pembimbing</th>
+                              <th>Nama Bimbingan</th>
+                              <th>Tanggal Mulai</th>
+                              <th>Tanggal Selesai</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($pembimbing_dosen as $item) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $item->nama_pembimbing; ?></td>
+                                <td><?= $item->nama_bimbingan; ?></td>
+                                <td><?= $item->tanggal_mulai; ?></td>
+                                <td><?= $item->tanggal_selesai; ?></td>
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
                       </div>
                       <!-- /. tab pembimbing -->
 
                       <!-- tab tugas-tambahan -->
                       <div class="tab-pane fade" id="tugas-tambahan" role="tabpanel" aria-labelledby="tugas-tambahan-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Tugas Tambahan</th>
+                              <th>Unit Kerja</th>
+                              <th>Instansi</th>
+                              <th>Tangaal Mulai</th>
+                              <th>Tangaal Berakhir</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($tugas_tambahan as $item) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $item->jenis_tugas; ?></td>
+                                <td><?= $item->unit_kerja; ?></td>
+                                <td><?= $item->perguruan_tinggi; ?></td>
+                                <td><?= $item->tanggal_mulai_tugas; ?></td>
+                                <td><?= $item->tanggal_selesai_tugas; ?></td>
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
                       </div>
                       <!-- /. tab tugas-tambahan -->
 
@@ -221,7 +361,7 @@
               <!-- /. Pelaksanaan Pendidikan -->
 
               <!-- Pelaksanaan Penelitian -->
-              <hr>
+              <hr class="bt-5">
               <div class="kategori-kegiatan">
                 <div class="kategori-block">
                   <h6 class="font-weight-bold text-primary">
@@ -365,7 +505,7 @@
               <!-- /. Pelaksanaan Penelitian -->
 
               <!-- Pelaksanaan Pengabdian Kepada Masyarakat -->
-              <hr>
+              <hr class="bt-5">
               <div class="kategori-kegiatan">
                 <div class="kategori-block">
                   <h6 class="font-weight-bold text-primary">
@@ -428,16 +568,89 @@
 
                       <!-- tab pengelola-jurnal -->
                       <div class="tab-pane fade" id="pengelola-jurnal" role="tabpanel" aria-labelledby="pengelola-jurnal-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Nama Jurnal</th>
+                              <th>No. SK Penugasan</th>
+                              <th>Terhitung Mulai Tanggal</th>
+                              <th>Tanggal Selesai</th>
+                              <th>Status Aktif</th>
+                              <th>Peran</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($pengelola_jurnal as $jurnal) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $jurnal->kategori_kegiatan; ?></td>
+                                <td><?= $jurnal->sk_penugasan; ?></td>
+                                <td><?= $jurnal->tanggal_mulai; ?></td>
+                                <td><?= $jurnal->tanggal_selesai; ?></td>
+                                <td><?= $jurnal->aktif; ?></td>
+                                <td><?= $jurnal->peran; ?></td>
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
                       </div>
                       <!-- /. tab pengelola-jurnal -->
 
                       <!-- tab pembicara -->
                       <div class="tab-pane fade" id="pembicara" role="tabpanel" aria-labelledby="pembicara-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Judul Makalah</th>
+                              <th>Nama Temu Ilmiah</th>
+                              <th>Penyelenggara</th>
+                              <th>Tanggal Pelaksanaan</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($pembicara as $bicara) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $bicara->judul_makalah; ?></td>
+                                <td><?= $bicara->nama_pertemuan; ?></td>
+                                <td><?= $bicara->penyelenggara; ?></td>
+                                <td><?= $bicara->tanggal_pelaksanaan; ?></td>
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
                       </div>
                       <!-- /. tab pembicara -->
 
                       <!-- tab jabstruk -->
                       <div class="tab-pane fade" id="jabstruk" role="tabpanel" aria-labelledby="jabstruk-tab">
+                        <table class="table table-sm datatable" style="width: 100%;">
+                          <thead>
+                            <tr>
+                              <th>No.</th>
+                              <th>Jabatan Struktural</th>
+                              <th>Nomor SK</th>
+                              <th>Terhitung Mulai Tanggal</th>
+                              <th>Terhitung Tanggal Selesai</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php $i = 1 ?>
+                            <?php foreach ($jabstruk as $struk) : ?>
+                              <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $struk->jabatan; ?></td>
+                                <td><?= $struk->sk_jabatan; ?></td>
+                                <td><?= $struk->tanggal_mulai_jabatan; ?></td>
+                                <td><?= $struk->tanggal_selesai_jabatan; ?></td>
+                              </tr>
+                            <?php endforeach ?>
+                          </tbody>
+                        </table>
                       </div>
                       <!-- /. tab jabstruk -->
                     </div>
@@ -448,7 +661,7 @@
               <!-- /. Pelaksanaan Pengabdian Kepada Masyarakat -->
 
               <!-- Penunjang Kegiatan Akademik Dosen -->
-              <hr>
+              <hr class="bt-5">
               <div class="kategori-kegiatan">
                 <div class="kategori-block">
                   <h6 class="font-weight-bold text-primary">
@@ -528,7 +741,7 @@
                           </tbody>
                         </table>
                       </div>
-                      <!-- /. tab pengelola-jurnal -->
+                      <!-- /. tab penghargaan -->
 
                       <!-- tab penunjang-lain -->
                       <div class="tab-pane fade" id="penunjang-lain" role="tabpanel" aria-labelledby="penunjang-lain-tab">

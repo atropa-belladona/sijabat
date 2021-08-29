@@ -16,5 +16,7 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('content-main'); ?>
-<?= $this->include('pegawai/layouts/_detail-profile'); ?>
+<div class="detail-pegawai">
+  <?= $this->include('pegawai/layouts/_detail-profile'); ?>
+</div>
 <?= $this->endSection(); ?>

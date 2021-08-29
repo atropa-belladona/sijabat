@@ -16,7 +16,7 @@
   </div>
   <div class="row">
     <div class="col">
-      <table class="table table-sm table-success">
+      <table class="table table-sm table-success datatable" style="width: 100%;">
         <thead class="bg-gradient-dark text-white">
           <tr>
             <th class="text-center">No.</th>
