@@ -41,4 +41,14 @@ class DataModel extends Model
 
 		return $data->getResult();
 	}
+
+	public function getOpenPeriodePenilaian()
+	{
+		$data = $this->db->table('t_periode_penilaian')
+			->where('active', '1')
+			->where('lock', '0')
+			->get();
+
+		return $data->getResult();
+	}
 }

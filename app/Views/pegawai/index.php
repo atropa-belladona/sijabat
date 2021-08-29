@@ -17,6 +17,6 @@
 
 <?= $this->section('content-main'); ?>
 <div class="detail-pegawai">
-  <?= $this->include('pegawai/layouts/_detail-profile'); ?>
+  <?= $this->include('pegawai/layouts/_detail-profile-db'); ?>
 </div>
 <?= $this->endSection(); ?>

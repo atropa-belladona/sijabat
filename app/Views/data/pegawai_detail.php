@@ -14,7 +14,10 @@
 <?= $this->section('content'); ?>
 <!-- Main content -->
 <section class="content">
-  <?= $this->include('pegawai/layouts/_detail-profile'); ?>
+  <!-- if get detail from database -->
+  <!-- if get detail directly from ws use _detail-profile -->
+  <?= $this->include('pegawai/layouts/_detail-profile-db'); ?>
+
 </section>
 <!-- /.content -->
 <?= $this->endSection(); ?>

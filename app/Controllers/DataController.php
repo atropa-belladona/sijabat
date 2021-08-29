@@ -22,6 +22,7 @@ class DataController extends BaseController
 	protected $db;
 
 	protected $validation;
+	protected $uuid;
 
 	public function __construct()
 	{
@@ -33,6 +34,8 @@ class DataController extends BaseController
 		}
 
 		$this->validation = Services::validation();
+
+		$this->uuid = service('uuid');
 
 		// User Model
 		$this->userModel = new UserModel();
@@ -62,10 +65,8 @@ class DataController extends BaseController
 			->get()
 			->getResult();
 
-
 		$data['pegawai'] = $pegawai;
 		$data['status_aktif'] = $status_aktif;
-
 
 		return view('data/pegawai_index', $data);
 	}
@@ -77,11 +78,6 @@ class DataController extends BaseController
 
 		try {
 			$response = sister_getDataPegawai();
-
-			// $this->db->transBegin();
-
-			// empty table pegawai
-			// $this->pegawaiModel->truncate();
 
 			if ($response->getStatusCode() == 200) {
 				$pegawai = json_decode($response->getBody());
@@ -98,53 +94,34 @@ class DataController extends BaseController
 						'jenis_sdm' => $dos->jenis_sdm,
 						'password_hash' => Password::hash($dos->nidn)
 					]);
-
-					// create account to login
-
-
-					// get data penugasan pegawai
-					// $res_tugas = sister_getDataPenugasanPegawai($dos->id_sdm);
-
-					// if ($res_tugas->getStatusCode() == 200) {
-					// 	$penugasan = json_decode($res_tugas->getBody());
-
-					// 	// empty table penugasan
-					// 	$this->db->table('t_pegawai_penugasan')->truncate();
-
-					// 	// insert data penugasan
-					// 	foreach ($penugasan as $tugas) {
-					// 		// get data detail penugasan
-					// 		$res_detail = sister_getDataPenugasanDetail($tugas->id);
-
-					// 		if ($res_detail->getStatusCode() == 200) {
-					// 			$detail = json_decode($res_detail->getBody());
-
-					// 			$this->db->table('t_pegawai_penugasan')->insert([
-					// 				'id' => $detail->id,
-					// 				'id_sdm' => $detail->id_sdm,
-					// 				'id_unitkerja' => $detail->id_unit_kerja,
-					// 				'status_kepegawaian' => $detail->status_kepegawaian,
-					// 				'ikatan_kerja' => $detail->ikatan_kerja,
-					// 				'no_st' => $detail->surat_tugas,
-					// 				'tgl_st' => $detail->tanggal_surat_tugas,
-					// 				'tgl_mulai' => $detail->tanggal_mulai,
-					// 				'tgl_keluar' => $detail->tanggal_keluar,
-					// 				'jenis_keluar' => $detail->jenis_keluar
-					// 			]);
-					// 		}
-					// 	}
-					// }
-
-
-
 				}
 			}
 
-			// $this->db->transCommit();
-
 			return redirect()->back()->with('app_success', 'Data berhasil disinkronisasi');
 		} catch (Exception $ex) {
-			// $this->db->transRollback();
+			return redirect()->back()->with('app_error', $ex->getMessage());
+		}
+	}
+
+	public function import_data_sdm_sister($id_sdm)
+	{
+		$pegawai = $this->pegawaiModel->where('id_sdm', $id_sdm)->first();
+
+		// prevent unauthorized access
+		if (in_groups('dosen')) {
+			if ($pegawai->nidn != user()->username) {
+				return redirect()->back()->with('app_error', 'Anda tidak punya akses untuk data ini');
+			}
+		}
+
+		// start import process
+		try {
+			ini_set('max_execution_time', 300);
+
+			$data['import'] = $this->pegawaiModel->importDataSisterBySDM($pegawai->id_sdm);
+
+			return redirect()->back()->with('app_success', 'Data berhasil diimport');
+		} catch (Exception $ex) {
 			return redirect()->back()->with('app_error', $ex->getMessage());
 		}
 	}
@@ -156,7 +133,7 @@ class DataController extends BaseController
 		$data['menu'] = 'data-pegawai';
 		$data['content_title'] = 'Data Pegawai';
 
-		$data_pegawai = $this->pegawaiModel->getDetailPegawai($id_sdm);
+		$data_pegawai = $this->pegawaiModel->getDetailSDM($id_sdm);
 
 		return view('data/pegawai_detail', array_merge($data, $data_pegawai));
 	}
@@ -274,6 +251,7 @@ class DataController extends BaseController
 
 			$periode = $this->db->table('t_periode_penilaian');
 
+			$periode->set('id', $this->uuid->uuid4()->toString());
 			$periode->set('tgl_mulai', $tgl_mulai);
 			$periode->set('tgl_selesai', $tgl_selesai);
 			$periode->set('keterangan', $keterangan);

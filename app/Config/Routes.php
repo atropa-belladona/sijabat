@@ -51,6 +51,8 @@ $routes->post('forgot', 'AuthController::attemptForgot');
 $routes->get('reset-password', 'AuthController::resetPassword', ['as' => 'reset-password']);
 $routes->post('reset-password', 'AuthController::attemptReset');
 
+
+
 // Apps Routes
 $routes->group('', ['filter' => 'login'], function ($routes) {
 	$routes->get('/', 'Home::index');
@@ -89,6 +91,20 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 		$routes->get('dokumen', 'UserController::dokumen', ['as' => 'dosen-dokumen']);
 		$routes->get('rekap', 'UserController::rekap', ['as' => 'dosen-rekap']);
 	});
+
+	// DUPAK Routes
+	// DUPAK List Index route
+	$routes->get('dupak', 'DupakController::index', ['as' => 'dupak_index']);
+
+	// only dosen and operator role can make dupak request
+	$routes->group('dupak', ['filter' => 'role:dosen,operator'], function ($routes) {
+		// create dupak route
+		$routes->get('create', 'DupakController::create', ['as' => 'dupak_create']);
+		$routes->post('create', 'DupakController::store', ['as' => 'dupak_store']);
+	});
+
+	// Import data by id_sdm from sister unj
+	$routes->post('data/pegawai/(:segment)', 'DataController::import_data_sdm_sister/$1', ['as' => 'import_data_sdm_sister']);
 });
 
 

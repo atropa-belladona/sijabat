@@ -35,7 +35,7 @@ class Home extends BaseController
 			$pegawai = $this->pegawaiModel->where('nidn', user()->username)->get();
 			$data['pegawai'] = $pegawai->getRow();
 
-			$home_data = $this->pegawaiModel->getDetailPegawai($data['pegawai']->id_sdm);
+			$home_data = $this->pegawaiModel->getDetailSDM($data['pegawai']->id_sdm);
 
 			return view('pegawai/index', array_merge($data, $home_data));
 		}

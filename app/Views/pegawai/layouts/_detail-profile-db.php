@@ -6,7 +6,7 @@
       <div class="card card-primary card-outline ">
         <div class="card-body box-profile">
           <div class="text-center">
-            <img class="profile-kategori-img img-fluid" src="<?= $foto; ?>" alt="<?= $pegawai->nama_sdm; ?>" style="width: auto !important;">
+            <img class="profile-kategori-img img-fluid" src="<?= (isset($foto)) ? $foto : ''; ?>" alt="<?= $pegawai->nama_sdm; ?>" style="width: auto !important;">
           </div>
 
           <h3 class="profile-username text-center"><?= ucwords(strtolower($pegawai->nama_sdm)); ?></h3>
@@ -24,7 +24,11 @@
               <b>Fakultas</b> <a class="float-right"></a>
             </li>
             <li class="list-group-item">
-              <b>Prodi</b> <a class="float-right"><?= $penugasan->jenjang_pendidikan . ' ' . $penugasan->unit_kerja; ?></a>
+              <b>Prodi</b> <a class="float-right">
+                <?php if (isset($penugasan)) : ?>
+                  <?= $penugasan->jenjang_pendidikan . ' ' . $penugasan->unit_kerja; ?>
+                <?php endif ?>
+              </a>
             </li>
             <li class="list-group-item">
               <b>Status Kepegawaian</b> <a class="float-right"><?= $pegawai->status_pegawai; ?></a>
@@ -42,32 +46,22 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <strong><i class="fas fa-map-marker-alt mr-1"></i> Kelahiran</strong>
-          <?php if (isset($kelahiran->message)) : ?>
+          <?php if (isset($about_me)) : ?>
+            <strong><i class="fas fa-map-marker-alt mr-1"></i> Kelahiran</strong>
+            <p class="text-muted pl-3"><?= $about_me->tempat_lahir; ?>, <?= $about_me->tanggal_lahir; ?></p>
+            <hr>
 
-            <p class="text-muted pl-3"><?= $kelahiran->message . ' | ' . $kelahiran->detail ?></p>
-
-          <?php else : ?>
-
-            <p class="text-muted pl-3"><?= $kelahiran->tempat_lahir; ?>, <?= $kelahiran->tanggal_lahir; ?></p>
-
-          <?php endif ?>
-          <hr>
-
-          <strong><i class="fas fa-map-marker-alt mr-1"></i> Alamat & Kontak</strong>
-          <?php if (isset($alamat->message)) : ?>
-            <p class="text-muted pl-3"><?= $alamat->message . ' | ' . $alamat->detail ?></p>
-          <?php else : ?>
+            <strong><i class="fas fa-map-marker-alt mr-1"></i> Alamat & Kontak</strong>
             <p class="text-muted pl-3">
-              <span><?= $alamat->alamat . ', RT ' . $alamat->rt . ' RW ' . $alamat->rw; ?></span>
-              <span><?= ', ' . $alamat->kelurahan . ', ' . $alamat->kota_kabupaten . ', ' . $alamat->kode_pos; ?></span>
+              <span><?= $about_me->alamat ?></span>
             </p>
             <p class="text-muted pl-3">
-              <span>Telepon : <?= $alamat->telepon_hp; ?></span><br>
-              <span>Email : <?= $alamat->email; ?></span>
+              <span>Telepon : <?= $about_me->telepon_hp; ?></span><br>
+              <span>Email : <?= $about_me->email; ?></span>
             </p>
+          <?php else : ?>
+            <p class="text-center">-- Tidak ada data --</p>
           <?php endif ?>
-
         </div>
         <!-- /.card-body -->
       </div>
@@ -80,9 +74,9 @@
       <div class="card">
         <div class="card-header p-2">
           <ul class="nav nav-pills">
-            <li class="nav-item"><a class="nav-link active" href="#kegiatan" data-toggle="tab">Kegiatan</a></li>
-            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
-            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#kegiatan" data-toggle="tab"><i class="fas fa-fw fa-list-alt"></i> Kegiatan</a></li>
+            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab"><i class="fas fa-fw fa-history"></i> Timeline</a></li>
+            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab"><i class="fas fa-fw fa-tools"></i> Settings</a></li>
             <li class="nav-item ml-auto"><a class="nav-link font-weight-bold" href="#imports" data-toggle="tab"><i class="fas fa-fw fa-download"></i> Import Data</a></li>
           </ul>
         </div><!-- /.card-header -->
@@ -99,17 +93,9 @@
                 </div>
                 <div>
                   <ul>
-                    <?php if (isset($pendidikan->message)) : ?>
-
-                      <p class="text-muted pl-3"><?= $pendidikan->message . ' : ' . $pendidikan->detail; ?></p>
-
-                    <?php else : ?>
-
-                      <?php foreach (array_reverse($pendidikan) as $pendidikan) : ?>
-                        <li><?= $pendidikan->jenjang_pendidikan . ', ' . $pendidikan->bidang_studi . ' di ' . $pendidikan->nama_perguruan_tinggi . ' : ' . $pendidikan->tahun_lulus; ?></li>
-                      <?php endforeach ?>
-
-                    <?php endif ?>
+                    <?php foreach (array_reverse($pendidikan) as $pendidikan) : ?>
+                      <li><?= $pendidikan->jenjang_pendidikan . ', ' . $pendidikan->bidang_studi . ' di ' . $pendidikan->nama_perguruan_tinggi . ' : ' . $pendidikan->tahun_lulus; ?></li>
+                    <?php endforeach ?>
                   </ul>
                 </div>
               </div>
@@ -229,7 +215,7 @@
                                 <td><?= $item->judul; ?></td>
                                 <td><?= $item->isbn; ?></td>
                                 <td><?= $item->tanggal_terbit; ?></td>
-                                <td><?= $item->nama_terbit; ?></td>
+                                <td><?= $item->nama_penerbit; ?></td>
                               </tr>
                             <?php endforeach ?>
                           </tbody>
@@ -405,7 +391,7 @@
                                 <td><?= $teliti->judul; ?></td>
                                 <td>
                                   <ul>
-                                    <?php foreach ($teliti->bidang_keilmuan as $bidang) : ?>
+                                    <?php foreach (explode('|', $teliti->bidang_keilmuan) as $bidang) : ?>
                                       <li><?= $bidang; ?></li>
                                     <?php endforeach ?>
                                   </ul>
@@ -447,7 +433,7 @@
                                 <td><?= $publikasi->asal_data; ?></td>
                                 <td>
                                   <ul>
-                                    <?php foreach ($publikasi->bidang_keilmuan as $bidang) : ?>
+                                    <?php foreach (explode('|', $publikasi->bidang_keilmuan) as $bidang) : ?>
                                       <li><?= $bidang; ?></li>
                                     <?php endforeach ?>
                                   </ul>
@@ -486,7 +472,7 @@
                                 <td style="white-space: nowrap;"><?= $haki->tanggal; ?></td>
                                 <td>
                                   <ul>
-                                    <?php foreach ($haki->bidang_keilmuan as $bidang) : ?>
+                                    <?php foreach (explode('|', $haki->bidang_keilmuan) as $bidang) : ?>
                                       <li><?= $bidang; ?></li>
                                     <?php endforeach ?>
                                   </ul>
@@ -552,7 +538,7 @@
                                 <td><?= $abdi->judul; ?></td>
                                 <td>
                                   <ul>
-                                    <?php foreach ($abdi->bidang_keilmuan as $bidang) : ?>
+                                    <?php foreach (explode('|', $abdi->bidang_keilmuan) as $bidang) : ?>
                                       <li><?= $bidang; ?></li>
                                     <?php endforeach ?>
                                   </ul>
@@ -933,13 +919,14 @@
             <!-- /.tab-pane -->
 
             <div class="tab-pane" id="imports">
-              <div class="row">
-                <div class="col">
-                  <a class="btn btn-app bg-danger bg-gradient-danger">
-                    <i class="fas fa-download"></i> SISTER UNJ
-                  </a>
-                </div>
-              </div>
+              <p class="">
+                Menu ini digunakan untuk mengambil data pegawai dari aplikasi SISTER UNJ. <br>
+                Klik tombol di bawah ini untuk melakukan pengambilan data.
+              </p>
+              <form id="import-data-sister" action="<?= route_to('import_data_sdm_sister', $pegawai->id_sdm); ?>" method="POST">
+                <?= csrf_field() ?>
+                <button type="button" class="btn btn-link btn-sm bg-gradient-danger btn-import text-white"><i class="fas fa-fw fa-sync"></i> Import Data dari SISTER UNJ</button>
+              </form>
             </div>
           </div>
           <!-- /.tab-content -->
@@ -951,3 +938,17 @@
   </div>
   <!-- /.row -->
 </div><!-- /.container-fluid -->
+
+<?= $this->section('script'); ?>
+<script>
+  $('.btn-import').on('click', function() {
+    var q = confirm('Apakah Anda yakin ?');
+
+    if (q == true) {
+      $(this).prop('disabled', true);
+      $('.fa-sync').addClass('fa-spin');
+      $('#import-data-sister').submit();
+    }
+  });
+</script>
+<?= $this->endSection(); ?>

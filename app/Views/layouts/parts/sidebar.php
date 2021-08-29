@@ -23,7 +23,25 @@
               </a>
             </li>
 
+            <!-- Role Dosen Sidebar Menu -->
             <?php if (in_groups('dosen')) : ?>
+              <!-- Menu DUPAK -->
+              <hr class="sidebar-divider">
+              <li class="nav-header">DUPAK</li>
+              <li class="nav-item">
+                <a href="<?= route_to('dupak_create'); ?>" class="nav-link <?= (isset($menu) and $menu == 'dupak-buat') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-file-medical"></i>
+                  <p>Buat Usulan</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?= route_to('dupak_index'); ?>" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-list-alt"></i>
+                  <p>Daftar Usulan</p>
+                </a>
+              </li>
+
+              <!-- Profil -->
               <hr class="sidebar-divider">
               <li class="nav-header">Profil</li>
               <li class="nav-item">
@@ -38,9 +56,54 @@
                   <p>Rekap</p>
                 </a>
               </li>
-              <hr class="sidebar-divider">
             <?php endif; ?>
 
+            <!-- Role Operator Unit Sidebar Menu -->
+            <?php if (in_groups('operator')) : ?>
+              <!-- Menu DUPAK -->
+              <hr class="sidebar-divider">
+              <li class="nav-header">DUPAK</li>
+              <li class="nav-item">
+                <a href="" class="nav-link <?= (isset($menu) and $menu == 'dupak-buat') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-file-medical"></i>
+                  <p>Buat Usulan</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-list-alt"></i>
+                  <p>Daftar Usulan</p>
+                </a>
+              </li>
+            <?php endif; ?>
+
+            <!-- Role Verifikator Unit Sidebar Menu -->
+            <?php if (in_groups('verifikator')) : ?>
+              <!-- Menu DUPAK -->
+              <hr class="sidebar-divider">
+              <li class="nav-header">DUPAK</li>
+              <li class="nav-item">
+                <a href="" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-list-alt"></i>
+                  <p>Daftar Usulan</p>
+                </a>
+              </li>
+            <?php endif; ?>
+
+            <!-- Role Reviewer Unit Sidebar Menu -->
+            <?php if (in_groups('reviewer')) : ?>
+              <!-- Menu DUPAK -->
+              <hr class="sidebar-divider">
+              <li class="nav-header">DUPAK</li>
+              <li class="nav-item">
+                <a href="" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-list-alt"></i>
+                  <p>Daftar Usulan</p>
+                </a>
+              </li>
+            <?php endif; ?>
+
+            <!-- Role Koordinator Sidebar Menu -->
             <?php if (in_groups('koordinator')) : ?>
               <!-- Menu Utama -->
               <hr class="sidebar-divider">
