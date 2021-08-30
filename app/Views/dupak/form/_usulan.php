@@ -1,4 +1,4 @@
-<form class="form-horizontal" action="" method="POST">
+<form class="form-horizontal" action="<?= route_to('dupak_store'); ?>" method="POST">
   <?= csrf_field(); ?>
   <div class="form-group row">
     <label for="periode_penilaian" class="col-md-2 col-form-label text-right">Periode Penilaian</label>
@@ -15,6 +15,7 @@
   <div class="form-group row">
     <label for="nama" class="col-lg-2 col-form-label text-right">Nama</label>
     <div class="col-lg-6 col-sm-10 ">
+      <input type="hidden" name="id_sdm" value="<?= $sdm->id_sdm; ?>">
       <input type="text" class="form-control" name="nama" id="nama" value="<?= $sdm->nama; ?>">
     </div>
   </div>
@@ -84,9 +85,9 @@
     <label class="col-lg-2 col-form-label text-right">Masa Kerja Golongan Lama</label>
 
     <div class="col-sm-1">
-      <input type="number" id="mk_lama_th" name="mk_lama_th" class="form-control" value="">
+      <input type="number" id="mk_lama_thn" name="mk_lama_thn" class="form-control" value="">
     </div>
-    <label for="mk_lama_th" class="col-form-label text-right">Tahun</label>
+    <label for="mk_lama_thn" class="col-form-label text-right">Tahun</label>
 
     <div class="col-sm-1">
       <input type="number" id="mk_lama_bln" name="mk_lama_bln" class="form-control" value="">
@@ -98,9 +99,9 @@
     <label for="inputEmail3" class="col-lg-2 col-form-label text-right">Masa Kerja Golongan Baru</label>
 
     <div class="col-sm-1">
-      <input type="number" id="mk_baru_th" name="mk_baru_th" class="form-control" value="">
+      <input type="number" id="mk_baru_thn" name="mk_baru_thn" class="form-control" value="">
     </div>
-    <label for="mk_baru_th" class="col-form-label text-right">Tahun</label>
+    <label for="mk_baru_thn" class="col-form-label text-right">Tahun</label>
 
     <div class="col-sm-1">
       <input type="number" id="mk_baru_bln" name="mk_baru_bln" class="form-control" value="">
