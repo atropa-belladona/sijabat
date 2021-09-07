@@ -24,7 +24,7 @@ class PegawaiModel extends Model
 	// Get SDM Profile by NIDN
 	public function getProfileSDMByNIDN($nidn)
 	{
-		$sdm = $this->db->table('t_sdm_profile')
+		$sdm = $this->db->table('v_pegawai')
 			->where('nidn', $nidn)
 			->get();
 
@@ -41,6 +41,43 @@ class PegawaiModel extends Model
 		return $pendidikan->getRow();
 	}
 
+	public function getGolonganTerakhir($id_sdm)
+	{
+		$gol = $this->db->table('t_sdm_kepangkatan')
+			->where('id_sdm', $id_sdm)
+			->orderBy('tanggal_mulai', 'desc')
+			->get();
+
+		return $gol->getRow();
+	}
+
+	public function getPenugasanTerakhir($id_sdm)
+	{
+		$penugasan = $this->db->table('t_sdm_penugasan')
+			->where('id_sdm', $id_sdm)
+			->orderBy('tanggal_mulai', 'desc')
+			->get();
+
+		return $penugasan->getRow();
+	}
+
+	public function getListPegawaiAktif()
+	{
+		$list = $this->db->table('v_pegawai')
+			->where('status_aktif', 'Aktif')
+			->get();
+
+		return $list->getResult();
+	}
+
+	public function getInfoPegawaiByIdSDM($id_sdm)
+	{
+		$data = $this->db->table('v_pegawai')
+			->where('id_sdm', $id_sdm)
+			->get();
+
+		return $data->getRow();
+	}
 
 	// get detail sdm
 	public function getDetailSDM($id_sdm)
@@ -63,7 +100,7 @@ class PegawaiModel extends Model
 
 		$data['penugasan'] = $penugasan->getRow();
 
-		$pendidikan = $this->db->table('t_sdm_pendidikan')->where('id_sdm', $id_sdm)->orderBy('tahun_lulus', 'asc')->get();
+		$pendidikan = $this->db->table('t_sdm_pendidikan')->where('id_sdm', $id_sdm)->orderBy('tahun_lulus', 'desc')->get();
 		$data['pendidikan'] = $pendidikan->getResult();
 
 		// pelaksanaan pendidikan
@@ -91,6 +128,9 @@ class PegawaiModel extends Model
 		$data['penghargaan'] =  $this->db->table('t_sdm_penghargaan')->where('id_sdm', $id_sdm)->orderBy('tahun', 'desc')->get()->getResult();
 		$data['penunjang_lain'] = $this->db->table('t_sdm_penunjanglain')->where('id_sdm', $id_sdm)->orderBy('tanggal_mulai', 'desc')->get()->getResult();
 
+		// dokumen
+		$data['dokumen'] = $this->db->table('t_sdm_dokumen')->where('id_sdm', $id_sdm)->orderBy('id_jenis_dokumen', 'asc')->get()->getResult();
+
 		return $data;
 	}
 
@@ -104,6 +144,8 @@ class PegawaiModel extends Model
 			// get additional data
 			$data['penugasan'] = $this->setSDMPenugasan($id_sdm);
 			$data['pendidikan'] = $this->setSDMPendidikanFormal($id_sdm);
+			$data['jabfung'] = $this->setSDMJabatanFungsional($id_sdm);
+			$data['kepangkatan'] = $this->setSDMKepangkatan($id_sdm);
 
 			// get pelaksanaan pendidikan data
 			$data['pengajaran'] = $this->setSDMPengajaran($id_sdm);
@@ -129,6 +171,9 @@ class PegawaiModel extends Model
 			$data['anggota_profesi'] = $this->setSDMAnggotaProfesi($id_sdm);
 			$data['penghargaan'] = $this->setSDMPenghargaan($id_sdm);
 			$data['penunjang_lain'] = $this->setSDMPenunjangLain($id_sdm);
+
+			// get data dokumen SDM
+			$data['dokumen'] = $this->setSDMDokumen($id_sdm);
 		}
 
 		return $data;
@@ -199,6 +244,60 @@ class PegawaiModel extends Model
 				];
 
 				$this->_insertInto('t_sdm_penugasan', $data);
+			}
+
+			return true;
+		} catch (Exception $ex) {
+			log_message('error', '[ERROR] {exception}', ['exception' => $ex]);
+			return false;
+		}
+	}
+
+	protected function setSDMJabatanFungsional($id_sdm)
+	{
+		try {
+			helper('sisterws');
+
+			$info = sister_getListDataJabatanFungsional($id_sdm);
+
+			foreach ($info as $item) {
+
+				$data = [
+					'id' => $item->id,
+					'id_sdm' => $id_sdm,
+					'jabatan_fungsional' => $item->jabatan_fungsional,
+					'sk' => $item->sk,
+					'tanggal_mulai' => $item->tanggal_mulai,
+				];
+
+				$this->_insertInto('t_sdm_jabfung', $data);
+			}
+
+			return true;
+		} catch (Exception $ex) {
+			log_message('error', '[ERROR] {exception}', ['exception' => $ex]);
+			return false;
+		}
+	}
+
+	protected function setSDMKepangkatan($id_sdm)
+	{
+		try {
+			helper('sisterws');
+
+			$info = sister_getListDataKepangkatan($id_sdm);
+
+			foreach ($info as $item) {
+
+				$data = [
+					'id' => $item->id,
+					'id_sdm' => $id_sdm,
+					'sk' => $item->sk,
+					'tanggal_mulai' => $item->tanggal_mulai,
+					'pangkat_golongan' => $item->pangkat_golongan,
+				];
+
+				$this->_insertInto('t_sdm_kepangkatan', $data);
 			}
 
 			return true;
@@ -703,6 +802,39 @@ class PegawaiModel extends Model
 				];
 
 				$this->_insertInto('t_sdm_penunjanglain', $data);
+			}
+
+			return true;
+		} catch (Exception $ex) {
+			log_message('error', '[ERROR] {exception}', ['exception' => $ex]);
+			return false;
+		}
+	}
+
+	// SET Dokumen SDM
+	protected function setSDMDokumen($id_sdm)
+	{
+		try {
+			helper('sisterws');
+
+			$info = sister_getDataListDokumenSDM($id_sdm);
+
+			// insert into database
+			foreach ($info as $item) {
+				$data = [
+					'id' => $item->id,
+					'id_sdm' => $id_sdm,
+					'id_jenis_dokumen' => $item->id_jenis_dokumen,
+					'jenis_dokumen' => $item->jenis_dokumen,
+					'nama' => $item->nama,
+					'keterangan' => $item->keterangan,
+					'tautan' => $item->tautan,
+					'tanggal_upload' => $item->tanggal_upload,
+					'nama_file' => $item->nama_file,
+					'jenis_file' => $item->jenis_file,
+				];
+
+				$this->_insertInto('t_sdm_dokumen', $data);
 			}
 
 			return true;

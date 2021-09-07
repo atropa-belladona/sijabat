@@ -267,4 +267,26 @@ class DataController extends BaseController
 			return redirect()->back()->with('app_error', $ex->getMessage());
 		}
 	}
+
+
+	public function download_dokumen($id_dokumen)
+	{
+
+		$dokumen = $this->db->table('t_sdm_dokumen')
+			->where('id', $id_dokumen)
+			->get()
+			->getRowObject();
+
+		helper('sisterws');
+
+		$dokumen_content = sister_getUnduhDokumen($id_dokumen);
+
+		header('Content-length: ' . strlen($dokumen_content));
+		header('Content-type: ' . $dokumen->jenis_file);
+		header('Content-Disposition: inline; filename="' . $dokumen->nama_file . '"');
+		ob_clean();
+		flush();
+		echo $dokumen_content;
+		exit;
+	}
 }

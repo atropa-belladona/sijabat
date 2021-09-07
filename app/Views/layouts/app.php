@@ -69,7 +69,7 @@
               <?php endif ?>
               <?php if (session('app_error')) : ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                  <strong>Error !</strong> <?= session('app_error'); ?>
+                  <strong>Peringatan !</strong> <?= session('app_error'); ?>
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>

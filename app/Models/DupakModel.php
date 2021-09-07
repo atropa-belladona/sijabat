@@ -16,4 +16,54 @@ class DupakModel extends Model
 
 	// Dates
 	protected $useTimestamps        = true;
+
+	public function getListUsulan()
+	{
+		$tahap_id = 1;
+
+		if (in_groups('verifikator')) {
+			$tahap_id = 20;
+		}
+
+		if (in_groups('koordinator')) {
+			$tahap_id = 30;
+		}
+
+		if (in_groups('reviewer')) {
+			$tahap_id = 40;
+		}
+
+		$data = $this->join('t_periode_penilaian as tpp', 'tpp.id = t_dupak.id_periode')
+			->join('r_tahap rt', 'rt.id = t_dupak.tahap_id')
+			->where('t_dupak.active', '1')
+			->where('t_dupak.tahap_id >=', $tahap_id)
+			->select('t_dupak.*, tpp.tgl_mulai, tpp.tgl_selesai, tpp.keterangan, tpp.lock, rt.ur_tahap')
+			->get();
+
+		return $data->getResult();
+	}
+
+	public function getListUsulanPegawai($nidn)
+	{
+		$data = $this->join('t_periode_penilaian as tpp', 'tpp.id = t_dupak.id_periode')
+			->join('r_tahap as rt', 'rt.id = t_dupak.tahap_id')
+			->where('t_dupak.nidn', $nidn)
+			->where('t_dupak.active', '1')
+			->select('t_dupak.*, tpp.tgl_mulai, tpp.tgl_selesai, tpp.keterangan, tpp.lock, rt.ur_tahap')
+			->get();
+
+		return $data->getResult();
+	}
+
+	public function getDetailUsulan($id_dupak)
+	{
+		$data = $this->join('t_periode_penilaian as tpp', 'tpp.id = t_dupak.id_periode')
+			->join('r_tahap as rt', 'rt.id = t_dupak.tahap_id')
+			->where('t_dupak.id', $id_dupak)
+			->where('t_dupak.active', '1')
+			->select('t_dupak.*, tpp.tgl_mulai, tpp.tgl_selesai, tpp.keterangan, tpp.lock, rt.ur_tahap')
+			->get();
+
+		return $data->getRowObject();
+	}
 }

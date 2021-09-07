@@ -34,14 +34,14 @@
   <div class="form-group row">
     <label for="no_karpeg" class="col-lg-2 col-form-label text-right">Nomor Seri KARPEG</label>
     <div class="col-sm-4">
-      <input type="text" name="no_karpeg" id="no_karpeg" class="form-control" value="">
+      <input type="text" name="no_karpeg" id="no_karpeg" class="form-control" value="-">
     </div>
   </div>
 
   <div class="form-group row">
     <label for="gol" class="col-lg-2 col-form-label text-right">Golongan</label>
-    <div class="col-lg-1 col-md-2">
-      <input type="text" id="gol" name="gol" class="form-control" value="">
+    <div class="col-lg-2 col-md-4">
+      <input type="text" id="gol" name="gol" class="form-control" value="<?= (isset($kepangkatan->pangkat_golongan) ? $kepangkatan->pangkat_golongan : ''); ?>">
     </div>
   </div>
 
@@ -73,11 +73,11 @@
   <div class="form-group row">
     <label for="jab_fung" class="col-lg-2 col-form-label text-right">Jabatan Fungsional</label>
     <div class="col-lg-3">
-      <input type="text" name="jab_fung" id="jab_fung" class="form-control" value="">
+      <input type="text" name="jab_fung" id="jab_fung" class="form-control" value="<?= (isset($sdm->jabatan_fungsional)) ? $sdm->jabatan_fungsional : ''; ?>">
     </div>
     <label for="tmt_jab_fung" class="col-lg-1 col-form-label text-right">TMT </label>
     <div class="col-lg-2">
-      <input type="date" class="form-control" name="tmt_jab_fung" value="">
+      <input type="date" class="form-control" name="tmt_jab_fung" value="<?= (isset($sdm->tmt_jabfung)) ? $sdm->tmt_jabfung : ''; ?>">
     </div>
   </div>
 

@@ -16,12 +16,43 @@ class PegawaiController extends BaseController
 
 	public function index()
 	{
-		return redirect()->route('home');
+		$data['titlePage'] = 'Daftar Pegawai';
+		$data['menu'] = 'pegawai-index';
+		$data['content_title'] = 'Daftar Pegawai';
+
+		$data['pegawai'] = $this->pegawaiModel->getListPegawaiAktif();
+
+		$id_sdm = $this->request->getGet('id');
+
+		// if pegawai selected, show detail
+		if ($id_sdm) {
+			$data_sdm =	$this->detail($id_sdm);
+
+			// if pegawai valid then show detail page
+			if ($data_sdm['pegawai'] != null) {
+				return view('pegawai/detail', $data_sdm);
+			}
+
+			// else redirect to index page
+			return redirect()->route('pegawai_index')->with('app_error', 'Data pegawai tidak ditemukan');
+		}
+
+		// if pegawai not selected show index 
+		return view('pegawai/index', $data);
 	}
 
-	public function detail($id_sdm)
+	protected function detail($id_sdm)
 	{
+		$data['titlePage'] = 'Pegawai';
+		$data['menu'] = 'pegawai-index';
+		$data['content_title'] = 'Data Pegawai';
 
-		return view('pegawai/detail');
+		$data_sdm = $this->pegawaiModel->getDetailSDM($id_sdm);
+
+		if ($data_sdm) {
+			return array_merge($data, $data_sdm);
+		}
+
+		return null;
 	}
 }

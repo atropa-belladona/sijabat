@@ -83,6 +83,8 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 
 	// Route detail pegawai
 	$routes->group('pegawai', function ($routes) {
+		$routes->get('/', 'PegawaiController::index', ['as' => 'pegawai_index']);
+		// $routes->get('(:segment)', 'PegawaiController::detail/$1', ['as' => 'pegawai_detail']);
 	});
 
 	// Route Dosen
@@ -96,17 +98,30 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 	// DUPAK List Index route
 	$routes->get('dupak', 'DupakController::index', ['as' => 'dupak_index']);
 
-	// only dosen and operator role can make dupak request
-	$routes->group('dupak', ['filter' => 'role:dosen,operator'], function ($routes) {
+	$routes->group('dupak', function ($routes) {
+		// delete dupak route
+		$routes->delete('(:segment)', 'DupakController::delete/$1', ['as' => 'dupak_delete', 'filter' => 'role:operator,dosen']);
+
 		// create dupak route
-		$routes->get('create', 'DupakController::create', ['as' => 'dupak_create']);
-		$routes->post('create', 'DupakController::store', ['as' => 'dupak_store']);
+		$routes->get('create', 'DupakController::create', ['as' => 'dupak_create', 'filter' => 'role:dosen']);
+		$routes->get('create/(:segment)', 'DupakController::operator_request/$1', ['as' => 'operator_request', 'filter' => 'role:operator']);
+		$routes->post('create', 'DupakController::store', ['as' => 'dupak_store', 'filter' => 'role:dosen,operator']);
+
+		// detail dupak route
+		$routes->get('detail', 'DupakController::show', ['as' => 'dupak_detail']);
+		// send dupak
+		$routes->post('detail', 'DupakController::send_dupak', ['as' => 'dupak_send']);
+
+		// return dupak
+		$routes->post('detail/return', 'DupakController::return_dupak', ['as' => 'dupak_return']);
 	});
+
 
 	// Import data by id_sdm from sister unj
 	$routes->post('data/pegawai/(:segment)', 'DataController::import_data_sdm_sister/$1', ['as' => 'import_data_sdm_sister']);
 });
 
+$routes->get('dokumen/(:segment)/download', 'DataController::download_dokumen/$1', ['as' => 'download_dokumen']);
 
 /*
  * --------------------------------------------------------------------

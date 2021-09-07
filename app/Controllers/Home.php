@@ -37,7 +37,7 @@ class Home extends BaseController
 
 			$home_data = $this->pegawaiModel->getDetailSDM($data['pegawai']->id_sdm);
 
-			return view('pegawai/index', array_merge($data, $home_data));
+			return view('pegawai/profile', array_merge($data, $home_data));
 		}
 
 		return view('index', $data);

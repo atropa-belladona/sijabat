@@ -34,11 +34,14 @@ function sister_authorize()
 {
   $client = Services::curlrequest(getSisterWSOptions());
 
+  $session = Services::session();
+
+
   $response = $client->request('POST', 'authorize', [
     'form_params' => [
-      'username' => 'QPVDH8nKbIULIZ9sbkycMv3SYwW2c5tlCbEnaHH+f8c=',
-      'password' => 'SmFRI1E3knS+/4zloS+zP+Iv5G3tLvqui2y3z/p50YaTJC0SWJ1Qj4DIt2QGe2aX',
-      'id_pengguna' => 'f4045ace-b951-406c-b411-1167b99bb031'
+      'username' => $session->get('sister_username'),
+      'password' => $session->get('sister_password'),
+      'id_pengguna' => $session->get('sister_pengguna')
     ]
   ]);
 
@@ -263,6 +266,30 @@ function sister_path_getDataByIdSDM($get_path, $id_sdm)
   return $response;
 }
 
+function sister_path_getDataByID($get_path, $id)
+{
+  helper('cookie');
+
+  // if it doesnt have token to authorize
+  if (get_cookie('sister_token') == null) {
+    $sa = sister_authorize();
+  }
+
+  $client = Services::curlrequest(getSisterWSOptions());
+
+  $token = session('sister_token');
+
+  $token = decryptToken($token);
+
+  $response = $client->request('GET', $get_path . $id, [
+    'headers' => [
+      'Authorization' => $token
+    ]
+  ]);
+
+  return $response;
+}
+
 
 // --------------------------------------------------------------------------------------
 
@@ -294,6 +321,54 @@ function sister_getDataFotoSDM($id_sdm)
   return $response->getBody();
 }
 
+function sister_getListDataJabatanFungsional($id_sdm)
+{
+  $get_path = 'jabatan_fungsional';
+
+  $response = sister_query_getDataByIdSDM($get_path, $id_sdm);
+
+  return json_decode($response->getBody());
+}
+
+function sister_getListDataKepangkatan($id_sdm)
+{
+  $get_path = 'kepangkatan';
+
+  $response = sister_query_getDataByIdSDM($get_path, $id_sdm);
+
+  return json_decode($response->getBody());
+}
+
+function sister_getDetailKepangkatan($id)
+{
+  $get_path = 'kepangkatan/';
+
+  $response = sister_path_getDataByID($get_path, $id);
+
+  return json_decode($response->getBody());
+}
+
+
+// get dokumen sdm
+function sister_getDataListDokumenSDM($id_sdm)
+{
+  $get_path = 'dokumen';
+
+  $response = sister_query_getDataByIdSDM($get_path, $id_sdm);
+
+  return json_decode($response->getBody());
+}
+
+function sister_getUnduhDokumen($id_document)
+{
+  $get_path = 'dokumen/';
+
+  $id_document = $id_document . '/download';
+
+  $response = sister_path_getDataByID($get_path, $id_document);
+
+  return $response->getBody();
+}
 
 // GET Pendidikan Formal
 function sister_getListDataPendidikanFormal($id_sdm)

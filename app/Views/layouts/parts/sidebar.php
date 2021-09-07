@@ -62,15 +62,15 @@
             <?php if (in_groups('operator')) : ?>
               <!-- Menu DUPAK -->
               <hr class="sidebar-divider">
-              <li class="nav-header">DUPAK</li>
+              <li class="nav-header">Menu</li>
               <li class="nav-item">
-                <a href="" class="nav-link <?= (isset($menu) and $menu == 'dupak-buat') ? 'active' : ''; ?>">
+                <a href="<?= route_to('pegawai_index'); ?>" class="nav-link <?= (isset($menu) and ($menu == 'dupak-buat' or $menu == 'pegawai-index')) ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-file-medical"></i>
-                  <p>Buat Usulan</p>
+                  <p>Daftar Pegawai</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
+                <a href="<?= route_to('dupak_index'); ?>" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-list-alt"></i>
                   <p>Daftar Usulan</p>
                 </a>
@@ -83,7 +83,7 @@
               <hr class="sidebar-divider">
               <li class="nav-header">DUPAK</li>
               <li class="nav-item">
-                <a href="" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
+                <a href="<?= route_to('dupak_index'); ?>" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-list-alt"></i>
                   <p>Daftar Usulan</p>
                 </a>
@@ -96,7 +96,7 @@
               <hr class="sidebar-divider">
               <li class="nav-header">DUPAK</li>
               <li class="nav-item">
-                <a href="" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
+                <a href="<?= route_to('dupak_index'); ?>" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-list-alt"></i>
                   <p>Daftar Usulan</p>
                 </a>
@@ -112,6 +112,12 @@
                 <a href="<?= route_to('periode_penilaian'); ?>" class="nav-link <?= (isset($menu) and $menu == 'periode-penilaian') ? 'active' : ''; ?>">
                   <i class="nav-icon far fa-fw fa-clock"></i>
                   <p>Periode Penilaian</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?= route_to('dupak_index'); ?>" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-fw fa-list-alt"></i>
+                  <p>Daftar Usulan</p>
                 </a>
               </li>
 

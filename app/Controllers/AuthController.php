@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use CodeIgniter\Session\Session;
+use Config\Database;
 use Myth\Auth\Config\Auth as AuthConfig;
 use Myth\Auth\Entities\User;
 use Myth\Auth\Models\UserModel;
@@ -22,6 +23,8 @@ class AuthController extends Controller
 	 */
 	protected $session;
 
+	protected $db;
+
 	public function __construct()
 	{
 		// Most services in this controller require
@@ -30,6 +33,8 @@ class AuthController extends Controller
 
 		$this->config = config('Auth');
 		$this->auth = service('authentication');
+
+		$this->db = Database::connect();
 	}
 
 	//--------------------------------------------------------------------
@@ -95,6 +100,16 @@ class AuthController extends Controller
 
 		$redirectURL = session('redirect_url') ?? site_url('/');
 		unset($_SESSION['redirect_url']);
+
+		// get user and password for sister authorization
+		$sister = $this->db->table('zz_sister_password')->where('active', '1')->get()->getRowObject();
+
+		// set as session
+		$this->session->set([
+			'sister_username' => $sister->username,
+			'sister_password' => $sister->password,
+			'sister_pengguna' => $sister->id_pengguna
+		]);
 
 		helper('sisterws');
 		sister_authorize();
