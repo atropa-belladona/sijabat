@@ -13,7 +13,7 @@
 <div class="row">
   <div class="col d-flex justify-content-between font-weight-bold mb-3">
     <div>
-      Status : <span class="badge badge-warning"><?= $dupak->ur_tahap; ?></span>
+      Status : <span class="badge <?= $dupak->bg_color; ?>"><?= $dupak->ur_tahap; ?></span>
     </div>
     <div class="text-danger">
       Masa Penilaian : <?= date_str($dupak->tgl_mulai) . ' s.d. ' . date_str($dupak->tgl_selesai); ?>
@@ -107,7 +107,6 @@
           </div>
         </form>
       </div>
-
     </div>
   </div>
 </div>

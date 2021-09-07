@@ -50,7 +50,7 @@
               </td>
               <td class="align-middle text-center"><?= $item->mk_baru_thn . ' Tahun ' . $item->mk_baru_bln . ' Bulan' ?>
               </td>
-              <td class="align-middle text-center"><span class="badge badge-warning">-- <?= $item->ur_tahap ?> --</span>
+              <td class="align-middle text-center"><span class="badge <?= $item->bg_color; ?>">-- <?= $item->ur_tahap ?> --</span>
               </td>
               <td class="align-middle d-flex justify-content-center">
                 <div class="proses mr-3">

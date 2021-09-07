@@ -100,10 +100,42 @@ class PegawaiModel extends Model
 
 		$data['penugasan'] = $penugasan->getRow();
 
+		// pendidikan & diklat
+		$data_kualifikasi = $this->getKualifikasi($id_sdm);
+
+		// pelaksanaan pendidikan
+		$data_pela_pendidikan = $this->getPelaksanaanPendidikan($id_sdm);
+
+		// pelaksanaan penelitian
+		$data_pela_penelitian = $this->getPelaksanaanPenelitian($id_sdm);
+
+		// pelaksanaan pengabdian
+		$data_pela_pengabdian = $this->getPelaksanaanPengabdian($id_sdm);
+
+		// penunjang lain
+		$data_penunjang = $this->getPenunjangLain($id_sdm);
+
+		// dokumen
+		$data['dokumen'] = $this->db->table('t_sdm_dokumen')->where('id_sdm', $id_sdm)
+			->orderBy('id_jenis_dokumen', 'asc')
+			->orderBy('tanggal_upload', 'desc')
+			->get()->getResult();
+
+		$data = array_merge($data, $data_kualifikasi, $data_pela_pendidikan, $data_pela_penelitian, $data_pela_pengabdian, $data_penunjang);
+
+		return $data;
+	}
+
+	public function getKualifikasi($id_sdm)
+	{
 		$pendidikan = $this->db->table('t_sdm_pendidikan')->where('id_sdm', $id_sdm)->orderBy('tahun_lulus', 'desc')->get();
 		$data['pendidikan'] = $pendidikan->getResult();
 
-		// pelaksanaan pendidikan
+		return $data;
+	}
+
+	public function getPelaksanaanPendidikan($id_sdm)
+	{
 		$data['pengajaran'] = $this->db->table('t_sdm_pengajaran')->where('id_sdm', $id_sdm)->orderBy('semester', 'desc')->get()->getResult();
 		$data['visiting_scientist'] =  $this->db->table('t_sdm_visitingscientist')->where('id_sdm', $id_sdm)->orderBy('tanggal', 'desc')->get()->getResult();
 		$data['bahan_ajar'] =  $this->db->table('t_sdm_bahanajar')->where('id_sdm', $id_sdm)->orderBy('tanggal_terbit', 'desc')->get()->getResult();
@@ -112,24 +144,33 @@ class PegawaiModel extends Model
 		$data['pembimbing_dosen'] =  $this->db->table('t_sdm_pembimbingdosen')->where('id_sdm', $id_sdm)->orderBy('tanggal_mulai', 'desc')->get()->getResult();
 		$data['tugas_tambahan'] =  $this->db->table('t_sdm_tugastambahan')->where('id_sdm', $id_sdm)->orderBy('tanggal_mulai_tugas', 'desc')->get()->getResult();
 
-		// pelaksanaan penelitian
+		return $data;
+	}
+
+	public function getPelaksanaanPenelitian($id_sdm)
+	{
 		$data['penelitian'] = $this->db->table('t_sdm_penelitian')->where('id_sdm', $id_sdm)->orderBy('tahun_pelaksanaan', 'desc')->get()->getResult();
 		$data['publikasi'] = $this->db->table('t_sdm_publikasi')->where('id_sdm', $id_sdm)->orderBy('tanggal', 'desc')->get()->getResult();
 		$data['haki'] =  $this->db->table('t_sdm_hkipaten')->where('id_sdm', $id_sdm)->orderBy('tanggal', 'desc')->get()->getResult();
 
-		// pelaksanaan pengabdian
+		return $data;
+	}
+
+	public function getPelaksanaanPengabdian($id_sdm)
+	{
 		$data['pengabdian'] = $this->db->table('t_sdm_pengabdian')->where('id_sdm', $id_sdm)->orderBy('tahun_pelaksanaan', 'desc')->get()->getResult();
 		$data['pengelola_jurnal'] =  $this->db->table('t_sdm_pengelolajurnal')->where('id_sdm', $id_sdm)->orderBy('tanggal_mulai', 'desc')->get()->getResult();
 		$data['pembicara'] = $this->db->table('t_sdm_pembicara')->where('id_sdm', $id_sdm)->orderBy('tanggal_pelaksanaan', 'desc')->get()->getResult();
 		$data['jabstruk'] = $this->db->table('t_sdm_jabstruk')->where('id_sdm', $id_sdm)->orderBy('tanggal_mulai_jabatan', 'desc')->get()->getResult();
 
-		// penunjang lain
+		return $data;
+	}
+
+	public function getPenunjangLain($id_sdm)
+	{
 		$data['anggota_profesi'] =  $this->db->table('t_sdm_anggotaprofesi')->where('id_sdm', $id_sdm)->orderBy('tanggal_mulai_keanggotaan', 'desc')->get()->getResult();
 		$data['penghargaan'] =  $this->db->table('t_sdm_penghargaan')->where('id_sdm', $id_sdm)->orderBy('tahun', 'desc')->get()->getResult();
 		$data['penunjang_lain'] = $this->db->table('t_sdm_penunjanglain')->where('id_sdm', $id_sdm)->orderBy('tanggal_mulai', 'desc')->get()->getResult();
-
-		// dokumen
-		$data['dokumen'] = $this->db->table('t_sdm_dokumen')->where('id_sdm', $id_sdm)->orderBy('id_jenis_dokumen', 'asc')->get()->getResult();
 
 		return $data;
 	}

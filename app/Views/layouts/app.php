@@ -122,7 +122,6 @@
 
 
   <!-- Custom script -->
-
   <script>
     $(document).ready(function() {
       $("#tabs").tabs();

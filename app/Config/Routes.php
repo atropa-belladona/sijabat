@@ -109,6 +109,10 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 
 		// detail dupak route
 		$routes->get('detail', 'DupakController::show', ['as' => 'dupak_detail']);
+
+		$routes->get('detail/(:segment)', 'DupakController::add_ak/$1', ['as' => 'dupak_addak', 'filter' => 'role:dosen,operator']);
+
+
 		// send dupak
 		$routes->post('detail', 'DupakController::send_dupak', ['as' => 'dupak_send']);
 

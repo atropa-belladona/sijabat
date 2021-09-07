@@ -37,7 +37,8 @@ class DupakModel extends Model
 			->join('r_tahap rt', 'rt.id = t_dupak.tahap_id')
 			->where('t_dupak.active', '1')
 			->where('t_dupak.tahap_id >=', $tahap_id)
-			->select('t_dupak.*, tpp.tgl_mulai, tpp.tgl_selesai, tpp.keterangan, tpp.lock, rt.ur_tahap')
+			->orderBy('t_dupak.tahap_id', 'asc')
+			->select('t_dupak.*, tpp.tgl_mulai, tpp.tgl_selesai, tpp.keterangan, tpp.lock, rt.ur_tahap, rt.bg_color')
 			->get();
 
 		return $data->getResult();
@@ -49,7 +50,8 @@ class DupakModel extends Model
 			->join('r_tahap as rt', 'rt.id = t_dupak.tahap_id')
 			->where('t_dupak.nidn', $nidn)
 			->where('t_dupak.active', '1')
-			->select('t_dupak.*, tpp.tgl_mulai, tpp.tgl_selesai, tpp.keterangan, tpp.lock, rt.ur_tahap')
+			->orderBy('t_dupak.tahap_id', 'asc')
+			->select('t_dupak.*, tpp.tgl_mulai, tpp.tgl_selesai, tpp.keterangan, tpp.lock, rt.ur_tahap, rt.bg_color')
 			->get();
 
 		return $data->getResult();
@@ -61,7 +63,7 @@ class DupakModel extends Model
 			->join('r_tahap as rt', 'rt.id = t_dupak.tahap_id')
 			->where('t_dupak.id', $id_dupak)
 			->where('t_dupak.active', '1')
-			->select('t_dupak.*, tpp.tgl_mulai, tpp.tgl_selesai, tpp.keterangan, tpp.lock, rt.ur_tahap')
+			->select('t_dupak.*, tpp.tgl_mulai, tpp.tgl_selesai, tpp.keterangan, tpp.lock, rt.ur_tahap, rt.bg_color')
 			->get();
 
 		return $data->getRowObject();

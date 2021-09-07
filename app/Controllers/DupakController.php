@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 
 use App\Models\DataModel;
+use App\Models\DupakDetailModel;
 use App\Models\DupakModel;
 use App\Models\PegawaiModel;
 use Config\Database;
@@ -19,6 +20,7 @@ class DupakController extends BaseController
 	protected $dataModel;
 	protected $pegawaiModel;
 	protected $dupakModel;
+	protected $dupakDetailModel;
 
 	protected $validation;
 
@@ -29,6 +31,7 @@ class DupakController extends BaseController
 		$this->dataModel = new DataModel();
 		$this->pegawaiModel = new PegawaiModel();
 		$this->dupakModel = new DupakModel();
+		$this->dupakDetailModel = new DupakDetailModel();
 
 		$this->validation = Services::validation();
 
@@ -209,17 +212,71 @@ class DupakController extends BaseController
 		helper('sisterws');
 		$data['kepangkatan'] = sister_getDetailKepangkatan($pangkat->id);
 
-		// $data['profile'] = $this->pegawaiModel->getInfoPegawaiByIdSDM($data['dupak']->id_sdm);
-		// $data['pendidikan'] = $this->pegawaiModel->getPendidikanTerakhirSDM($data['dupak']->id_sdm);
-		// $data['penugasan'] = $this->pegawaiModel->getPenugasanTerakhir($data['dupak']->id_sdm);
-
 		$data_sdm = $this->pegawaiModel->getDetailSDM($data['dupak']->id_sdm);
+
+		$data['bidang_kegiatan'] = $this->db->table('r_kegiatan')->where('active', '1')->get()->getResult();
+
+		$data['dupak_detail'] = $this->dupakDetailModel->where('id_dupak', $id_dupak)
+			->get()
+			->getResult();
 
 		$data = array_merge($data, $data_sdm);
 
 		return view('dupak/detail', $data);
 	}
 
+	public function add_ak($id_dupak)
+	{
+		$data['titlePage'] = 'Tambah Data';
+		$data['menu'] = 'dupak-daftar';
+		$data['content_title'] = 'Tambah Data';
+
+		$id_kegiatan = $this->request->getGet('id_kegiatan');
+
+		// get detail dupak
+		$data['dupak'] = $this->dupakModel->getDetailUsulan($id_dupak);
+
+		// get activity references
+		$data['kegiatan'] = $this->db->table('r_kegiatan')->where('id', $id_kegiatan)->get()->getRowObject();
+
+		if ($id_kegiatan == 100000) {
+			$data_kualifikasi = $this->pegawaiModel->getKualifikasi($data['dupak']->id_sdm);
+
+			$data = array_merge($data, $data_kualifikasi);
+
+			return view('dupak/parts/modal-content/_01_pendidikan', $data);
+		}
+
+		if ($id_kegiatan == 110000) {
+			$data_pela_pendidikan = $this->pegawaiModel->getPelaksanaanPendidikan($data['dupak']->id_sdm);
+			$data = array_merge($data, $data_pela_pendidikan);
+
+			return view('dupak/parts/modal-content/_02_pelaksanaan_pendidikan', $data);
+		}
+
+		if ($id_kegiatan == 120000) {
+			$data_pela_penelitian = $this->pegawaiModel->getPelaksanaanPenelitian($data['dupak']->id_sdm);
+			$data = array_merge($data, $data_pela_penelitian);
+
+			return view('dupak/parts/modal-content/_03_pelaksanaan_penelitian', $data);
+		}
+
+		if ($id_kegiatan == 130000) {
+			$data_pela_pengabdian = $this->pegawaiModel->getPelaksanaanPengabdian($data['dupak']->id_sdm);
+			$data = array_merge($data, $data_pela_pengabdian);
+
+			return view('dupak/parts/modal-content/_04_pelaksanaan_pengabdian', $data);
+		}
+
+		if ($id_kegiatan == 140000) {
+			$data_penunjang = $this->pegawaiModel->getPenunjangLain($data['dupak']->id_sdm);
+			$data = array_merge($data, $data_penunjang);
+
+			return view('dupak/parts/modal-content/_05_penunjang', $data);
+		}
+
+		return '<span class="font-weight-bold text-danger">Data tidak ditemukan</span>';
+	}
 
 	public function send_dupak()
 	{
