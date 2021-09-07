@@ -114,6 +114,9 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 
 		// return dupak
 		$routes->post('detail/return', 'DupakController::return_dupak', ['as' => 'dupak_return']);
+
+		// reject dupak
+		$routes->post('detail/reject', 'DupakController::reject_dupak', ['as' => 'dupak_reject']);
 	});
 
 

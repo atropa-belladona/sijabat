@@ -71,7 +71,7 @@
 
           <?php if (in_groups('reviewer') and $dupak->tahap_id == 40) : ?>
             <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="far fa-fw fa-thumbs-up"></i> Setujui dan Kirim ke Bagian Kepegawaian</button>
-            <button type="button" class="btn btn-sm btn-default bg-gradient-default" data-toggle="modal" data-target="#modal-catatan"><i class="far fa-fw fa-thumbs-down"></i> Tolak Usulan</button>
+            <button type="button" class="btn btn-sm btn-default bg-gradient-default" data-toggle="modal" data-target="#modal-alasan"><i class="far fa-fw fa-thumbs-down"></i> Tolak Usulan</button>
             <button type="button" class="btn btn-sm btn-danger bg-gradient-danger" data-toggle="modal" data-target="#modal-catatan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan untuk diperbaiki</button>
           <?php endif ?>
         </form>
@@ -103,6 +103,36 @@
           <div class="form-group row">
             <div class="col d-flex justify-content-end">
               <button type="submit" class="btn btn-sm btn-danger btn-gradient-danger"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-alasan">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h6 class="modal-title font-weight-bold">Alasan</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <form action="<?= route_to('dupak_reject'); ?>" method="POST">
+          <?= csrf_field(); ?>
+          <div class="form-group row">
+            <div class="col">
+              <textarea name="alasan" id="alasan" class="form-control" rows="10"></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col d-flex justify-content-end">
+              <button type="submit" class="btn btn-sm btn-danger btn-gradient-danger"><i class="fas fa-fw fa-thumbs-down"></i> Tolak Usulan</button>
             </div>
           </div>
         </form>

@@ -267,11 +267,33 @@ class DupakController extends BaseController
 		}
 	}
 
+	public function reject_dupak()
+	{
+		$uri = explode("id=", previous_url());
+
+		$id_dupak = $uri[1];
+
+		$alasan = $this->request->getPost('alasan');
+
+		try {
+			$reject = $this->getRejectProcess();
+
+			$this->dupakModel->update($id_dupak, [
+				'tahap_id' => $reject['tahap']
+			]);
+
+			// logs
+			$this->setDupakLogs($id_dupak, $reject['tahap'], $alasan);
+
+			return redirect()->route('dupak_index')->with('app_success', $reject['pesan']);
+		} catch (Exception $ex) {
+			return redirect()->back()->with('app_error', $ex->getMessage());
+		}
+	}
 
 
 
 	// protected function
-
 	protected function getNextProcess()
 	{
 		// first process as default
@@ -317,7 +339,7 @@ class DupakController extends BaseController
 	protected function getReturnProcess()
 	{
 		// perbaikan unit as default
-		$tahap_id = 15;
+		$tahap_id = 25;
 		$pesan = 'Data usulan telah dikembalikan ke pegawai untuk diperbaiki';
 
 		if (in_groups('reviewer')) {
@@ -329,6 +351,23 @@ class DupakController extends BaseController
 		$return_process['pesan'] = $pesan;
 
 		return $return_process;
+	}
+
+	protected function getRejectProcess()
+	{
+		// perbaikan unit as default
+		$tahap_id = 26;
+		$pesan = 'Data usulan telah ditolak';
+
+		if (in_groups('reviewer')) {
+			$tahap_id = 46;
+			$pesan = 'Data usulan telah ditolak';
+		}
+
+		$reject['tahap'] = $tahap_id;
+		$reject['pesan'] = $pesan;
+
+		return $reject;
 	}
 
 	protected function setDupakLogs($id_dupak, $tahap_id, $keterangan = null)
