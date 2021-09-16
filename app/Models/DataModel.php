@@ -51,4 +51,14 @@ class DataModel extends Model
 
 		return $data->getResult();
 	}
+
+	public function getDetailSisterMapping($id)
+	{
+		$data = $this->db->table('zz_sister_map_detail')
+			->where('id', $id)
+			->select("*, CONCAT('_',LPAD(id,2,'0'),'_',menu) AS page")
+			->get();
+
+		return $data->getRowObject();
+	}
 }

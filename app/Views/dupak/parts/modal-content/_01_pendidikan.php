@@ -21,9 +21,9 @@
         <td class="text-center"><?= $item->gelar_akademik; ?></td>
         <td class="text-center"><?= $item->tahun_lulus; ?></td>
         <td class="text-center">
-          <form action="<?= route_to('dupak_addak', $dupak->id); ?>" method="GET">
-            <input type="hidden" name="activity" value="100000">
-            <input type="hidden" name="detail" value="<?= $item->id; ?>">
+          <form action="<?= route_to('dupak_addak', $dupak->id, $item->id); ?>" method="GET">
+            <input type="hidden" name="id" value="<?= $id_kegiatan; ?>">
+            <input type="hidden" name="map" value="<?= $item->detail_id; ?>">
             <button type="submit" class="btn btn-sm btn-default"><i class="fas fa-fw fa-check"></i> </button>
           </form>
         </td>

@@ -85,20 +85,8 @@ class PegawaiModel extends Model
 		$pegawai = $this->db->table('t_pegawai')->where('id_sdm', $id_sdm)->get();
 		$data['pegawai'] = $pegawai->getRow();
 
-		$sdm_profile = $this->db->table('t_sdm_profile')->where('id_sdm', $id_sdm)->get()->getRow();
-
-		if (isset($sdm_profile->foto)) {
-			$data['foto'] = 'data:image/png;base64,' . base64_encode($sdm_profile->foto);
-		}
-
-		$data['about_me'] = $sdm_profile;
-
-		$penugasan = $this->db->table('t_sdm_penugasan')
-			->where('id_sdm', $id_sdm)
-			->orderBy('tanggal_mulai', 'desc')
-			->get();
-
-		$data['penugasan'] = $penugasan->getRow();
+		// about me
+		$data_profile = $this->getProfile($id_sdm);
 
 		// pendidikan & diklat
 		$data_kualifikasi = $this->getKualifikasi($id_sdm);
@@ -116,12 +104,29 @@ class PegawaiModel extends Model
 		$data_penunjang = $this->getPenunjangLain($id_sdm);
 
 		// dokumen
-		$data['dokumen'] = $this->db->table('t_sdm_dokumen')->where('id_sdm', $id_sdm)
-			->orderBy('id_jenis_dokumen', 'asc')
-			->orderBy('tanggal_upload', 'desc')
-			->get()->getResult();
+		$data_dokumen = $this->getDokumen($id_sdm);
 
-		$data = array_merge($data, $data_kualifikasi, $data_pela_pendidikan, $data_pela_penelitian, $data_pela_pengabdian, $data_penunjang);
+		$data = array_merge($data, $data_profile, $data_kualifikasi, $data_pela_pendidikan, $data_pela_penelitian, $data_pela_pengabdian, $data_penunjang, $data_dokumen);
+
+		return $data;
+	}
+
+	public function getProfile($id_sdm)
+	{
+		$sdm_profile = $this->db->table('t_sdm_profile')->where('id_sdm', $id_sdm)->get()->getRow();
+
+		if (isset($sdm_profile->foto)) {
+			$data['foto'] = 'data:image/png;base64,' . base64_encode($sdm_profile->foto);
+		}
+
+		$data['about_me'] = $sdm_profile;
+
+		$penugasan = $this->db->table('t_sdm_penugasan')
+			->where('id_sdm', $id_sdm)
+			->orderBy('tanggal_mulai', 'desc')
+			->get();
+
+		$data['penugasan'] = $penugasan->getRow();
 
 		return $data;
 	}
@@ -171,6 +176,16 @@ class PegawaiModel extends Model
 		$data['anggota_profesi'] =  $this->db->table('t_sdm_anggotaprofesi')->where('id_sdm', $id_sdm)->orderBy('tanggal_mulai_keanggotaan', 'desc')->get()->getResult();
 		$data['penghargaan'] =  $this->db->table('t_sdm_penghargaan')->where('id_sdm', $id_sdm)->orderBy('tahun', 'desc')->get()->getResult();
 		$data['penunjang_lain'] = $this->db->table('t_sdm_penunjanglain')->where('id_sdm', $id_sdm)->orderBy('tanggal_mulai', 'desc')->get()->getResult();
+
+		return $data;
+	}
+
+	public function getDokumen($id_sdm)
+	{
+		$data['dokumen'] = $this->db->table('t_sdm_dokumen')->where('id_sdm', $id_sdm)
+			->orderBy('id_jenis_dokumen', 'asc')
+			->orderBy('tanggal_upload', 'desc')
+			->get()->getResult();
 
 		return $data;
 	}

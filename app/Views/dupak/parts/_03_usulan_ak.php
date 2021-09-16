@@ -52,8 +52,10 @@
             <span aria-hidden="true">&times;</span>
           </button>
       </div>
-      <div class="modal-body text-center">
-        <img src="<?= base_url(); ?>/img/preloader.gif" alt="preloader" height="40" width="auto" class="modal-preloader d-none">
+      <div class="modal-body">
+        <div class="modal-preloader d-none text-center">
+          <img src="<?= base_url(); ?>/img/preloader.gif" alt="preloader" height="40" width="auto">
+        </div>
         <div class="content"></div>
       </div>
     </div>
@@ -71,14 +73,22 @@
     modal.find('.content').html('');
 
     $.ajax({
-      url: '<?= route_to('dupak_addak', $dupak->id); ?>',
+      url: '<?= route_to('dupak_list', $dupak->id); ?>',
       type: 'get',
       data: {
         'id_kegiatan': id_kegiatan
       },
       success: function(data) {
         $('.modal-preloader').toggleClass('d-none');
+
+        $('.datatable').DataTable().clear().destroy();
+
         modal.find('.content').html(data);
+
+        $('.datatable').DataTable({
+          'responsive': true
+        });
+
       },
       error: function(data) {
         console.log(data);

@@ -54,7 +54,7 @@
               </td>
               <td class="align-middle d-flex justify-content-center">
                 <div class="proses mr-3">
-                  <a href="<?= route_to('dupak_detail') . '?id=' . $item->id ?>" class="btn btn-xs btn-success"><i class="fas fa-fw fa-arrow-right"></i> Proses</a>
+                  <a href="<?= route_to('dupak_detail', $item->id) ?>" class="btn btn-xs btn-success"><i class="fas fa-fw fa-arrow-right"></i> Proses</a>
                 </div>
 
                 <?php if ($item->tahap_id <= 10) : ?>

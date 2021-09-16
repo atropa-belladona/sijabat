@@ -43,20 +43,28 @@
               <th>SKS</th>
               <th>Kelas</th>
               <th>Semester</th>
+              <th>Pilih</th>
             </tr>
           </thead>
           <tbody>
-            <?php $i = 1 ?>
-            <?php foreach ($pengajaran as $ajar) : ?>
+            <?php $i = 1?>
+            <?php foreach ($pengajaran as $item): ?>
               <tr>
-                <td><?= $i++; ?></td>
-                <td><?= $ajar->mata_kuliah; ?></td>
+                <td><?=$i++;?></td>
+                <td><?=$item->mata_kuliah;?></td>
                 <td></td>
-                <td><?= $ajar->sks; ?></td>
-                <td><?= $ajar->kelas; ?></td>
-                <td><?= $ajar->semester; ?></td>
+                <td><?=$item->sks;?></td>
+                <td><?=$item->kelas;?></td>
+                <td><?=$item->semester;?></td>
+                <td class="text-center">
+                  <form action="<?=route_to('dupak_addak', $dupak->id, $item->id);?>" method="GET">
+                    <input type="hidden" name="id" value="<?=$id_kegiatan;?>">
+                    <input type="hidden" name="map" value="<?=$item->detail_id;?>">
+                    <button type="submit" class="btn btn-sm btn-default"><i class="fas fa-fw fa-check"></i> </button>
+                  </form>
+                </td>
               </tr>
-            <?php endforeach ?>
+            <?php endforeach?>
           </tbody>
         </table>
       </div>
@@ -71,18 +79,26 @@
               <th>Perguruan Tinggi Pengundang</th>
               <th>Lama Kegiatan</th>
               <th>Tanggal Pelaksanaan</th>
+              <th>Pilih</th>
             </tr>
           </thead>
           <tbody>
-            <?php $i = 1 ?>
-            <?php foreach ($visiting_scientist as $item) : ?>
+            <?php $i = 1?>
+            <?php foreach ($visiting_scientist as $item): ?>
               <tr>
-                <td><?= $i++; ?></td>
-                <td><?= $item->perguruan_tinggi; ?></td>
-                <td><?= $item->lama_kegiatan; ?></td>
-                <td><?= $item->tanggal; ?></td>
+                <td><?=$i++;?></td>
+                <td><?=$item->perguruan_tinggi;?></td>
+                <td><?=$item->lama_kegiatan;?></td>
+                <td><?=$item->tanggal;?></td>
+                <td class="text-center">
+                  <form action="<?=route_to('dupak_addak', $dupak->id, $item->id);?>" method="GET">
+                    <input type="hidden" name="id" value="<?=$id_kegiatan;?>">
+                    <input type="hidden" name="map" value="<?=$item->detail_id;?>">
+                    <button type="submit" class="btn btn-sm btn-default"><i class="fas fa-fw fa-check"></i> </button>
+                  </form>
+                </td>
               </tr>
-            <?php endforeach ?>
+            <?php endforeach?>
           </tbody>
         </table>
       </div>
@@ -98,19 +114,27 @@
               <th>ISBN</th>
               <th>Tanggal Terbit</th>
               <th>Penerbit</th>
+              <th>Pilih</th>
             </tr>
           </thead>
           <tbody>
-            <?php $i = 1 ?>
-            <?php foreach ($bahan_ajar as $item) : ?>
+            <?php $i = 1?>
+            <?php foreach ($bahan_ajar as $item): ?>
               <tr>
-                <td><?= $i++; ?></td>
-                <td><?= $item->judul; ?></td>
-                <td><?= $item->isbn; ?></td>
-                <td><?= $item->tanggal_terbit; ?></td>
-                <td><?= $item->nama_penerbit; ?></td>
+                <td><?=$i++;?></td>
+                <td><?=$item->judul;?></td>
+                <td><?=$item->isbn;?></td>
+                <td><?=$item->tanggal_terbit;?></td>
+                <td><?=$item->nama_penerbit;?></td>
+                <td class="text-center">
+                  <form action="<?=route_to('dupak_addak', $dupak->id, $item->id);?>" method="GET">
+                    <input type="hidden" name="id" value="<?=$id_kegiatan;?>">
+                    <input type="hidden" name="map" value="<?=$item->detail_id;?>">
+                    <button type="submit" class="btn btn-sm btn-default"><i class="fas fa-fw fa-check"></i> </button>
+                  </form>
+                </td>
               </tr>
-            <?php endforeach ?>
+            <?php endforeach?>
           </tbody>
         </table>
       </div>
@@ -126,19 +150,27 @@
               <th>Kategori Kegiatan</th>
               <th>No. SK Penugasan</th>
               <th>Tanggal SK Penugasan</th>
+              <th>Pilih</th>
             </tr>
           </thead>
           <tbody>
-            <?php $i = 1 ?>
-            <?php foreach ($detasering as $item) : ?>
+            <?php $i = 1?>
+            <?php foreach ($detasering as $item): ?>
               <tr>
-                <td><?= $i++; ?></td>
-                <td><?= $item->perguruan_tinggi; ?></td>
-                <td><?= $item->kategori_kegiatan; ?></td>
-                <td><?= $item->sk_penugasan; ?></td>
-                <td><?= $item->tanggal_sk_penugasan; ?></td>
+                <td><?=$i++;?></td>
+                <td><?=$item->perguruan_tinggi;?></td>
+                <td><?=$item->kategori_kegiatan;?></td>
+                <td><?=$item->sk_penugasan;?></td>
+                <td><?=$item->tanggal_sk_penugasan;?></td>
+                <td class="text-center">
+                  <form action="<?=route_to('dupak_addak', $dupak->id, $item->id);?>" method="GET">
+                    <input type="hidden" name="id" value="<?=$id_kegiatan;?>">
+                    <input type="hidden" name="map" value="<?=$item->detail_id;?>">
+                    <button type="submit" class="btn btn-sm btn-default"><i class="fas fa-fw fa-check"></i> </button>
+                  </form>
+                </td>
               </tr>
-            <?php endforeach ?>
+            <?php endforeach?>
           </tbody>
         </table>
       </div>
@@ -155,20 +187,28 @@
               <th>Nama Temu Ilmiah</th>
               <th>Penyelenggara</th>
               <th>Tanggal Pelaksanaan</th>
+              <th>Pilih</th>
             </tr>
           </thead>
           <tbody>
-            <?php $i = 1 ?>
-            <?php foreach ($orasi_ilmiah as $item) : ?>
+            <?php $i = 1?>
+            <?php foreach ($orasi_ilmiah as $item): ?>
               <tr>
-                <td><?= $i++; ?></td>
+                <td><?=$i++;?></td>
                 <td></td>
-                <td><?= $item->judul_makalah; ?></td>
-                <td><?= $item->nama_pertemuan; ?></td>
-                <td><?= $item->penyelenggara; ?></td>
-                <td><?= $item->tanggal_pelaksanaan; ?></td>
+                <td><?=$item->judul_makalah;?></td>
+                <td><?=$item->nama_pertemuan;?></td>
+                <td><?=$item->penyelenggara;?></td>
+                <td><?=$item->tanggal_pelaksanaan;?></td>
+                <td class="text-center">
+                  <form action="<?=route_to('dupak_addak', $dupak->id, $item->id);?>" method="GET">
+                    <input type="hidden" name="id" value="<?=$id_kegiatan;?>">
+                    <input type="hidden" name="map" value="<?=$item->detail_id;?>">
+                    <button type="submit" class="btn btn-sm btn-default"><i class="fas fa-fw fa-check"></i> </button>
+                  </form>
+                </td>
               </tr>
-            <?php endforeach ?>
+            <?php endforeach?>
           </tbody>
         </table>
       </div>
@@ -184,19 +224,27 @@
               <th>Nama Bimbingan</th>
               <th>Tanggal Mulai</th>
               <th>Tanggal Selesai</th>
+              <th>Pilih</th>
             </tr>
           </thead>
           <tbody>
-            <?php $i = 1 ?>
-            <?php foreach ($pembimbing_dosen as $item) : ?>
+            <?php $i = 1?>
+            <?php foreach ($pembimbing_dosen as $item): ?>
               <tr>
-                <td><?= $i++; ?></td>
-                <td><?= $item->nama_pembimbing; ?></td>
-                <td><?= $item->nama_bimbingan; ?></td>
-                <td><?= $item->tanggal_mulai; ?></td>
-                <td><?= $item->tanggal_selesai; ?></td>
+                <td><?=$i++;?></td>
+                <td><?=$item->nama_pembimbing;?></td>
+                <td><?=$item->nama_bimbingan;?></td>
+                <td><?=$item->tanggal_mulai;?></td>
+                <td><?=$item->tanggal_selesai;?></td>
+                <td class="text-center">
+                  <form action="<?=route_to('dupak_addak', $dupak->id, $item->id);?>" method="GET">
+                    <input type="hidden" name="id" value="<?=$id_kegiatan;?>">
+                    <input type="hidden" name="map" value="<?=$item->detail_id;?>">
+                    <button type="submit" class="btn btn-sm btn-default"><i class="fas fa-fw fa-check"></i> </button>
+                  </form>
+                </td>
               </tr>
-            <?php endforeach ?>
+            <?php endforeach?>
           </tbody>
         </table>
       </div>
@@ -213,20 +261,28 @@
               <th>Instansi</th>
               <th>Tangaal Mulai</th>
               <th>Tangaal Berakhir</th>
+              <th>Pilih</th>
             </tr>
           </thead>
           <tbody>
-            <?php $i = 1 ?>
-            <?php foreach ($tugas_tambahan as $item) : ?>
+            <?php $i = 1?>
+            <?php foreach ($tugas_tambahan as $item): ?>
               <tr>
-                <td><?= $i++; ?></td>
-                <td><?= $item->jenis_tugas; ?></td>
-                <td><?= $item->unit_kerja; ?></td>
-                <td><?= $item->perguruan_tinggi; ?></td>
-                <td><?= $item->tanggal_mulai_tugas; ?></td>
-                <td><?= $item->tanggal_selesai_tugas; ?></td>
+                <td><?=$i++;?></td>
+                <td><?=$item->jenis_tugas;?></td>
+                <td><?=$item->unit_kerja;?></td>
+                <td><?=$item->perguruan_tinggi;?></td>
+                <td><?=$item->tanggal_mulai_tugas;?></td>
+                <td><?=$item->tanggal_selesai_tugas;?></td>
+                <td class="text-center">
+                  <form action="<?=route_to('dupak_addak', $dupak->id, $item->id);?>" method="GET">
+                    <input type="hidden" name="id" value="<?=$id_kegiatan;?>">
+                    <input type="hidden" name="map" value="<?=$item->detail_id;?>">
+                    <button type="submit" class="btn btn-sm btn-default"><i class="fas fa-fw fa-check"></i> </button>
+                  </form>
+                </td>
               </tr>
-            <?php endforeach ?>
+            <?php endforeach?>
           </tbody>
         </table>
       </div>

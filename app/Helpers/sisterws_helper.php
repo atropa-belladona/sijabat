@@ -380,6 +380,15 @@ function sister_getListDataPendidikanFormal($id_sdm)
   return json_decode($response->getBody());
 }
 
+function sister_getDetailPendidikanFormal($id_detail)
+{
+  $get_path = 'pendidikan_formal/';
+
+  $response = sister_path_getDataByID($get_path, $id_detail);
+
+  return json_decode($response->getBody());
+}
+
 // GET Penugasan
 function sister_getDataListPenugasanSDM($id_sdm)
 {
