@@ -1,15 +1,15 @@
    <!-- Navbar -->
    <nav class="main-header navbar navbar-expand navbar-dark shadow shadow-sm">
      <!-- Left navbar links -->
-     <ul class="navbar-nav">
+     <ul class="navbar-nav font-weight-bold text-white">
        <li class="nav-item">
          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
        </li>
        <li class="nav-item d-none d-sm-inline-block">
-         <a href="<?= route_to('home'); ?>" class="nav-link">Home</a>
+         <a href="<?=route_to('home');?>" class="nav-link">Home</a>
        </li>
        <li class="nav-item d-none d-sm-inline-block">
-         <a href="#" class="nav-link">Contact</a>
+         <a href="#" class="nav-link">About</a>
        </li>
      </ul>
 
@@ -26,7 +26,7 @@
            <a href="#" class="dropdown-item">
              <!-- Message Start -->
              <div class="media">
-               <img src="<?= base_url(); ?>/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+               <img src="<?=base_url();?>/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                <div class="media-body">
                  <h3 class="dropdown-item-title">
                    Brad Diesel
@@ -42,7 +42,7 @@
            <a href="#" class="dropdown-item">
              <!-- Message Start -->
              <div class="media">
-               <img src="<?= base_url(); ?>/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+               <img src="<?=base_url();?>/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
                <div class="media-body">
                  <h3 class="dropdown-item-title">
                    John Pierce
@@ -58,7 +58,7 @@
            <a href="#" class="dropdown-item">
              <!-- Message Start -->
              <div class="media">
-               <img src="<?= base_url(); ?>/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+               <img src="<?=base_url();?>/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
                <div class="media-body">
                  <h3 class="dropdown-item-title">
                    Nora Silvester
@@ -108,8 +108,8 @@
 
        <li class="nav-item dropdown no-arrow">
          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           <img class="img-profile rounded-circle" src="<?= base_url('img/profile/' . user()->profile_img); ?>">
-           <span class="mr-2 d-none d-lg-inline text-gray-600 small font-weight-bold"><?= (isset(user()->username)) ? user()->username : 'Guest' ?></span>
+           <img class="img-profile rounded-circle" src="<?=base_url('img/profile/' . user()->profile_img);?>">
+           <span class="mr-2 d-none d-lg-inline text-gray-600 small font-weight-bold"><?=(isset(user()->username)) ? user()->username : 'Guest'?></span>
          </a>
          <!-- Dropdown - User Information -->
          <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -118,7 +118,7 @@
              Settings
            </a>
            <div class="dropdown-divider"></div>
-           <a class="dropdown-item" href="<?= route_to('logout'); ?>">
+           <a class="dropdown-item" href="<?=route_to('logout');?>">
              <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
              Logout
            </a>
