@@ -375,6 +375,13 @@ class DupakController extends BaseController
         if (!$this->validation->withRequest($this->request)->run()) {
             return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
         }
+
+        // store process
+        $id_kegiatan = $this->request->getPost('klasifikasi');
+        $volume = $this->request->getPost('volume');
+        $satuan = $this->request->getPost('satuan');
+        $angka_kredit = $this->request->getPost('angka_kredit');
+        $angka_kredit = $this->request->getPost('angka_kredit');
     }
 
     public function send_dupak()
