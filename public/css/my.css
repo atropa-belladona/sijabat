@@ -1,61 +1,74 @@
-body{
-  font-family: 'IBM Plex Sans', sans-serif;
+body {
+  font-family: "IBM Plex Sans", sans-serif;
 }
 
-.brand-link{
+.content-wrapper {
+  background-color: #eeffdd !important;
+}
+
+.brand-link {
   height: 55px;
   background-color: #00472c !important;
 }
 
-.layout-navbar-fixed.sidebar-mini-md.sidebar-collapse.text-sm .wrapper .brand-link, .layout-navbar-fixed.sidebar-mini-xs.sidebar-collapse.text-sm .wrapper .brand-link, .layout-navbar-fixed.sidebar-mini.sidebar-collapse.text-sm .wrapper .brand-link{
+.layout-navbar-fixed.sidebar-mini-md.sidebar-collapse.text-sm
+  .wrapper
+  .brand-link,
+.layout-navbar-fixed.sidebar-mini-xs.sidebar-collapse.text-sm
+  .wrapper
+  .brand-link,
+.layout-navbar-fixed.sidebar-mini.sidebar-collapse.text-sm
+  .wrapper
+  .brand-link {
   height: 55px;
 }
 
-.brand-text{
+.brand-text {
   /* font-size: 1.2rem; */
   font-weight: bolder;
   color: yellow;
 }
 
-.navbar{
+.navbar {
   background-color: #006f45;
 }
 
-.sidebar{
+.sidebar {
   background-color: #006f45;
 }
 
-.img-profile{
+.img-profile {
   height: 25px;
   width: 25px;
 }
 
-.topbar-divider{
-  width:0;
-  border-right:1px solid #e3e6f0;
-  height:calc(4.375rem - 2rem);
-  margin:auto 1rem;
+.topbar-divider {
+  width: 0;
+  border-right: 1px solid #e3e6f0;
+  height: calc(4.375rem - 2rem);
+  margin: auto 1rem;
 }
 
-hr.sidebar-divider{
-  border-top:1px solid rgba(255,255,255,.15);
-  margin:.25rem 1rem .25rem .8rem;
+hr.sidebar-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  margin: 0.25rem 1rem 0.25rem 0.8rem;
 }
 
-.nav-header{
+.nav-header {
   color: white !important;
   font-weight: bold;
 }
 
-.card .nav-link:hover{
+.card .nav-link:hover {
   font-weight: bold;
   color: black;
 }
 
-.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active{
+.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active,
+.sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
   background-color: #005434;
   font-weight: bold;
-  color:  #eaf571;
+  color: #eaf571;
 }
 
 /* misc css */
@@ -66,14 +79,30 @@ hr.sidebar-divider{
 
 hr {
   margin-top: 0.1rem;
-  margin-bottom: .875rem;
+  margin-bottom: 0.875rem;
 }
 
-hr.bt-5{
-  border-top: 5px solid rgba(0, 0, 0, .1);
+hr.bt-5 {
+  border-top: 5px solid rgba(0, 0, 0, 0.1);
 }
 
-.dropdown-item:focus, .dropdown-item:hover {
+.pt-row {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
+.pt-row:hover {
+  cursor: pointer;
+}
+
+.row-hide {
+  display: none;
+}
+
+.dropdown-item:focus,
+.dropdown-item:hover {
   color: #16181b !important;
   font-weight: bold;
   text-decoration: none;

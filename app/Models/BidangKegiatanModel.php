@@ -6,10 +6,23 @@ use CodeIgniter\Model;
 
 class BidangKegiatanModel extends Model
 {
-    protected $table = 'v_ref_kegiatan';
-    protected $primaryKey = 'kegiatan_id';
-    protected $returnType = 'object';
-    protected $protectFields = true;
-    protected $allowedFields = [];
 
+    public function getKlasifikasiKegiatan($id_kegiatan)
+    {
+        $data = $this->db->table('v_ref_kegiatan')
+            ->where('kegiatan_id', $id_kegiatan)
+            ->groupBy('sub_kegiatan_id')
+            ->get()
+            ->getResultObject();
+
+        foreach ($data as $item) {
+            $item->child = $this->db->table('v_ref_kegiatan')
+                ->where('sub_kegiatan_id', $item->sub_kegiatan_id)
+                ->get()
+                ->getResultObject();
+        }
+
+
+        return $data;
+    }
 }

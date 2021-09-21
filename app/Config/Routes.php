@@ -115,6 +115,7 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 
 		// add dupak component
 		$routes->get('detail/(:any)/(:any)/kategori', 'DupakController::add_ak/$1/$2', ['as' => 'dupak_addak']);
+		$routes->post('detail/(:any)/(:any)/store', 'DupakController::store_add_ak/$1/$2', ['as' => 'dupak_store_addak']);
 
 		// send dupak
 		$routes->post('detail', 'DupakController::send_dupak', ['as' => 'dupak_send']);

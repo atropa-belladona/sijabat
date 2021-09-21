@@ -8,6 +8,10 @@
   <link rel="shortcut icon" href="<?= base_url('img/favicon.png'); ?>">
   <title>SIJABAT <?= (isset($titlePage) ? '| ' . $titlePage : ''); ?></title>
 
+  <!-- My Scripts -->
+  <script src="<?= base_url(); ?>/js/accounting.min.js"></script>
+  <script src="<?= base_url(); ?>/js/my.js"></script>
+
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap" rel="stylesheet">

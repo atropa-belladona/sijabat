@@ -8,7 +8,6 @@ use App\Models\DataModel;
 use App\Models\DupakDetailModel;
 use App\Models\DupakModel;
 use App\Models\PegawaiModel;
-
 use Config\Database;
 use Config\Services;
 use Exception;
@@ -37,7 +36,7 @@ class DupakController extends BaseController
         $this->pegawaiModel = new PegawaiModel();
         $this->dupakModel = new DupakModel();
         $this->dupakDetailModel = new DupakDetailModel();
-        $this->BidangKegiatanModel = new BidangKegiatanModel();
+        $this->bidangKegiatanModel = new BidangKegiatanModel();
 
         $this->validation = Services::validation();
 
@@ -311,7 +310,7 @@ class DupakController extends BaseController
         // get activity references
         $data['kegiatan'] = $this->db->table('r_kegiatan')->where('id', $id_kegiatan)->get()->getRowObject();
 
-        if(!$data['kegiatan']){
+        if (!$data['kegiatan']) {
             return redirect()->back()->with('app_error', 'Kegiatan tidak ditemukan');
         }
 
@@ -336,7 +335,46 @@ class DupakController extends BaseController
         $data['sister_detail'] = $sister_detail;
 
 
+        $ref_kegiatan = $this->bidangKegiatanModel->getKlasifikasiKegiatan($id_kegiatan);
+        $data['ref_kegiatan'] = $ref_kegiatan;
+
+
         return view('dupak/add_ak', $data);
+    }
+
+    public function store_add_ak($id_dupak, $id_detail)
+    {
+        $rules = $this->validation->setRules(
+            [
+                'klasifikasi' => 'required',
+                'volume' => 'required',
+                'satuan' => 'required',
+                'angka-kredit' => 'required',
+                'jumlah-angka-kredit' => 'required',
+            ],
+            [
+                'klasifikasi' => [
+                    'required' => 'Silahkan pilih klasifikasi kegiatan diatas'
+                ],
+                'volume' => [
+                    'required' => 'Jumlah volume kegiatan harus diisi'
+                ],
+                'satuan' => [
+                    'required' => 'Jenis Satuan Hasil harus diisi'
+                ],
+                'angka-kredit' => [
+                    'required' => 'Nilai Angka Kredit harus diisi'
+                ],
+                'jumlah-angka-kredit' => [
+                    'required' => 'Jumlah Angka Kredit tidak boleh kosong'
+                ]
+            ]
+        );
+
+        // run input validation
+        if (!$this->validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
+        }
     }
 
     public function send_dupak()

@@ -12,23 +12,23 @@
         <th>Nama Dokumen</th>
         <th>Keterangan</th>
         <th>Tanggal Upload</th>
-        <th>Tautan</th>
+        <th class="text-center">Tautan</th>
       </tr>
     </thead>
     <tbody>
-      <?php $i = 1 ?>
-      <?php foreach ($dokumen as $dok) : ?>
+      <?php $i = 1?>
+      <?php foreach ($dokumen as $dok): ?>
         <tr>
-          <td><?= $i++; ?></td>
-          <td><?= $dok->jenis_dokumen; ?></td>
-          <td><?= $dok->nama; ?></td>
-          <td><?= $dok->keterangan; ?></td>
-          <td><?= $dok->tanggal_upload; ?></td>
-          <td>
-            <a href="<?= route_to('download_dokumen', $dok->id); ?>" target="_blank">Lihat</a>
+          <td><?=$i++;?></td>
+          <td><?=$dok->jenis_dokumen;?></td>
+          <td><?=$dok->nama;?></td>
+          <td><?=$dok->keterangan;?></td>
+          <td><?=$dok->tanggal_upload;?></td>
+          <td class="text-center">
+            <a href="<?=route_to('download_dokumen', $dok->id);?>" target="_blank">Lihat</a>
           </td>
         </tr>
-      <?php endforeach ?>
+      <?php endforeach?>
     </tbody>
   </table>
 </div>

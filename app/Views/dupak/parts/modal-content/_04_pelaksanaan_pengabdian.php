@@ -32,23 +32,33 @@
               <th>Bidang Keilmuan</th>
               <th>Tahun Pelaksanaan</th>
               <th>Lama Kegiatan</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody>
             <?php $i = 1 ?>
-            <?php foreach ($pengabdian as $abdi) : ?>
+            <?php foreach ($pengabdian as $item) : ?>
               <tr>
                 <td><?= $i++; ?></td>
-                <td><?= $abdi->judul; ?></td>
+                <td><?= $item->judul; ?></td>
                 <td>
                   <ul>
-                    <?php foreach (explode('|', $abdi->bidang_keilmuan) as $bidang) : ?>
-                      <li><?= $bidang; ?></li>
+                    <?php foreach (explode('|', $item->bidang_keilmuan) as $bidang) : ?>
+                      <?php if ($bidang) : ?>
+                        <li><?= $bidang; ?></li>
+                      <?php endif ?>
                     <?php endforeach ?>
                   </ul>
                 </td>
-                <td><?= $abdi->tahun_pelaksanaan; ?></td>
-                <td><?= $abdi->lama_kegiatan; ?></td>
+                <td><?= $item->tahun_pelaksanaan; ?></td>
+                <td><?= $item->lama_kegiatan; ?></td>
+                <td class="text-center">
+                  <form action="<?= route_to('dupak_addak', $dupak->id, $item->id); ?>" method="GET">
+                    <input type="hidden" name="id" value="<?= $id_kegiatan; ?>">
+                    <input type="hidden" name="map" value="<?= $item->detail_id; ?>">
+                    <button type="submit" class="btn btn-sm btn-default"><i class="fas fa-fw fa-check"></i> </button>
+                  </form>
+                </td>
               </tr>
             <?php endforeach ?>
           </tbody>
@@ -69,19 +79,27 @@
               <th>Tanggal Selesai</th>
               <th>Status Aktif</th>
               <th>Peran</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody>
             <?php $i = 1 ?>
-            <?php foreach ($pengelola_jurnal as $jurnal) : ?>
+            <?php foreach ($pengelola_jurnal as $item) : ?>
               <tr>
                 <td><?= $i++; ?></td>
-                <td><?= $jurnal->kategori_kegiatan; ?></td>
-                <td><?= $jurnal->sk_penugasan; ?></td>
-                <td><?= $jurnal->tanggal_mulai; ?></td>
-                <td><?= $jurnal->tanggal_selesai; ?></td>
-                <td><?= $jurnal->aktif; ?></td>
-                <td><?= $jurnal->peran; ?></td>
+                <td><?= $item->kategori_kegiatan; ?></td>
+                <td><?= $item->sk_penugasan; ?></td>
+                <td><?= $item->tanggal_mulai; ?></td>
+                <td><?= $item->tanggal_selesai; ?></td>
+                <td><?= $item->aktif; ?></td>
+                <td><?= $item->peran; ?></td>
+                <td class="text-center">
+                  <form action="<?= route_to('dupak_addak', $dupak->id, $item->id); ?>" method="GET">
+                    <input type="hidden" name="id" value="<?= $id_kegiatan; ?>">
+                    <input type="hidden" name="map" value="<?= $item->detail_id; ?>">
+                    <button type="submit" class="btn btn-sm btn-default"><i class="fas fa-fw fa-check"></i> </button>
+                  </form>
+                </td>
               </tr>
             <?php endforeach ?>
           </tbody>
@@ -99,17 +117,25 @@
               <th>Nama Temu Ilmiah</th>
               <th>Penyelenggara</th>
               <th>Tanggal Pelaksanaan</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody>
             <?php $i = 1 ?>
-            <?php foreach ($pembicara as $bicara) : ?>
+            <?php foreach ($pembicara as $item) : ?>
               <tr>
                 <td><?= $i++; ?></td>
-                <td><?= $bicara->judul_makalah; ?></td>
-                <td><?= $bicara->nama_pertemuan; ?></td>
-                <td><?= $bicara->penyelenggara; ?></td>
-                <td><?= $bicara->tanggal_pelaksanaan; ?></td>
+                <td><?= $item->judul_makalah; ?></td>
+                <td><?= $item->nama_pertemuan; ?></td>
+                <td><?= $item->penyelenggara; ?></td>
+                <td><?= $item->tanggal_pelaksanaan; ?></td>
+                <td class="text-center">
+                  <form action="<?= route_to('dupak_addak', $dupak->id, $item->id); ?>" method="GET">
+                    <input type="hidden" name="id" value="<?= $id_kegiatan; ?>">
+                    <input type="hidden" name="map" value="<?= $item->detail_id; ?>">
+                    <button type="submit" class="btn btn-sm btn-default"><i class="fas fa-fw fa-check"></i> </button>
+                  </form>
+                </td>
               </tr>
             <?php endforeach ?>
           </tbody>
@@ -127,17 +153,25 @@
               <th>Nomor SK</th>
               <th>Terhitung Mulai Tanggal</th>
               <th>Terhitung Tanggal Selesai</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody>
             <?php $i = 1 ?>
-            <?php foreach ($jabstruk as $struk) : ?>
+            <?php foreach ($jabstruk as $item) : ?>
               <tr>
                 <td><?= $i++; ?></td>
-                <td><?= $struk->jabatan; ?></td>
-                <td><?= $struk->sk_jabatan; ?></td>
-                <td><?= $struk->tanggal_mulai_jabatan; ?></td>
-                <td><?= $struk->tanggal_selesai_jabatan; ?></td>
+                <td><?= $item->jabatan; ?></td>
+                <td><?= $item->sk_jabatan; ?></td>
+                <td><?= $item->tanggal_mulai_jabatan; ?></td>
+                <td><?= $item->tanggal_selesai_jabatan; ?></td>
+                <td class="text-center">
+                  <form action="<?= route_to('dupak_addak', $dupak->id, $item->id); ?>" method="GET">
+                    <input type="hidden" name="id" value="<?= $id_kegiatan; ?>">
+                    <input type="hidden" name="map" value="<?= $item->detail_id; ?>">
+                    <button type="submit" class="btn btn-sm btn-default"><i class="fas fa-fw fa-check"></i> </button>
+                  </form>
+                </td>
               </tr>
             <?php endforeach ?>
           </tbody>
