@@ -49,7 +49,7 @@
 
       <hr>
       <div class="kirim">
-        <form action="<?= route_to('dupak_send'); ?>" method="POST" class=" d-flex flex-row-reverse justify-content-between">
+        <form action="<?= route_to('dupak_send', $dupak->id); ?>" method="POST" class=" d-flex flex-row-reverse justify-content-between">
           <?= csrf_field(); ?>
 
           <?php if (in_groups('dosen') and ($dupak->tahap_id == 1 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45)) : ?>
@@ -93,7 +93,7 @@
           </button>
       </div>
       <div class="modal-body">
-        <form action="<?= route_to('dupak_return'); ?>" method="POST">
+        <form action="<?= route_to('dupak_return', $dupak->id); ?>" method="POST">
           <?= csrf_field(); ?>
           <div class="form-group row">
             <div class="col">
@@ -122,7 +122,7 @@
           </button>
       </div>
       <div class="modal-body">
-        <form action="<?= route_to('dupak_reject'); ?>" method="POST">
+        <form action="<?= route_to('dupak_reject', $dupak->id); ?>" method="POST">
           <?= csrf_field(); ?>
           <div class="form-group row">
             <div class="col">

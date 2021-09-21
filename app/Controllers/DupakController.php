@@ -378,17 +378,17 @@ class DupakController extends BaseController
 
         // store process
         $id_kegiatan = $this->request->getPost('klasifikasi');
-        $volume = $this->request->getPost('volume');
-        $satuan = $this->request->getPost('satuan');
-        $angka_kredit = $this->request->getPost('angka_kredit');
-        $angka_kredit = $this->request->getPost('angka_kredit');
+        $volume = str_to_int($this->request->getPost('volume'));
+        $satuan = trim($this->request->getPost('satuan'));
+        $angka_kredit = str_to_int($this->request->getPost('angka_kredit'));
+        $angka_kredit = str_to_int($this->request->getPost('angka_kredit'));
     }
 
-    public function send_dupak()
+    public function send_dupak($id_dupak)
     {
-        $uri = explode("id=", previous_url());
+        // $uri = explode("id=", previous_url());
 
-        $id_dupak = $uri[1];
+        // $id_dupak = $uri[1];
 
         try {
             $next_process = $this->getNextProcess();
@@ -406,11 +406,11 @@ class DupakController extends BaseController
         }
     }
 
-    public function return_dupak()
+    public function return_dupak($id_dupak)
     {
-        $uri = explode("id=", previous_url());
+        // $uri = explode("id=", previous_url());
 
-        $id_dupak = $uri[1];
+        // $id_dupak = $uri[1];
 
         $catatan = $this->request->getPost('catatan');
 
@@ -430,11 +430,11 @@ class DupakController extends BaseController
         }
     }
 
-    public function reject_dupak()
+    public function reject_dupak($id_dupak)
     {
-        $uri = explode("id=", previous_url());
+        // $uri = explode("id=", previous_url());
 
-        $id_dupak = $uri[1];
+        // $id_dupak = $uri[1];
 
         $alasan = $this->request->getPost('alasan');
 

@@ -118,13 +118,13 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 		$routes->post('detail/(:any)/(:any)/store', 'DupakController::store_add_ak/$1/$2', ['as' => 'dupak_store_addak']);
 
 		// send dupak
-		$routes->post('detail', 'DupakController::send_dupak', ['as' => 'dupak_send']);
+		$routes->post('detail/(:segment)/kirim', 'DupakController::send_dupak/$1', ['as' => 'dupak_send']);
 
 		// return dupak
-		$routes->post('detail/return', 'DupakController::return_dupak', ['as' => 'dupak_return']);
+		$routes->post('detail/(:segment)/return', 'DupakController::return_dupak/$1', ['as' => 'dupak_return']);
 
 		// reject dupak
-		$routes->post('detail/reject', 'DupakController::reject_dupak', ['as' => 'dupak_reject']);
+		$routes->post('detail/(:segment)/reject', 'DupakController::reject_dupak/$1', ['as' => 'dupak_reject']);
 	});
 
 

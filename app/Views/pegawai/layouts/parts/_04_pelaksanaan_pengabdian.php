@@ -43,7 +43,9 @@
                 <td>
                   <ul>
                     <?php foreach (explode('|', $abdi->bidang_keilmuan) as $bidang) : ?>
-                      <li><?= $bidang; ?></li>
+                      <?php if ($bidang) : ?>
+                        <li><?= $bidang; ?></li>
+                      <?php endif ?>
                     <?php endforeach ?>
                   </ul>
                 </td>
