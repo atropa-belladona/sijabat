@@ -59,6 +59,11 @@ hr.sidebar-divider {
   font-weight: bold;
 }
 
+.callout a:hover {
+  color: black;
+  font-weight: bold;
+}
+
 .card .nav-link:hover {
   font-weight: bold;
   color: black;

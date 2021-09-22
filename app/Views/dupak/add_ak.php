@@ -15,6 +15,8 @@
   <?= $this->include('dupak/parts/detail-kegiatan/' . $sister_map->page); ?>
 </div>
 
+<hr class="bt-5">
+
 <div class="form-input">
   <h6 class="font-weight-bold text-muted mb-2">Formulir Isian Kegiatan</h6>
   <form name="f1" action="<?= route_to('dupak_store_addak', $dupak->id, $sister_detail->id); ?>" method="POST">

@@ -269,21 +269,21 @@ class DataController extends BaseController
 	}
 
 
-	public function download_dokumen($id_dokumen)
+	public function download_dokumen($id_dokumen, $jenis_file, $nama_file)
 	{
 
-		$dokumen = $this->db->table('t_sdm_dokumen')
-			->where('id', $id_dokumen)
-			->get()
-			->getRowObject();
+		// $dokumen = $this->db->table('t_sdm_dokumen')
+		// 	->where('id', $id_dokumen)
+		// 	->get()
+		// 	->getRowObject();
 
 		helper('sisterws');
 
 		$dokumen_content = sister_getUnduhDokumen($id_dokumen);
 
 		header('Content-length: ' . strlen($dokumen_content));
-		header('Content-type: ' . $dokumen->jenis_file);
-		header('Content-Disposition: inline; filename="' . $dokumen->nama_file . '"');
+		header('Content-type: ' . $jenis_file);
+		header('Content-Disposition: inline; filename="' . $nama_file . '"');
 		ob_clean();
 		flush();
 		echo $dokumen_content;

@@ -132,7 +132,7 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 	$routes->post('data/pegawai/(:segment)', 'DataController::import_data_sdm_sister/$1', ['as' => 'import_data_sdm_sister']);
 });
 
-$routes->get('dokumen/(:segment)/download', 'DataController::download_dokumen/$1', ['as' => 'download_dokumen']);
+$routes->get('dokumen/(:any)/(:any)/(:any)/download', 'DataController::download_dokumen/$1/$2/$3', ['as' => 'download_dokumen']);
 
 /*
  * --------------------------------------------------------------------
