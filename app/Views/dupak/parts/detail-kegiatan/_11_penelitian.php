@@ -60,8 +60,8 @@
           <tr>
             <td class="pl-4 align-top align-top">Keanggotaan</td>
             <td class="pl-4 align-top align-top">:</td>
-            <td class="pl-4 align-top table-responsive">
-              <table class="table table-sm table-bordered">
+            <td class="pl-4 align-top">
+              <table class="table table-sm table-bordered dt-nopaging-nosearch">
                 <thead class="bg-dark">
                   <tr>
                     <th>Jenis SDM</th>
@@ -89,8 +89,8 @@
           <tr>
             <td class="pl-4 align-top align-top">Dokumen</td>
             <td class="pl-4 align-top align-top">:</td>
-            <td class="pl-4 align-top table-responsive">
-              <table class="table table-sm table-bordered">
+            <td class="pl-4 align-top">
+              <table class="table table-sm table-bordered dt-nopaging-nosearch">
                 <thead class="bg-dark">
                   <tr>
                     <th>Jenis Dokumen</th>

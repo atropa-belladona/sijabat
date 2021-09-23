@@ -183,10 +183,35 @@
                 Menu ini digunakan untuk mengambil data pegawai dari aplikasi SISTER UNJ. <br>
                 Klik tombol di bawah ini untuk melakukan pengambilan data.
               </p>
-              <form id="import-data-sister" action="<?= route_to('import_data_sdm_sister', $pegawai->id_sdm); ?>" method="POST">
+              <form id="import-data-sister" class="form mb-4" action="<?= route_to('import_data_sdm_sister', $pegawai->id_sdm); ?>" method="POST">
                 <?= csrf_field() ?>
                 <button type="button" class="btn btn-link btn-sm bg-gradient-danger btn-import text-white"><i class="fas fa-fw fa-sync"></i> Import Data dari SISTER UNJ</button>
               </form>
+
+              <!-- Import Logs -->
+              <hr class="bt-5">
+              <h6 class="font-weight-bold">Import Logs</h6>
+              <table class="table table-sm table-hover">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>IP Address</th>
+                    <th>Imported At</th>
+                    <th>Imported By</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php $i = 1; ?>
+                  <?php foreach ($import_logs as $log) : ?>
+                    <tr>
+                      <td><?= $i++; ?></td>
+                      <td><?= $log->ip; ?></td>
+                      <td><?= $log->created_at; ?></td>
+                      <td><?= $log->name; ?></td>
+                    </tr>
+                  <?php endforeach ?>
+                </tbody>
+              </table>
             </div>
           </div>
           <!-- /.tab-content -->

@@ -36,7 +36,7 @@
                 <?php if ($item->sub_kegiatan_child_id) : ?>
                   <tr class="row-hide <?= 'ch-' . $item->sub_kegiatan_id; ?>">
                     <td class="pl-4">
-                      <?= $item->sub_kegiatan_child_nama; ?>
+                      <label for="<?= $item->sub_kegiatan_child_id; ?>" class="form-check-label"><?= $item->sub_kegiatan_child_nama; ?></label>
                       <input type="hidden" name="<?= 'ak-' . $item->sub_kegiatan_child_id; ?>" value="<?= number_format2($item->angka_kredit); ?>">
                     </td>
                     <td class="text-center">
@@ -46,7 +46,7 @@
                 <?php else : ?>
                   <tr class="row-hide <?= 'ch-' . $item->sub_kegiatan_id; ?>">
                     <td class="pl-4">
-                      <?= $item->sub_kegiatan_nama; ?>
+                      <label for="<?= $item->sub_kegiatan_id; ?>" class="form-check-label"><?= $item->sub_kegiatan_nama; ?></label>
                       <input type="hidden" name="<?= 'ak-' . $item->sub_kegiatan_id; ?>" value="<?= number_format2($item->angka_kredit); ?>">
                     </td>
                     <td class="text-center">
@@ -131,8 +131,6 @@
 
     d.elements['angka-kredit'].value = angka_kredit;
     d.querySelector('.ak-rekomendasi').innerHTML = angka_kredit;
-
-    console.log(d.querySelector('.ak-rekomendasi'))
 
   }
 

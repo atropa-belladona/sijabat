@@ -136,6 +136,15 @@
           'emptyTable': '-- Tidak ada data --'
         }
       });
+
+      var datatable = $('.dt-nopaging-nosearch').DataTable({
+        'searching': false,
+        'paging': false,
+        'bInfo': false,
+        'language': {
+          'emptyTable': '-- Tidak ada data --'
+        }
+      });
     });
   </script>
 

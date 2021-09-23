@@ -106,7 +106,10 @@ class PegawaiModel extends Model
 		// dokumen
 		$data_dokumen = $this->getDokumen($id_sdm);
 
-		$data = array_merge($data, $data_profile, $data_kualifikasi, $data_pela_pendidikan, $data_pela_penelitian, $data_pela_pengabdian, $data_penunjang, $data_dokumen);
+		// log
+		$data_importlogs = $this->getImportLogs($id_sdm);
+
+		$data = array_merge($data, $data_profile, $data_kualifikasi, $data_pela_pendidikan, $data_pela_penelitian, $data_pela_pengabdian, $data_penunjang, $data_dokumen, $data_importlogs);
 
 		return $data;
 	}
@@ -190,6 +193,19 @@ class PegawaiModel extends Model
 		return $data;
 	}
 
+	public function getImportLogs($id_sdm)
+	{
+		$data['import_logs'] = $this->db->table('t_sdm_importlogs as a')->where('id_sdm', $id_sdm)
+			->join('users', 'users.id = a.created_by')
+			->orderBy('created_at', 'desc')
+			->limit(5)
+			->select('a.id, a.ip, a.created_at, users.name')
+			->get()
+			->getResult();
+
+		return $data;
+	}
+
 	// Function to import sdm data from sister unj
 	public function importDataSisterBySDM($id_sdm)
 	{
@@ -230,6 +246,8 @@ class PegawaiModel extends Model
 
 			// get data dokumen SDM
 			$data['dokumen'] = $this->setSDMDokumen($id_sdm);
+
+			$data['logs'] = $this->setImportLog($id_sdm);
 		}
 
 		return $data;
@@ -271,6 +289,27 @@ class PegawaiModel extends Model
 			];
 
 			$this->_insertInto('t_sdm_profile', $data);
+
+			return true;
+		} catch (Exception $ex) {
+			log_message('error', '[ERROR] {exception}', ['exception' => $ex]);
+			return false;
+		}
+	}
+
+	protected function setImportLog($id_sdm)
+	{
+		try {
+
+			$ip_addr = $this->_getClientIpAddress();
+
+			$data = [
+				'id_sdm' => $id_sdm,
+				'ip' => $ip_addr,
+				'created_by' => user()->id
+			];
+
+			$this->_insertInto('t_sdm_importlogs', $data);
 
 			return true;
 		} catch (Exception $ex) {
@@ -900,6 +939,22 @@ class PegawaiModel extends Model
 		}
 	}
 
+
+	// Misc Function
+	protected function _getClientIpAddress()
+	{
+		if (!empty($_SERVER['HTTP_CLIENT_IP']))   //Checking IP From Shared Internet
+		{
+			$ip = $_SERVER['HTTP_CLIENT_IP'];
+		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //To Check IP is Pass From Proxy
+		{
+			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} else {
+			$ip = $_SERVER['REMOTE_ADDR'];
+		}
+
+		return $ip;
+	}
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------
 
