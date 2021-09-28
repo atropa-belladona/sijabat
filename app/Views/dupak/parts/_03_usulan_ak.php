@@ -1,41 +1,46 @@
+<h6 class="font-weight-bold text-primary">Usulan Angka Kredit <?= ($total_ak_usulan > 0) ? '<span class="ml-3 badge badge-warning">' . number_format2($total_ak_usulan) . '</span>' : ''; ?></h6>
+
 <?php if (in_groups('dosen') or in_groups('operator')) : ?>
   <div class="button-actions d-flex py-2">
     <?php foreach ($bidang_kegiatan as $bidang) : ?>
-      <button type="button" class="btn btn-sm <?= $bidang->color; ?> mr-4" data-toggle="modal" data-target="#modal-tambah-kegiatan" data-dupak="<?= $dupak->id; ?>" data-kegiatan="<?= $bidang->id; ?>"><i class="fas fa-fw fa-plus"></i> <?= $bidang->nama; ?></button>
+      <button type="button" class="btn btn-sm btn-outline-success mr-4" data-toggle="modal" data-target="#modal-tambah-kegiatan" data-dupak="<?= $dupak->id; ?>" data-kegiatan="<?= $bidang->id; ?>"><i class="fas fa-fw fa-plus"></i> <?= $bidang->nama; ?></button>
     <?php endforeach ?>
   </div>
 <?php endif ?>
 
-<hr>
-
 <div class="kegiatan py-2">
-  <table class="table table-sm table-success datatable" style="width: 100%;">
+  <table id="table-ak-usulan" class="table table-sm table-success" style="width: 100%;">
     <thead class="bg-dark text-white">
       <tr>
-        <th>No.</th>
-        <th>Jenis Kegiatan</th>
+        <th class="text-center">No.</th>
+        <th>Kategori Kegiatan</th>
         <th>Nama Kegiatan</th>
-        <th>Volume Kegiatan</th>
-        <th>Satuan Hasil</th>
-        <th>Angka Kredit</th>
+        <th class="text-center">Volume Kegiatan</th>
+        <th class="text-center">Satuan Hasil</th>
+        <th class="text-center">Usulan Angka Kredit</th>
+        <th class="text-center">Aksi</th>
       </tr>
     </thead>
     <tbody>
       <?php $i = 1 ?>
       <?php foreach ($dupak_detail as $detail) : ?>
         <tr>
-          <td><?= $i++; ?></td>
-          <td></td>
+          <td class="text-center"><?= $i++; ?></td>
+          <td><?= $detail->kategori_kegiatan; ?></td>
           <td><?= $detail->nama; ?></td>
-          <td><?= $detail->volume; ?></td>
-          <td><?= $detail->satuan_hasil; ?></td>
-          <td><?= $detail->ak_usulan; ?></td>
+          <td class="text-right pr-4"><?= number_format2($detail->volume); ?></td>
+          <td class="text-center"><?= $detail->satuan_hasil; ?></td>
+          <td class="text-right pr-4"><?= number_format2($detail->ak_usulan); ?></td>
+          <td class="text-center">
+            <button class="btn btn-xs btn-warning" title="Detail"><i class="far fa-fw fa-list-alt"></i></button>
+          </td>
         </tr>
       <?php endforeach ?>
     </tbody>
     <tfoot class="bg-dark text-white font-weight-bold">
       <tr>
-        <td class="text-center" colspan="5">Total Usulan Angka Kredit</td>
+        <td class="text-right" colspan="5">Total</td>
+        <td class="text-right pr-4"><?= number_format2($total_ak_usulan); ?></td>
         <td></td>
       </tr>
     </tfoot>
@@ -64,6 +69,12 @@
 
 <?= $this->section('script'); ?>
 <script>
+  $('#table-ak-usulan').DataTable({
+    'paging': false,
+    'searching': false,
+    'bInfo': false
+  });
+
   $('#modal-tambah-kegiatan').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget);
     var id_kegiatan = button.data('kegiatan');
@@ -81,11 +92,11 @@
       success: function(data) {
         $('.modal-preloader').toggleClass('d-none');
 
-        $('.datatable').DataTable().clear().destroy();
+        modal.find('.datatable').DataTable().clear().destroy();
 
         modal.find('.content').html(data);
 
-        $('.datatable').DataTable({
+        modal.find('.datatable').DataTable({
           'responsive': true
         });
 

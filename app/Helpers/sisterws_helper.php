@@ -7,7 +7,7 @@ function getSisterWSOptions()
 {
   $options = [
     'baseURI' => 'http://sister.unj.ac.id/ws.php/1.0/',
-    'timeout'  => 5,
+    'timeout'  => 10,
     'http_errors' => false
   ];
 

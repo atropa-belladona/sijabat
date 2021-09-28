@@ -117,6 +117,10 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 		$routes->get('detail/(:any)/(:any)/kategori', 'DupakController::add_ak/$1/$2', ['as' => 'dupak_addak']);
 		$routes->post('detail/(:any)/(:any)/store', 'DupakController::store_add_ak/$1/$2', ['as' => 'dupak_store_addak']);
 
+		$routes->post('detail/(:any)/upload_dokumen', 'DupakController::store_dupak_dokumen/$1', ['as' => 'dupak_store_dokumen']);
+		$routes->get('detail/(:any)/dokumen', 'DupakController::getDokumenPengantar/$1', ['as' => 'dupak_get_dokumen']);
+		$routes->post('detail/dokumen/delete/(:any)', 'DupakController::deleteDokumenPengantar/$1', ['as' => 'dupak_delete_dokumen']);
+
 		// send dupak
 		$routes->post('detail/(:segment)/kirim', 'DupakController::send_dupak/$1', ['as' => 'dupak_send']);
 

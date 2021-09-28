@@ -135,7 +135,7 @@
   }
 
   function startCalc() {
-    interval = setInterval("calc()", 1000);
+    interval = setInterval("calc()", 500);
   }
 
   function calc() {

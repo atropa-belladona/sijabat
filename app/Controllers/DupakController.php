@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\BidangKegiatanModel;
 use App\Models\DataModel;
 use App\Models\DupakDetailModel;
+use App\Models\DupakDokumenModel;
 use App\Models\DupakModel;
 use App\Models\PegawaiModel;
 use Config\Database;
@@ -21,6 +22,7 @@ class DupakController extends BaseController
     protected $pegawaiModel;
     protected $dupakModel;
     protected $dupakDetailModel;
+    protected $dupakDokumenModel;
 
     protected $bidangKegiatanModel;
 
@@ -36,7 +38,9 @@ class DupakController extends BaseController
         $this->pegawaiModel = new PegawaiModel();
         $this->dupakModel = new DupakModel();
         $this->dupakDetailModel = new DupakDetailModel();
+        $this->dupakDokumenModel = new DupakDokumenModel();
         $this->bidangKegiatanModel = new BidangKegiatanModel();
+
 
         $this->validation = Services::validation();
 
@@ -223,9 +227,11 @@ class DupakController extends BaseController
 
         $data['bidang_kegiatan'] = $this->db->table('r_kegiatan')->where('active', '1')->get()->getResult();
 
-        $data['dupak_detail'] = $this->dupakDetailModel->where('id_dupak', $id_dupak)
-            ->get()
-            ->getResult();
+        $data['dupak_detail'] = $this->dupakDetailModel->getListDetailDupak($id_dupak);
+
+        $data['total_ak_usulan'] = $this->dupakDetailModel->getSumUsulanAngkaKredit($id_dupak);
+
+        $data['dokumen_pengantar'] = $this->dupakDokumenModel->getDokumenByDupakId($id_dupak);
 
         return view('dupak/detail', array_merge($data, $data_sdm, $data_pendidikan));
     }
@@ -380,8 +386,58 @@ class DupakController extends BaseController
         $id_kegiatan = $this->request->getPost('klasifikasi');
         $volume = str_to_int($this->request->getPost('volume'));
         $satuan = trim($this->request->getPost('satuan'));
-        $angka_kredit = str_to_int($this->request->getPost('angka_kredit'));
-        $angka_kredit = str_to_int($this->request->getPost('angka_kredit'));
+        $angka_kredit = str_to_int($this->request->getPost('angka-kredit'));
+        $jumlah_angka_kredit = str_to_int($this->request->getPost('jumlah-angka-kredit'));
+
+        try {
+            $data = [
+                'id_dupak' => $id_dupak,
+                'id_detail' => $id_detail,
+                'id_subkegiatan' => $id_kegiatan,
+                'volume' => $volume,
+                'ak_nilai' => $angka_kredit,
+                'satuan_hasil' => $satuan,
+                'ak_usulan' => $jumlah_angka_kredit,
+            ];
+
+            $this->dupakDetailModel->insert($data);
+
+            return redirect()->route('dupak_detail', [$id_dupak])->with('app_success', 'Angka kredit telah ditambahkan');
+        } catch (Exception $ex) {
+            $err_msg = $ex->getMessage();
+
+            if ($ex->getCode() == '1062') {
+                $err_msg = 'Kegiatan sudah masuk dalam pengajuan.';
+            }
+
+            return redirect()->back()->with('app_error', $err_msg);
+        }
+    }
+
+    public function store_dupak_dokumen($id_dupak)
+    {
+        $file = $this->request->getFile('file');
+
+        $orig_name = $file->getName();
+        $name = seo_friendly_url($orig_name);
+        $ext = $file->guessExtension();
+
+        $file_name = 'f_01_' . rand(0, 9999) . '_' . date('YmdHis') . '_' . $name . '.' . $ext;
+
+        $path = 'dokumen_pengantar/' . $id_dupak . '/';
+
+        $path = $file->store($path, $file_name);
+
+
+        $data = [
+            'id' => $this->uuid->uuid4()->toString(),
+            'id_dupak' => $id_dupak,
+            'nama_dokumen' => $orig_name,
+            'tautan' => $path,
+            'created_by' => user()->id
+        ];
+
+        $this->dupakDokumenModel->insert($data);
     }
 
     public function send_dupak($id_dupak)
@@ -402,6 +458,7 @@ class DupakController extends BaseController
 
             return redirect()->route('dupak_index')->with('app_success', $next_process['pesan']);
         } catch (Exception $ex) {
+
             return redirect()->back()->with('app_error', $ex->getMessage());
         }
     }
@@ -453,6 +510,35 @@ class DupakController extends BaseController
             return redirect()->back()->with('app_error', $ex->getMessage());
         }
     }
+
+    public function getDokumenPengantar($id_dupak)
+    {
+        return \Irsyadulibad\DataTables\DataTables::use('t_dupak_dokumen')
+            ->where(['id_dupak' => $id_dupak])
+            ->addColumn('action', function ($data) {
+                return '<button type="button" class="btn btn-xs btn-outline-danger btn-delete-dokumen" data-id="' . $data->id . '"><i class="fas fa-fw fa-trash"></i></button>';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
+    public function deleteDokumenPengantar($id_dok)
+    {
+        define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
+        define('PUBPATH', str_replace(SELF, '', FCPATH)); // added
+
+        $dokumen = $this->dupakDokumenModel->where('id', $id_dok);
+
+        $dok = $dokumen->get()->getRow();
+
+        $path = PUBPATH . '/uploads/' . $dok->tautan;
+
+        unlink($path);
+
+        $dok2 = $this->dupakDokumenModel->where('id', $id_dok);
+        $dok2->delete();
+    }
+
 
     // protected function
     protected function getNextProcess()
