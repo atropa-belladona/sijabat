@@ -46,7 +46,7 @@
   <!-- /.card -->
 </div>
 
-<?= $this->section('script'); ?>
+<?= $this->section('script1'); ?>
 <script>
   Dropzone.options.myGreatDropzone = { // camelized version of the `id`
     paramName: "file", // The name that will be used to transfer the file

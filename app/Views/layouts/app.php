@@ -150,6 +150,8 @@
 
   <?= $this->renderSection('script'); ?>
 
+  <?= $this->renderSection('script1'); ?>
+
 </body>
 
 </html>

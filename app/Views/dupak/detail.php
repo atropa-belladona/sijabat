@@ -75,7 +75,7 @@
 
         <?php if (in_groups('verifikator') and $dupak->tahap_id == 20) : ?>
           <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Bagian Kepegawaian</button>
-          <button type="button" class="btn btn-sm btn-danger bg-gradient-danger" data-toggle="modal" data-target="#perbaikan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan untuk diperbaiki</button>
+          <button type="button" class="btn btn-sm btn-danger bg-gradient-danger" data-toggle="modal" data-target="#modal-catatan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan untuk diperbaiki</button>
         <?php endif ?>
 
         <?php if (in_groups('koordinator') and $dupak->tahap_id == 30) : ?>
