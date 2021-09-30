@@ -111,7 +111,11 @@ class DataController extends BaseController
 
 		$data_pegawai = $this->db->table('t_pegawai')->get()->getResult();
 
-		dd($data_pegawai);
+		foreach ($data_pegawai as $pegawai) {
+			$data['import'] = $this->pegawaiModel->importDataSisterBySDM($pegawai->id_sdm);
+		}
+
+		return 'selesai';
 	}
 
 	public function import_data_sdm_sister($id_sdm)
