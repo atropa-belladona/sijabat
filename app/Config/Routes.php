@@ -72,6 +72,8 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 		$routes->post('pegawai', 'DataController::pegawai_sinkronisasi', ['as' => 'sinkronisasi_pegawai']);
 		$routes->get('pegawai/(:segment)', 'DataController::pegawai_detail/$1', ['as' => 'detail_pegawai']);
 
+		$routes->get('sinkronalldata', 'DataController::sinkronisasi_all_data', ['as' => 'sinkron_all_data']);
+
 		// referensi related routes
 		$routes->get('referensi', 'DataController::referensi_index', ['as' => 'data_referensi']);
 		$routes->post('referensi', 'DataController::referensi_sinkronisasi', ['as' => 'sinkronisasi_referensi']);

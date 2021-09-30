@@ -105,6 +105,15 @@ class DataController extends BaseController
 		}
 	}
 
+	public function sinkronisasi_all_data()
+	{
+		ini_set('max_execution_time', 1000);
+
+		$data_pegawai = $this->db->table('t_pegawai')->get()->getResult();
+
+		dd($data_pegawai);
+	}
+
 	public function import_data_sdm_sister($id_sdm)
 	{
 		$pegawai = $this->pegawaiModel->where('id_sdm', $id_sdm)->first();
