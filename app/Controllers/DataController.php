@@ -77,6 +77,8 @@ class DataController extends BaseController
 		ini_set('max_execution_time', 300);
 
 		try {
+			helper('sister_ws');
+
 			$response = sister_getDataPegawai();
 
 			if ($response->getStatusCode() == 200) {
