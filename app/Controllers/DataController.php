@@ -77,7 +77,7 @@ class DataController extends BaseController
 		ini_set('max_execution_time', 300);
 
 		try {
-			helper('sister_ws');
+			helper('sisterws');
 
 			$response = sister_getDataPegawai();
 
