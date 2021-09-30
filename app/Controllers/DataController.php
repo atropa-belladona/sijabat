@@ -107,7 +107,7 @@ class DataController extends BaseController
 
 	public function sinkronisasi_all_data()
 	{
-		ini_set('max_execution_time', 1000);
+		ini_set('max_execution_time', 3600);
 
 		$data_pegawai = $this->db->table('t_pegawai')->get()->getResult();
 
