@@ -10,7 +10,7 @@ class DupakDetailModel extends Model
 	protected $returnType           = 'object';
 	protected $protectFields        = true;
 	protected $allowedFields        = [
-		'id_dupak', 'id_detail', 'id_subkegiatan', 'nama', 'volume', 'ak_nilai', 'satuan_hasil', 'ak_usulan', 'ak_setujui', 'keterangan', 'created_by'
+		'id_dupak', 'id_detail', 'id_sistermap', 'id_subkegiatan', 'nama', 'volume', 'ak_nilai', 'satuan_hasil', 'ak_usulan', 'ak_setujui', 'keterangan', 'created_by'
 	];
 
 	// Dates
@@ -37,5 +37,10 @@ class DupakDetailModel extends Model
 		$data = $this->where('id_dupak', $id_dupak)->selectSum('ak_setujui')->get();
 
 		return $data->getRow()->ak_setujui;
+	}
+
+	public function getDetailById($id_usulan)
+	{
+		return $this->db->table('v_dupakdetail')->where('id', $id_usulan)->get();
 	}
 }

@@ -5,7 +5,7 @@
 
 <?= csrf_meta() ?>
 
-<div class="card card-default card-tabs">
+<div class="card card-default card-tabs mb-0">
   <div class="card-header p-0 pt-1">
     <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
       <li class="pt-2 px-3">
@@ -14,17 +14,22 @@
       <li class="nav-item">
         <a class="nav-link active" id="list-dokumen-tab" data-toggle="pill" href="#list-dokumen" role="tab" aria-controls="list-dokumen" aria-selected="true"><i class="fas fa-fw fa-list-alt"></i> List</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" id="upload-dokumen-tab" data-toggle="pill" href="#upload-dokumen" role="tab" aria-controls="upload-dokumen" aria-selected="false"><i class="fas fa-fw fa-upload"></i> Upload</a>
-      </li>
+      <?php if (in_groups('operator')) : ?>
+        <?php if ($dupak->tahap_id == 1 or $dupak->tahap_id == 10 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45) : ?>
+          <li class="nav-item">
+            <a class="nav-link" id="upload-dokumen-tab" data-toggle="pill" href="#upload-dokumen" role="tab" aria-controls="upload-dokumen" aria-selected="false"><i class="fas fa-fw fa-upload"></i> Upload</a>
+          </li>
+        <?php endif ?>
+      <?php endif ?>
     </ul>
   </div>
-  <div class="card-body p-1">
+  <div class="card-body py-2">
     <div class="tab-content" id="custom-tabs-two-tabContent">
       <div class="tab-pane fade show active" id="list-dokumen" role="tabpanel" aria-labelledby="list-dokumen-tab">
         <table id="table-dokumen-pengantar" class="table table-sm table-warning" style="width: 100%;">
           <thead class="bg-dark text-white">
             <tr>
+              <th>No.</th>
               <th>Nama Dokumen</th>
               <th>Tautan</th>
               <th>Aksi</th>
@@ -36,11 +41,15 @@
 
         </table>
       </div>
-      <div class="tab-pane fade" id="upload-dokumen" role="tabpanel" aria-labelledby="upload-dokumen-tab">
-        <div class="upload-dokumen">
-          <form action="<?= route_to('dupak_store_dokumen', $dupak->id); ?>" class="dropzone" id="my-great-dropzone"></form>
-        </div>
-      </div>
+      <?php if (in_groups('operator')) : ?>
+        <?php if ($dupak->tahap_id == 1 or $dupak->tahap_id == 10 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45) : ?>
+          <div class="tab-pane fade" id="upload-dokumen" role="tabpanel" aria-labelledby="upload-dokumen-tab">
+            <div class="upload-dokumen">
+              <form action="<?= route_to('dupak_store_dokumen', $dupak->id); ?>" class="dropzone" id="my-great-dropzone"></form>
+            </div>
+          </div>
+        <?php endif ?>
+      <?php endif ?>
     </div>
   </div>
   <!-- /.card -->
@@ -51,13 +60,7 @@
   Dropzone.options.myGreatDropzone = { // camelized version of the `id`
     paramName: "file", // The name that will be used to transfer the file
     maxFilesize: 2, // MB
-    accept: function(file, done) {
-      if (file.name == "") {
-        done("Naha, you don't.");
-      } else {
-        done();
-      }
-    }
+    acceptedFiles: "application/pdf"
   };
 
   var tdp = $('#table-dokumen-pengantar').DataTable({
@@ -67,18 +70,38 @@
       url: "<?= route_to('dupak_get_dokumen', $dupak->id); ?>"
     },
     columns: [{
+        data: null,
+        orderable: false,
+        className: 'text-center',
+        render: function(data, type, row, meta) {
+          return meta.row + meta.settings._iDisplayStart + 1;
+        }
+      },
+      {
         data: 'nama_dokumen',
         name: 'nama_dokumen'
       },
       {
         data: 'tautan',
+        className: 'text-center ',
         render: function(data) {
-          return '<a href="<?= base_url() ?>/uploads/' + data + '" target="_blank">Lihat</a>'
+          return '<a href="<?= base_url() ?>/uploads/' + data + '" target="_blank"><u>Lihat</u></a>'
         }
       },
       {
         data: 'action',
-        name: 'action'
+        name: 'action',
+        className: 'text-center',
+        orderable: false,
+        render: function(data) {
+          var tahap_id = "<?= $dupak->tahap_id; ?>";
+
+          if (tahap_id == 1 || tahap_id == 10 || tahap_id == 25 || tahap_id == 45) {
+            return data;
+          }
+
+          return '';
+        }
       }
     ]
   });

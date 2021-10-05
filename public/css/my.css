@@ -4,6 +4,11 @@ body {
 
 .content-wrapper {
   background-color: #eeffdd !important;
+  /* background-image: url("/img/background_logo.jpg"); */
+  background-position: center;
+  background-size: auto;
+  background-repeat: repeat;
+  background-blend-mode: luminosity;
 }
 
 .brand-link {

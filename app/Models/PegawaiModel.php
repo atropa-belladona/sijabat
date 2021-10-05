@@ -253,11 +253,18 @@ class PegawaiModel extends Model
 		return $data;
 	}
 
-	protected function _insertInto($table, $data)
+	protected function _replaceInto($table, $data)
 	{
 		$builder = $this->db->table($table);
 
 		$builder->replace($data);
+	}
+
+	protected function _insertInto($table, $data)
+	{
+		$builder = $this->db->table($table);
+
+		$builder->insert($data);
 	}
 
 	protected function setSDMProfile($id_sdm)
@@ -288,7 +295,7 @@ class PegawaiModel extends Model
 				'foto' => $foto
 			];
 
-			$this->_insertInto('t_sdm_profile', $data);
+			$this->_replaceInto('t_sdm_profile', $data);
 
 			return true;
 		} catch (Exception $ex) {
@@ -338,7 +345,7 @@ class PegawaiModel extends Model
 					'tanggal_keluar' => $item->tanggal_keluar,
 				];
 
-				$this->_insertInto('t_sdm_penugasan', $data);
+				$this->_replaceInto('t_sdm_penugasan', $data);
 			}
 
 			return true;
@@ -365,7 +372,7 @@ class PegawaiModel extends Model
 					'tanggal_mulai' => $item->tanggal_mulai,
 				];
 
-				$this->_insertInto('t_sdm_jabfung', $data);
+				$this->_replaceInto('t_sdm_jabfung', $data);
 			}
 
 			return true;
@@ -392,7 +399,7 @@ class PegawaiModel extends Model
 					'pangkat_golongan' => $item->pangkat_golongan,
 				];
 
-				$this->_insertInto('t_sdm_kepangkatan', $data);
+				$this->_replaceInto('t_sdm_kepangkatan', $data);
 			}
 
 			return true;
@@ -420,7 +427,7 @@ class PegawaiModel extends Model
 					'tahun_lulus' => $item->tahun_lulus,
 				];
 
-				$this->_insertInto('t_sdm_pendidikan', $data);
+				$this->_replaceInto('t_sdm_pendidikan', $data);
 			}
 
 			return true;
@@ -449,7 +456,7 @@ class PegawaiModel extends Model
 					'mata_kuliah' => $item->mata_kuliah,
 				];
 
-				$this->_insertInto('t_sdm_pengajaran', $data);
+				$this->_replaceInto('t_sdm_pengajaran', $data);
 			}
 
 			return true;
@@ -475,7 +482,7 @@ class PegawaiModel extends Model
 					'tanggal' => $item->tanggal,
 				];
 
-				$this->_insertInto('t_sdm_visitingscientist', $data);
+				$this->_replaceInto('t_sdm_visitingscientist', $data);
 			}
 
 			return true;
@@ -504,7 +511,7 @@ class PegawaiModel extends Model
 					'tanggal_terbit' => $item->tanggal_terbit,
 				];
 
-				$this->_insertInto('t_sdm_bahanajar', $data);
+				$this->_replaceInto('t_sdm_bahanajar', $data);
 			}
 
 			return true;
@@ -532,7 +539,7 @@ class PegawaiModel extends Model
 					'tanggal_sk_penugasan' => $item->tanggal_sk_penugasan,
 				];
 
-				$this->_insertInto('t_sdm_detasering', $data);
+				$this->_replaceInto('t_sdm_detasering', $data);
 			}
 
 			return true;
@@ -559,7 +566,7 @@ class PegawaiModel extends Model
 					'tanggal_pelaksanaan' => $item->tanggal_pelaksanaan,
 				];
 
-				$this->_insertInto('t_sdm_orasi', $data);
+				$this->_replaceInto('t_sdm_orasi', $data);
 			}
 
 			return true;
@@ -586,7 +593,7 @@ class PegawaiModel extends Model
 					'tanggal_selesai' => $item->tanggal_selesai,
 				];
 
-				$this->_insertInto('t_sdm_pembimbingdosen', $data);
+				$this->_replaceInto('t_sdm_pembimbingdosen', $data);
 			}
 
 			return true;
@@ -614,7 +621,7 @@ class PegawaiModel extends Model
 					'tanggal_selesai_tugas' => $item->tanggal_selesai_tugas,
 				];
 
-				$this->_insertInto('t_sdm_tugastambahan', $data);
+				$this->_replaceInto('t_sdm_tugastambahan', $data);
 			}
 
 			return true;
@@ -641,7 +648,7 @@ class PegawaiModel extends Model
 					'lama_kegiatan' => $item->lama_kegiatan,
 				];
 
-				$this->_insertInto('t_sdm_penelitian', $data);
+				$this->_replaceInto('t_sdm_penelitian', $data);
 			}
 
 			return true;
@@ -671,7 +678,7 @@ class PegawaiModel extends Model
 					'asal_data' => $item->asal_data,
 				];
 
-				$this->_insertInto('t_sdm_publikasi', $data);
+				$this->_replaceInto('t_sdm_publikasi', $data);
 			}
 
 			return true;
@@ -700,7 +707,7 @@ class PegawaiModel extends Model
 					'tanggal' => $item->tanggal,
 				];
 
-				$this->_insertInto('t_sdm_hkipaten', $data);
+				$this->_replaceInto('t_sdm_hkipaten', $data);
 			}
 
 			return true;
@@ -727,7 +734,7 @@ class PegawaiModel extends Model
 					'lama_kegiatan' => $item->lama_kegiatan,
 				];
 
-				$this->_insertInto('t_sdm_pengabdian', $data);
+				$this->_replaceInto('t_sdm_pengabdian', $data);
 			}
 
 			return true;
@@ -757,7 +764,7 @@ class PegawaiModel extends Model
 					'aktif' => $item->aktif,
 				];
 
-				$this->_insertInto('t_sdm_pengelolajurnal', $data);
+				$this->_replaceInto('t_sdm_pengelolajurnal', $data);
 			}
 
 			return true;
@@ -784,7 +791,7 @@ class PegawaiModel extends Model
 					'tanggal_pelaksanaan' => $item->tanggal_pelaksanaan,
 				];
 
-				$this->_insertInto('t_sdm_pembicara', $data);
+				$this->_replaceInto('t_sdm_pembicara', $data);
 			}
 
 			return true;
@@ -811,7 +818,7 @@ class PegawaiModel extends Model
 					'tanggal_selesai_jabatan' => $item->tanggal_selesai_jabatan,
 				];
 
-				$this->_insertInto('t_sdm_jabstruk', $data);
+				$this->_replaceInto('t_sdm_jabstruk', $data);
 			}
 
 			return true;
@@ -839,7 +846,7 @@ class PegawaiModel extends Model
 					'instansi_profesi' => $item->instansi_profesi,
 				];
 
-				$this->_insertInto('t_sdm_anggotaprofesi', $data);
+				$this->_replaceInto('t_sdm_anggotaprofesi', $data);
 			}
 
 			return true;
@@ -867,7 +874,7 @@ class PegawaiModel extends Model
 					'instansi_pemberi' => $item->instansi_pemberi,
 				];
 
-				$this->_insertInto('t_sdm_penghargaan', $data);
+				$this->_replaceInto('t_sdm_penghargaan', $data);
 			}
 
 			return true;
@@ -896,7 +903,7 @@ class PegawaiModel extends Model
 					'peran' => $item->peran,
 				];
 
-				$this->_insertInto('t_sdm_penunjanglain', $data);
+				$this->_replaceInto('t_sdm_penunjanglain', $data);
 			}
 
 			return true;
@@ -929,7 +936,7 @@ class PegawaiModel extends Model
 					'jenis_file' => $item->jenis_file,
 				];
 
-				$this->_insertInto('t_sdm_dokumen', $data);
+				$this->_replaceInto('t_sdm_dokumen', $data);
 			}
 
 			return true;
@@ -943,14 +950,21 @@ class PegawaiModel extends Model
 	// Misc Function
 	protected function _getClientIpAddress()
 	{
-		if (!empty($_SERVER['HTTP_CLIENT_IP']))   //Checking IP From Shared Internet
-		{
-			$ip = $_SERVER['HTTP_CLIENT_IP'];
-		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //To Check IP is Pass From Proxy
-		{
-			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		// Get real visitor IP behind CloudFlare network
+		if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+			$_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+			$_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+		}
+		$client  = @$_SERVER['HTTP_CLIENT_IP'];
+		$forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+		$remote  = $_SERVER['REMOTE_ADDR'];
+
+		if (filter_var($client, FILTER_VALIDATE_IP)) {
+			$ip = $client;
+		} elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
+			$ip = $forward;
 		} else {
-			$ip = $_SERVER['REMOTE_ADDR'];
+			$ip = $remote;
 		}
 
 		return $ip;

@@ -114,10 +114,11 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 
 		// list usulan by kategori kegiatan route
 		$routes->get('detail/(:segment)/list', 'DupakController::list_usulan/$1', ['as' => 'dupak_list', 'filter' => 'role:dosen,operator']);
+		$routes->get('detail/(:segment)/kegiatan', 'DupakController::show_add_ak/$1', ['as' => 'dupak_detail_kegiatan']);
 
 		// add dupak component
 		$routes->get('detail/(:any)/(:any)/kategori', 'DupakController::add_ak/$1/$2', ['as' => 'dupak_addak']);
-		$routes->post('detail/(:any)/(:any)/store', 'DupakController::store_add_ak/$1/$2', ['as' => 'dupak_store_addak']);
+		$routes->post('detail/(:any)/(:any)/(:any)/store', 'DupakController::store_add_ak/$1/$2/$3', ['as' => 'dupak_store_addak']);
 
 		$routes->post('detail/(:any)/upload_dokumen', 'DupakController::store_dupak_dokumen/$1', ['as' => 'dupak_store_dokumen']);
 		$routes->get('detail/(:any)/dokumen', 'DupakController::getDokumenPengantar/$1', ['as' => 'dupak_get_dokumen']);

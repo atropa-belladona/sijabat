@@ -7,6 +7,7 @@ use App\Models\BidangKegiatanModel;
 use App\Models\DataModel;
 use App\Models\DupakDetailModel;
 use App\Models\DupakDokumenModel;
+use App\Models\DupakLogModel;
 use App\Models\DupakModel;
 use App\Models\PegawaiModel;
 use Config\Database;
@@ -23,6 +24,7 @@ class DupakController extends BaseController
     protected $dupakModel;
     protected $dupakDetailModel;
     protected $dupakDokumenModel;
+    protected $dupakLogModel;
 
     protected $bidangKegiatanModel;
 
@@ -39,6 +41,7 @@ class DupakController extends BaseController
         $this->dupakModel = new DupakModel();
         $this->dupakDetailModel = new DupakDetailModel();
         $this->dupakDokumenModel = new DupakDokumenModel();
+        $this->dupakLogModel = new DupakLogModel();
         $this->bidangKegiatanModel = new BidangKegiatanModel();
 
 
@@ -58,6 +61,7 @@ class DupakController extends BaseController
         } else {
             $data['dupak'] = $this->dupakModel->getListUsulan();
         }
+
 
         return view('dupak/index', $data);
     }
@@ -233,6 +237,8 @@ class DupakController extends BaseController
 
         $data['dokumen_pengantar'] = $this->dupakDokumenModel->getDokumenByDupakId($id_dupak);
 
+        $data['dupak_logs'] = $this->dupakLogModel->getLogsById($id_dupak)->getResult();
+
         return view('dupak/detail', array_merge($data, $data_sdm, $data_pendidikan));
     }
 
@@ -348,7 +354,7 @@ class DupakController extends BaseController
         return view('dupak/add_ak', $data);
     }
 
-    public function store_add_ak($id_dupak, $id_detail)
+    public function store_add_ak($id_dupak, $id_detail, $id_map)
     {
         $rules = $this->validation->setRules(
             [
@@ -393,11 +399,13 @@ class DupakController extends BaseController
             $data = [
                 'id_dupak' => $id_dupak,
                 'id_detail' => $id_detail,
+                'id_sistermap' => $id_map,
                 'id_subkegiatan' => $id_kegiatan,
                 'volume' => $volume,
                 'ak_nilai' => $angka_kredit,
                 'satuan_hasil' => $satuan,
                 'ak_usulan' => $jumlah_angka_kredit,
+                'created_by' => user_id()
             ];
 
             $this->dupakDetailModel->insert($data);
@@ -412,6 +420,34 @@ class DupakController extends BaseController
 
             return redirect()->back()->with('app_error', $err_msg);
         }
+    }
+
+    public function show_add_ak($id_dupak)
+    {
+        $id_usulan = $this->request->getGet('id_usulan');
+
+        $usulan = $this->dupakDetailModel->where('id', $id_usulan)->get()->getRow();
+
+        // main process
+        $sister_map = $this->dataModel->getDetailSisterMapping($usulan->id_sistermap);
+        $data['sister_map'] = $sister_map;
+
+        helper('sisterws');
+
+        if ($sister_map->parameter_type == 'path') {
+            $sister_response = sister_path_getDataByID($sister_map->api_uri, $usulan->id_detail);
+        }
+
+        if ($sister_response->getStatusCode() != 200) {
+            return redirect()->back()->with('app_error', $sister_response->getReason());
+        }
+
+        $sister_detail = json_decode($sister_response->getBody());
+        $data['sister_detail'] = $sister_detail;
+
+        $data['detail_usulan'] = $this->dupakDetailModel->getDetailById($id_usulan)->getRow();
+
+        return view('dupak/parts/modal-content/_99_detail_usulan', $data);
     }
 
     public function store_dupak_dokumen($id_dupak)
@@ -516,7 +552,11 @@ class DupakController extends BaseController
         return \Irsyadulibad\DataTables\DataTables::use('t_dupak_dokumen')
             ->where(['id_dupak' => $id_dupak])
             ->addColumn('action', function ($data) {
-                return '<button type="button" class="btn btn-xs btn-outline-danger btn-delete-dokumen" data-id="' . $data->id . '"><i class="fas fa-fw fa-trash"></i></button>';
+                if ($data->created_by == user()->id) {
+                    return '<button type="button" class="btn btn-xs btn-outline-danger btn-delete-dokumen" data-id="' . $data->id . '"><i class="fas fa-fw fa-trash"></i></button>';
+                }
+
+                return '';
             })
             ->rawColumns(['action'])
             ->make(true);

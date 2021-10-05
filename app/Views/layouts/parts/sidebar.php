@@ -1,8 +1,8 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="<?=route_to('home')?>" class="brand-link d-flex align-items-center">
-        <img src="<?=base_url();?>/img/logo_unj.png" alt="SIJABAT Logo" class="brand-image" style="opacity: .8">
+      <a href="<?= route_to('home') ?>" class="brand-link d-flex align-items-center">
+        <img src="<?= base_url(); ?>/img/logo_unj.png" alt="SIJABAT Logo" class="brand-image" style="opacity: .8">
         <span class="brand-text font-weigh-bolder ml-4 text-lg" style="opacity: .8">SIJABAT</span>
       </a>
 
@@ -16,93 +16,96 @@
                with font-awesome or any other icon font library -->
 
             <!-- Role Dosen Sidebar Menu -->
-            <?php if (in_groups('dosen')): ?>
+            <?php if (in_groups('dosen')) : ?>
               <!-- Menu DUPAK -->
               <li class="nav-header">DUPAK</li>
               <li class="nav-item">
-                <a href="<?=route_to('dupak_create');?>" class="nav-link <?=(isset($menu) and $menu == 'dupak-buat') ? 'active' : '';?>">
+                <a href="<?= route_to('dupak_create'); ?>" class="nav-link <?= (isset($menu) and $menu == 'dupak-buat') ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-file-medical"></i>
                   <p>Buat Usulan</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?=route_to('dupak_index');?>" class="nav-link <?=(isset($menu) and $menu == 'dupak-daftar') ? 'active' : '';?>">
+                <a href="<?= route_to('dupak_index'); ?>" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-list-alt"></i>
                   <p>Daftar Usulan</p>
                 </a>
               </li>
 
-              <!-- Profil -->
-              <hr class="sidebar-divider">
-              <li class="nav-header">Profil</li>
-              <li class="nav-item">
-                <a href="<?=route_to('dosen-dokumen');?>" class="nav-link <?=(isset($menu) and $menu == 'dokumen-dosen') ? 'active' : '';?>">
-                  <i class="nav-icon fas fa-fw fa-briefcase"></i>
-                  <p>Dokumen</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="<?=route_to('dosen-rekap');?>" class="nav-link <?=(isset($menu) and $menu == 'rekap-dosen') ? 'active' : '';?>">
-                  <i class="nav-icon fas fa-fw fa-table"></i>
-                  <p>Rekap</p>
-                </a>
-              </li>
-            <?php endif;?>
+              <?php if (false) : ?>
+                <!-- Profil -->
+                <hr class="sidebar-divider">
+                <li class="nav-header">Profil</li>
+                <li class="nav-item">
+                  <a href="<?= route_to('dosen-dokumen'); ?>" class="nav-link <?= (isset($menu) and $menu == 'dokumen-dosen') ? 'active' : ''; ?>">
+                    <i class="nav-icon fas fa-fw fa-briefcase"></i>
+                    <p>Dokumen</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<?= route_to('dosen-rekap'); ?>" class="nav-link <?= (isset($menu) and $menu == 'rekap-dosen') ? 'active' : ''; ?>">
+                    <i class="nav-icon fas fa-fw fa-table"></i>
+                    <p>Rekap</p>
+                  </a>
+                </li>
+              <?php endif ?>
+
+            <?php endif; ?>
 
             <!-- Role Operator Unit Sidebar Menu -->
-            <?php if (in_groups('operator')): ?>
+            <?php if (in_groups('operator')) : ?>
               <!-- Menu DUPAK -->
               <li class="nav-header">Menu</li>
               <li class="nav-item">
-                <a href="<?=route_to('pegawai_index');?>" class="nav-link <?=(isset($menu) and ($menu == 'dupak-buat' or $menu == 'pegawai-index')) ? 'active' : '';?>">
+                <a href="<?= route_to('pegawai_index'); ?>" class="nav-link <?= (isset($menu) and ($menu == 'dupak-buat' or $menu == 'pegawai-index')) ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-file-medical"></i>
                   <p>Daftar Pegawai</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?=route_to('dupak_index');?>" class="nav-link <?=(isset($menu) and $menu == 'dupak-daftar') ? 'active' : '';?>">
+                <a href="<?= route_to('dupak_index'); ?>" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-list-alt"></i>
                   <p>Daftar Usulan</p>
                 </a>
               </li>
-            <?php endif;?>
+            <?php endif; ?>
 
             <!-- Role Verifikator Unit Sidebar Menu -->
-            <?php if (in_groups('verifikator')): ?>
+            <?php if (in_groups('verifikator')) : ?>
               <!-- Menu DUPAK -->
               <li class="nav-header">DUPAK</li>
               <li class="nav-item">
-                <a href="<?=route_to('dupak_index');?>" class="nav-link <?=(isset($menu) and $menu == 'dupak-daftar') ? 'active' : '';?>">
+                <a href="<?= route_to('dupak_index'); ?>" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-list-alt"></i>
                   <p>Daftar Usulan</p>
                 </a>
               </li>
-            <?php endif;?>
+            <?php endif; ?>
 
             <!-- Role Reviewer Unit Sidebar Menu -->
-            <?php if (in_groups('reviewer')): ?>
+            <?php if (in_groups('reviewer')) : ?>
               <!-- Menu DUPAK -->
               <li class="nav-header">DUPAK</li>
               <li class="nav-item">
-                <a href="<?=route_to('dupak_index');?>" class="nav-link <?=(isset($menu) and $menu == 'dupak-daftar') ? 'active' : '';?>">
+                <a href="<?= route_to('dupak_index'); ?>" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-list-alt"></i>
                   <p>Daftar Usulan</p>
                 </a>
               </li>
-            <?php endif;?>
+            <?php endif; ?>
 
             <!-- Role Koordinator Sidebar Menu -->
-            <?php if (in_groups('koordinator')): ?>
+            <?php if (in_groups('koordinator')) : ?>
               <!-- Menu Utama -->
               <li class="nav-header">Menu Utama</li>
               <li class="nav-item">
-                <a href="<?=route_to('periode_penilaian');?>" class="nav-link <?=(isset($menu) and $menu == 'periode-penilaian') ? 'active' : '';?>">
+                <a href="<?= route_to('periode_penilaian'); ?>" class="nav-link <?= (isset($menu) and $menu == 'periode-penilaian') ? 'active' : ''; ?>">
                   <i class="nav-icon far fa-fw fa-clock"></i>
                   <p>Periode Penilaian</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?=route_to('dupak_index');?>" class="nav-link <?=(isset($menu) and $menu == 'dupak-daftar') ? 'active' : '';?>">
+                <a href="<?= route_to('dupak_index'); ?>" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-list-alt"></i>
                   <p>Daftar Usulan</p>
                 </a>
@@ -110,33 +113,33 @@
 
               <!-- Menu Basis Data -->
               <hr class="sidebar-divider">
-              <li class="nav-header">Basis Data</li>
+              <li class="nav-header">Database</li>
               <li class="nav-item">
-                <a href="<?=route_to('data_pegawai');?>" class="nav-link <?=(isset($menu) and $menu == 'data-pegawai') ? 'active' : '';?>">
+                <a href="<?= route_to('data_pegawai'); ?>" class="nav-link <?= (isset($menu) and $menu == 'data-pegawai') ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-user-graduate"></i>
                   <p>Pegawai</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?=route_to('data_referensi');?>" class="nav-link <?=(isset($menu) and $menu == 'data-referensi') ? 'active' : '';?>">
+                <a href="<?= route_to('data_referensi'); ?>" class="nav-link <?= (isset($menu) and $menu == 'data-referensi') ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-database"></i>
                   <p>Referensi</p>
                 </a>
               </li>
 
-            <?php endif?>
+            <?php endif ?>
 
-            <?php if (in_groups('administrator')): ?>
+            <?php if (in_groups('administrator')) : ?>
               <!-- Menu Data -->
               <li class="nav-header">Data</li>
               <li class="nav-item">
-                <a href="<?=route_to('data_pegawai');?>" class="nav-link <?=(isset($menu) and $menu == 'data-pegawai') ? 'active' : '';?>">
+                <a href="<?= route_to('data_pegawai'); ?>" class="nav-link <?= (isset($menu) and $menu == 'data-pegawai') ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-user-graduate"></i>
                   <p>Pegawai</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?=route_to('data_referensi');?>" class="nav-link <?=(isset($menu) and $menu == 'data-referensi') ? 'active' : '';?>">
+                <a href="<?= route_to('data_referensi'); ?>" class="nav-link <?= (isset($menu) and $menu == 'data-referensi') ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-database"></i>
                   <p>Referensi</p>
                 </a>
@@ -146,12 +149,12 @@
               <hr class="sidebar-divider">
               <li class="nav-header">Pengaturan</li>
               <li class="nav-item">
-                <a href="<?=route_to('user_list');?>" class="nav-link <?=(isset($menu) and $menu == 'setting-user') ? 'active' : '';?>">
+                <a href="<?= route_to('user_list'); ?>" class="nav-link <?= (isset($menu) and $menu == 'setting-user') ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-users"></i>
                   <p>Pengguna</p>
                 </a>
               </li>
-            <?php endif;?>
+            <?php endif; ?>
 
 
             <!-- Contoh Menu -->

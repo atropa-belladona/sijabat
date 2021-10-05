@@ -74,7 +74,7 @@ class DataController extends BaseController
 	// Function to synchronize pegawai data with SISTER
 	public function pegawai_sinkronisasi()
 	{
-		ini_set('max_execution_time', 300);
+		ini_set('max_execution_time', 600);
 
 		try {
 			helper('sisterws');

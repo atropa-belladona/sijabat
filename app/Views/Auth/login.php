@@ -110,8 +110,17 @@
       <div id="login-box" class="card">
         <div class="card-body">
           <div class="row">
-            <div class="col-md-6 d-flex justify-content-center align-items-center mb-2">
+            <div class="col-md-6 d-flex flex-column justify-content-center align-items-center mb-2">
               <img src="<?= base_url('img/logo_unj_green.png'); ?>" width="auto" height="250" />
+              <?php if ($_SERVER['CI_ENVIRONMENT'] == 'development') : ?>
+                <div>
+                  Dosen : [nidn] [nidn] ;
+                  Operator Unit : operator_unit operator ;
+                  Verifikator unit : verifikator verifikator123 ;
+                  Koordinator BUK : koordinator koordinator123 ;
+                  Tim Penilai PAK : reviewer reviewer123 ;
+                </div>
+              <?php endif ?>
             </div>
             <div class="col-md-6">
               <form action="<?= route_to('login') ?>" method="post">

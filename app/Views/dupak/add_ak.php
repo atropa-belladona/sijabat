@@ -19,7 +19,7 @@
 
 <div class="form-input">
   <h6 class="font-weight-bold text-muted mb-2">Formulir Isian Kegiatan</h6>
-  <form name="f1" action="<?= route_to('dupak_store_addak', $dupak->id, $sister_detail->id); ?>" method="POST">
+  <form name="f1" action="<?= route_to('dupak_store_addak', $dupak->id, $sister_detail->id, $sister_map->id); ?>" method="POST">
     <?= csrf_field(); ?>
     <div class="form-group row">
       <label for="klasifikasi" class="col-lg-2 col-form-label text-right">Klasifikasi Kegiatan</label>

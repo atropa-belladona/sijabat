@@ -9,6 +9,12 @@
 </ol>
 <?= $this->endSection() ?>
 
+<?= $this->section('right-button-menu'); ?>
+<div class="right-button">
+  <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modal-logs"><i class="fas fa-history"></i> Lihat sejarah usulan</button>
+</div>
+<?= $this->endSection(); ?>
+
 <!-- content section -->
 <?= $this->section('content') ?>
 <div class="row">
@@ -52,43 +58,43 @@
 </div>
 
 <hr class="bt-5">
-<div class="row">
+<div class="row mb-0">
   <div class="col-lg-8 col-md-12">
-    <section class="dokumen-pengantar">
-      <!-- include view parts 03 usulan angka kredit -->
-      <?= $this->include('dupak/parts/_04_dokumen_pengantar'); ?>
-    </section>
+    <?php if ($dupak->tahap_id > 1) : ?>
+      <section class="dokumen-pengantar">
+        <!-- include view parts 03 usulan angka kredit -->
+        <?= $this->include('dupak/parts/_04_dokumen_pengantar'); ?>
+      </section>
+    <?php endif ?>
   </div>
   <div class="col d-flex flex-row-reverse align-items-end">
     <!-- button actions -->
-    <div class="kirim">
-      <form action="<?= route_to('dupak_send', $dupak->id); ?>" method="POST" class=" d-flex flex-row-reverse justify-content-between">
-        <?= csrf_field(); ?>
+    <form action="<?= route_to('dupak_send', $dupak->id); ?>" method="POST" class="d-flex flex-column justify-content-between">
+      <?= csrf_field(); ?>
 
-        <?php if (in_groups('dosen') and ($dupak->tahap_id == 1 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45)) : ?>
-          <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Admin Fakultas</button>
-        <?php endif ?>
+      <?php if (in_groups('dosen') and ($dupak->tahap_id == 1 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45)) : ?>
+        <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Admin Fakultas</button>
+      <?php endif ?>
 
-        <?php if (in_groups('operator') and ($dupak->tahap_id == 1 or $dupak->tahap_id == 10 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45)) : ?>
-          <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Verifikator Fakultas</button>
-        <?php endif ?>
+      <?php if (in_groups('operator') and ($dupak->tahap_id == 1 or $dupak->tahap_id == 10 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45)) : ?>
+        <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Verifikator Fakultas</button>
+      <?php endif ?>
 
-        <?php if (in_groups('verifikator') and $dupak->tahap_id == 20) : ?>
-          <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Bagian Kepegawaian</button>
-          <button type="button" class="btn btn-sm btn-danger bg-gradient-danger" data-toggle="modal" data-target="#modal-catatan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan untuk diperbaiki</button>
-        <?php endif ?>
+      <?php if (in_groups('verifikator') and $dupak->tahap_id == 20) : ?>
+        <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modal-catatan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan untuk diperbaiki</button>
+        <button type="submit" class="btn btn-sm btn-success bg-gradient-success mt-4"><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Bagian Kepegawaian</button>
+      <?php endif ?>
 
-        <?php if (in_groups('koordinator') and $dupak->tahap_id == 30) : ?>
-          <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Tim Penilai PAK</button>
-        <?php endif ?>
+      <?php if (in_groups('koordinator') and $dupak->tahap_id == 30) : ?>
+        <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Tim Penilai PAK</button>
+      <?php endif ?>
 
-        <?php if (in_groups('reviewer') and $dupak->tahap_id == 40) : ?>
-          <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="far fa-fw fa-thumbs-up"></i> Setujui dan Kirim ke Bagian Kepegawaian</button>
-          <button type="button" class="btn btn-sm btn-default bg-gradient-default" data-toggle="modal" data-target="#modal-alasan"><i class="far fa-fw fa-thumbs-down"></i> Tolak Usulan</button>
-          <button type="button" class="btn btn-sm btn-danger bg-gradient-danger" data-toggle="modal" data-target="#modal-catatan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan untuk diperbaiki</button>
-        <?php endif ?>
-      </form>
-    </div>
+      <?php if (in_groups('reviewer') and $dupak->tahap_id == 40) : ?>
+        <button type="button" class="btn btn-sm btn-danger bg-gradient-danger" data-toggle="modal" data-target="#modal-catatan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan untuk diperbaiki</button>
+        <button type="button" class="btn btn-sm btn-default bg-gradient-default" data-toggle="modal" data-target="#modal-alasan"><i class="far fa-fw fa-thumbs-down"></i> Tolak Usulan</button>
+        <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="far fa-fw fa-thumbs-up"></i> Setujui dan Kirim ke Bagian Kepegawaian</button>
+      <?php endif ?>
+    </form>
     <!-- /. button actions -->
   </div>
 </div>
@@ -150,6 +156,46 @@
             </div>
           </div>
         </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-logs">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h6 class="modal-title font-weight-bold">Sejarah Usulan</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-sm">
+          <thead class="bg-dark text-white">
+            <tr>
+              <th>No.</th>
+              <th>Tahap</th>
+              <th>Waktu</th>
+              <th>Oleh</th>
+              <th>Keterangan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php $i = 1 ?>
+            <?php foreach ($dupak_logs as $log) : ?>
+              <tr>
+                <td><?= $i++; ?></td>
+                <td><?= $log->ur_tahap; ?></td>
+                <td><?= $log->created_at; ?></td>
+                <td><?= $log->created_by; ?></td>
+                <td><?= $log->keterangan; ?></td>
+              </tr>
+            <?php endforeach ?>
+          </tbody>
+        </table>
       </div>
 
     </div>

@@ -44,6 +44,17 @@ class DupakModel extends Model
 		return $data->getResult();
 	}
 
+	public function getListUsulanByTahapId($tahap_id = [])
+	{
+		return $this->join('t_periode_penilaian as tpp', 'tpp.id = t_dupak.id_periode')
+			->join('r_tahap rt', 'rt.id = t_dupak.tahap_id')
+			->where('t_dupak.active', '1')
+			->whereIn('t_dupak.tahap_id', $tahap_id)
+			->orderBy('t_dupak.tahap_id', 'asc')
+			->select('t_dupak.*, tpp.tgl_mulai, tpp.tgl_selesai, tpp.keterangan, tpp.lock, rt.ur_tahap, rt.bg_color')
+			->get();
+	}
+
 	public function getListUsulanPegawai($nidn)
 	{
 		$data = $this->join('t_periode_penilaian as tpp', 'tpp.id = t_dupak.id_periode')
