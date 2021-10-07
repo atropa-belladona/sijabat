@@ -90,9 +90,9 @@
       <?php endif ?>
 
       <?php if (in_groups('reviewer') and $dupak->tahap_id == 40) : ?>
-        <button type="button" class="btn btn-sm btn-danger bg-gradient-danger" data-toggle="modal" data-target="#modal-catatan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan untuk diperbaiki</button>
-        <button type="button" class="btn btn-sm btn-default bg-gradient-default" data-toggle="modal" data-target="#modal-alasan"><i class="far fa-fw fa-thumbs-down"></i> Tolak Usulan</button>
-        <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="far fa-fw fa-thumbs-up"></i> Setujui dan Kirim ke Bagian Kepegawaian</button>
+        <button type="button" class="btn btn-sm btn-outline-danger mt-4" data-toggle="modal" data-target="#modal-catatan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan untuk diperbaiki</button>
+        <button type="button" class="btn btn-sm btn-default bg-gradient-default mt-4" data-toggle="modal" data-target="#modal-alasan"><i class="far fa-fw fa-thumbs-down"></i> Tolak Usulan</button>
+        <button type="submit" class="btn btn-sm btn-success bg-gradient-success mt-4"><i class="far fa-fw fa-thumbs-up"></i> Setujui dan Kirim ke Bagian Kepegawaian</button>
       <?php endif ?>
     </form>
     <!-- /. button actions -->

@@ -9,6 +9,8 @@ use App\Models\DupakDetailModel;
 use App\Models\DupakDokumenModel;
 use App\Models\DupakLogModel;
 use App\Models\DupakModel;
+use App\Models\DupakPenilaianModel;
+use App\Models\DupakVerifikasiModel;
 use App\Models\PegawaiModel;
 use Config\Database;
 use Config\Services;
@@ -25,6 +27,8 @@ class DupakController extends BaseController
     protected $dupakDetailModel;
     protected $dupakDokumenModel;
     protected $dupakLogModel;
+    protected $dupakVerifikasiModel;
+    protected $dupakPenilaianModel;
 
     protected $bidangKegiatanModel;
 
@@ -42,8 +46,10 @@ class DupakController extends BaseController
         $this->dupakDetailModel = new DupakDetailModel();
         $this->dupakDokumenModel = new DupakDokumenModel();
         $this->dupakLogModel = new DupakLogModel();
-        $this->bidangKegiatanModel = new BidangKegiatanModel();
+        $this->dupakVerifikasiModel = new DupakVerifikasiModel();
+        $this->dupakPenilaianModel = new DupakPenilaianModel();
 
+        $this->bidangKegiatanModel = new BidangKegiatanModel();
 
         $this->validation = Services::validation();
 
@@ -447,8 +453,53 @@ class DupakController extends BaseController
 
         $data['detail_usulan'] = $this->dupakDetailModel->getDetailById($id_usulan)->getRow();
 
+        $data['evaluasi_verifikasi'] = $this->dupakVerifikasiModel->getListVerifikasi($id_usulan)->getResult();
+        $data['evaluasi_penilaian'] = $this->dupakPenilaianModel->getListPenilaian($id_usulan)->getResult();
+
         return view('dupak/parts/modal-content/_99_detail_usulan', $data);
     }
+
+    public function dupak_evaluasi()
+    {
+        // id in table "t_dupak_detail"
+        $id_usulan = $this->request->getGet('id_usulan');
+
+        $data['detail_usulan'] = $this->dupakDetailModel->getDetailById($id_usulan)->getRow();
+
+        return view('dupak/parts/modal-content/_98_form_evaluasi', $data);
+    }
+
+    public function dupak_evaluasi_store($id_usulan)
+    {
+        $usulan     = $this->dupakDetailModel->getDetailById($id_usulan)->getRow();
+
+        if (!$usulan) {
+            return 'Usulan tidak ditemukan';
+        }
+
+        $dupak      = $this->dupakModel->getDetailUsulan($usulan->id_dupak);
+
+        $sesuai     = $this->request->getPost('sesuai');
+        $catatan    = $this->request->getPost('catatan');
+
+        $data = [
+            'id_usulan' => $usulan->id,
+            'sesuai' => $sesuai,
+            'catatan' => trim($catatan),
+            'created_by' => user()->id
+        ];
+
+        if ($dupak->tahap_id == 20) {
+            $this->dupakVerifikasiModel->insert($data);
+        } else if ($dupak->tahap_id == 40) {
+            $this->dupakPenilaianModel->insert($data);
+        } else {
+            return redirect()->route('dupak_detail', [$dupak->id])->with('app_error', 'Evaluasi tidak bisa dilakukan');
+        }
+
+        return redirect()->route('dupak_detail', [$dupak->id])->with('app_success', 'Hasil evaluasi telah disimpan');
+    }
+
 
     public function store_dupak_dokumen($id_dupak)
     {
