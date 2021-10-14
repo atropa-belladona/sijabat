@@ -76,7 +76,7 @@
           <ul class="nav nav-pills">
             <li class="nav-item"><a class="nav-link active" href="#kegiatan" data-toggle="tab"><i class="fas fa-fw fa-list-alt"></i> Kegiatan</a></li>
             <li class="nav-item"><a class="nav-link" href="#dokumen" data-toggle="tab"><i class="fas fa-fw fa-file"></i> Dokumen</a></li>
-            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab"><i class="fas fa-fw fa-tools"></i> Settings</a></li>
+            <!-- <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab"><i class="fas fa-fw fa-tools"></i> Settings</a></li> -->
             <li class="nav-item ml-auto"><a class="nav-link font-weight-bold" href="#imports" data-toggle="tab"><i class="fas fa-fw fa-download"></i> Import Data</a></li>
           </ul>
         </div><!-- /.card-header -->
@@ -128,7 +128,7 @@
             </div>
             <!-- /.tab-pane -->
 
-            <div class="tab-pane" id="settings">
+            <!-- <div class="tab-pane" id="settings">
               <form class="form-horizontal">
                 <div class="form-group row">
                   <label for="inputName" class="col-sm-2 col-form-label">Name</label>
@@ -175,7 +175,7 @@
                   </div>
                 </div>
               </form>
-            </div>
+            </div> -->
             <!-- /.tab-pane -->
 
             <div class="tab-pane" id="imports">

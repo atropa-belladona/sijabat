@@ -25,6 +25,7 @@ class DupakLogModel extends Model
         return $this->join('r_tahap as t', 't.id = t_dupak_logs.tahap_id')
             ->join('users as u', 'u.id = t_dupak_logs.created_by')
             ->where('id_dupak', $id_dupak)
+            ->orderBy('created_at')
             ->select('t.ur_tahap, t_dupak_logs.keterangan, u.name as created_by, t_dupak_logs.created_at')
             ->get();
     }

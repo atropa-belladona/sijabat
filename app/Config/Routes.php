@@ -115,6 +115,7 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 		// list usulan by kategori kegiatan route
 		$routes->get('detail/(:segment)/list', 'DupakController::list_usulan/$1', ['as' => 'dupak_list', 'filter' => 'role:dosen,operator']);
 		$routes->get('detail/(:segment)/kegiatan', 'DupakController::show_add_ak/$1', ['as' => 'dupak_detail_kegiatan']);
+		$routes->post('detail/(:segment)/kegiatan/delete/(:any)', 'DupakController::delete_ak/$1/$2', ['as' => 'dupak_detail_delete']);
 
 		$routes->get('evaluasi', 'DupakController::dupak_evaluasi', ['as' => 'dupak_evaluasi']);
 		$routes->post('evaluasi/(:any)/store', 'DupakController::dupak_evaluasi_store/$1', ['as' => 'dupak_evaluasi_store']);

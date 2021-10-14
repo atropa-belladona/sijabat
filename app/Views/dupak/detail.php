@@ -23,7 +23,7 @@
       Status : <span class="badge <?= $dupak->bg_color; ?>"><?= $dupak->ur_tahap; ?></span>
     </div>
     <div class="text-danger">
-      Masa Penilaian : <?= date_str($dupak->tgl_mulai) . ' s.d. ' . date_str($dupak->tgl_selesai); ?>
+      Masa Penilaian : <?= date_str($dupak->masa_awal) . ' s.d. ' . date_str($dupak->masa_akhir); ?>
     </div>
   </div>
 </div>
@@ -72,12 +72,12 @@
     <form action="<?= route_to('dupak_send', $dupak->id); ?>" method="POST" class="d-flex flex-column justify-content-between">
       <?= csrf_field(); ?>
 
-      <?php if (in_groups('dosen') and ($dupak->tahap_id == 1 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45)) : ?>
+      <?php if (in_groups('dosen') and ($dupak->tahap_id == 1)) : ?>
         <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Admin Fakultas</button>
       <?php endif ?>
 
       <?php if (in_groups('operator') and ($dupak->tahap_id == 1 or $dupak->tahap_id == 10 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45)) : ?>
-        <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Verifikator Fakultas</button>
+        <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="fas fa-fw fa-arrow-right"></i><?= ($dupak->tahap_id == 25 or $dupak->tahap_id == 45) ? 'Kirim Perbaikan' : 'Kirim Usulan ke Verifikator Fakultas' ?> </button>
       <?php endif ?>
 
       <?php if (in_groups('verifikator') and $dupak->tahap_id == 20) : ?>

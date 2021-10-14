@@ -132,6 +132,8 @@ class DupakController extends BaseController
         }
 
         $id_periode = $this->request->getPost('periode_penilaian');
+        $masa_awal = $this->request->getPost('masa_awal');
+        $masa_akhir = $this->request->getPost('masa_akhir');
         $id_sdm = $this->request->getPost('id_sdm');
         $nama_sdm = $this->request->getPost('nama');
         $nip = $this->request->getPost('nip');
@@ -175,6 +177,8 @@ class DupakController extends BaseController
                 'id' => $id_dupak,
                 'id_periode' => $id_periode,
                 'id_sdm' => $id_sdm,
+                'masa_awal' => $masa_awal,
+                'masa_akhir' => $masa_akhir,
                 'nama_sdm' => $nama_sdm,
                 'nip' => $nip,
                 'nidn' => $nidn,
@@ -459,6 +463,15 @@ class DupakController extends BaseController
         return view('dupak/parts/modal-content/_99_detail_usulan', $data);
     }
 
+    public function delete_ak($id_dupak, $id_detail)
+    {
+        $detail = $this->dupakDetailModel->where('id_dupak', $id_dupak)->where('id_detail', $id_detail);
+        $detail->delete();
+
+        return redirect()->back();
+    }
+
+
     public function dupak_evaluasi()
     {
         // id in table "t_dupak_detail"
@@ -534,7 +547,7 @@ class DupakController extends BaseController
         // $id_dupak = $uri[1];
 
         try {
-            $next_process = $this->getNextProcess();
+            $next_process = $this->getNextProcess($id_dupak);
 
             $this->dupakModel->update($id_dupak, [
                 'tahap_id' => $next_process['tahap'],
@@ -632,8 +645,10 @@ class DupakController extends BaseController
 
 
     // protected function
-    protected function getNextProcess()
+    protected function getNextProcess($id_dupak)
     {
+        $dupak = $this->dupakModel->where('id', $id_dupak)->get()->getRow();
+
         // first process as default
         $tahap_id = 1;
         $pesan = '';
@@ -647,7 +662,13 @@ class DupakController extends BaseController
         if (in_groups('operator')) {
             // usulan masuk ke verifikator untuk diverifikasi
             $tahap_id = 20;
+
             $pesan = 'Data usulan telah berhasil dikirim ke Verifikator Fakultas';
+
+            if ($dupak->tahap_id == 45) {
+                $tahap_id = 40;
+                $pesan = 'Data usulan telah dikirimkan kembali ke Tim Penilai PAK';
+            }
         }
 
         if (in_groups('verifikator')) {

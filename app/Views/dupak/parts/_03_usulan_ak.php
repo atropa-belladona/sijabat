@@ -33,12 +33,15 @@
           <td class="text-right pr-4"><?= number_format2($detail->volume); ?></td>
           <td class="text-center"><?= $detail->satuan_hasil; ?></td>
           <td class="text-right pr-4"><?= number_format2($detail->ak_usulan); ?></td>
-          <td class="text-center ">
+          <td class="text-center d-flex justify-content-around">
             <button class="btn btn-xs btn-info" title="Detail" data-toggle="modal" data-target="#modal-detail-kegiatan" data-id="<?= $detail->id ?>"><i class="far fa-fw fa-list-alt"></i> Detail</button>
 
             <?php if (in_groups(['dosen', 'operator'])) : ?>
               <?php if ($dupak->tahap_id == 1 or $dupak->tahap_id == 10 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45) : ?>
-                <button class="btn btn-xs btn-outline-danger ml-3" title="Detail"><i class="far fa-fw fa-trash-alt"></i></button>
+                <form action="<?= route_to('dupak_detail_delete', $detail->id_dupak, $detail->id_detail); ?>" method="POST">
+                  <?= csrf_field(); ?>
+                  <button class="btn btn-xs btn-outline-danger ml-3" title="Hapus Kegiatan" onclick="return confirm('Yakin hapus data ini ?');"><i class="far fa-fw fa-trash-alt"></i></button>
+                </form>
               <?php endif ?>
             <?php endif ?>
 
