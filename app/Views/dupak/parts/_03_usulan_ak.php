@@ -1,7 +1,7 @@
 <h6 class="font-weight-bold text-primary">Usulan Angka Kredit <?= ($total_ak_usulan > 0) ? '<span class="ml-3 badge badge-warning">' . number_format2($total_ak_usulan) . '</span>' : ''; ?></h6>
 
 <?php if (in_groups('dosen') or in_groups('operator')) : ?>
-  <?php if ($dupak->tahap_id == 1 or $dupak->tahap_id == 10 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45) : ?>
+  <?php if ($dupak->tahap_id == 1 or $dupak->tahap_id == 10 or $dupak->tahap_id == 25 or $dupak->tahap_id == 35 or $dupak->tahap_id == 45) : ?>
     <div class="button-actions d-flex py-2">
       <?php foreach ($bidang_kegiatan as $bidang) : ?>
         <button type="button" class="btn btn-sm btn-outline-success mr-4" data-toggle="modal" data-target="#modal-tambah-kegiatan" data-dupak="<?= $dupak->id; ?>" data-kegiatan="<?= $bidang->id; ?>"><i class="fas fa-fw fa-plus"></i> <?= $bidang->nama; ?></button>

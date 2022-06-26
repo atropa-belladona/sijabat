@@ -31,6 +31,15 @@ class PegawaiModel extends Model
 		return $sdm->getRow();
 	}
 
+	public function getProfileTambahanByNIDN($nidn)
+	{
+		$data = $this->db->table('v_ref_dosen_unj')
+			->where('nidn', $nidn)
+			->get();
+
+		return $data->getRow();
+	}
+
 	public function getPendidikanTerakhirSDM($id_sdm)
 	{
 		$pendidikan = $this->db->table('t_sdm_pendidikan')
@@ -116,11 +125,13 @@ class PegawaiModel extends Model
 
 	public function getProfile($id_sdm)
 	{
+		helper('sisterws');
+
 		$sdm_profile = $this->db->table('t_sdm_profile')->where('id_sdm', $id_sdm)->get()->getRow();
 
-		if (isset($sdm_profile->foto)) {
-			$data['foto'] = 'data:image/png;base64,' . base64_encode($sdm_profile->foto);
-		}
+		$foto = sister_getDataFotoSDM($id_sdm);
+
+		$data['foto'] = 'data:image/png;base64,' . base64_encode($foto);
 
 		$data['about_me'] = $sdm_profile;
 
@@ -279,7 +290,7 @@ class PegawaiModel extends Model
 
 			$alamat = $sister_alamat->alamat . ', RT ' . $sister_alamat->rt . ' RW ' . $sister_alamat->rw . ', ' . $sister_alamat->kelurahan . ', ' . $sister_alamat->kota_kabupaten . ', ' . $sister_alamat->kode_pos;
 
-			$foto = sister_getDataFotoSDM($id_sdm);
+			// $foto = sister_getDataFotoSDM($id_sdm);
 
 			$data = [
 				'id_sdm' => $pegawai->id_sdm,
@@ -292,7 +303,7 @@ class PegawaiModel extends Model
 				'alamat' => $alamat,
 				'email' => $sister_alamat->email,
 				'telepon_hp' => $sister_alamat->telepon_hp,
-				'foto' => $foto
+				// 'foto' => $foto
 			];
 
 			$this->_replaceInto('t_sdm_profile', $data);

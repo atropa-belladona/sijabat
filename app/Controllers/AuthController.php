@@ -98,7 +98,10 @@ class AuthController extends Controller
 			return redirect()->to(route_to('reset-password') . '?token=' . $this->auth->user()->reset_hash)->withCookies();
 		}
 
-		$redirectURL = session('redirect_url') ?? site_url('/');
+
+		$home = site_url('/');
+
+		$redirectURL = session('redirect_url') ?? $home;
 		unset($_SESSION['redirect_url']);
 
 		// get user and password for sister authorization

@@ -98,12 +98,12 @@
             <?php if (in_groups('koordinator')) : ?>
               <!-- Menu Utama -->
               <li class="nav-header">Menu Utama</li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="<?= route_to('periode_penilaian'); ?>" class="nav-link <?= (isset($menu) and $menu == 'periode-penilaian') ? 'active' : ''; ?>">
                   <i class="nav-icon far fa-fw fa-clock"></i>
                   <p>Periode Penilaian</p>
                 </a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a href="<?= route_to('dupak_index'); ?>" class="nav-link <?= (isset($menu) and $menu == 'dupak-daftar') ? 'active' : ''; ?>">
                   <i class="nav-icon fas fa-fw fa-list-alt"></i>

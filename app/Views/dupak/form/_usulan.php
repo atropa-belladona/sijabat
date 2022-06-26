@@ -1,15 +1,5 @@
 <form class="form-horizontal" action="<?= route_to('dupak_store'); ?>" method="POST">
   <?= csrf_field(); ?>
-  <div class="form-group row mb-4">
-    <label for="periode_penilaian" class="col-md-2 col-form-label text-right">Periode Penilaian</label>
-    <div class="col-lg-4 col-md-10">
-      <select name="periode_penilaian" id="periode_penilaian" class="form-control selectpicker show-tick">
-        <?php foreach ($periode_penilaian as $periode) : ?>
-          <option value="<?= $periode->id; ?>"><?= $periode->tgl_mulai . ' s.d. ' . $periode->tgl_selesai; ?></option>
-        <?php endforeach ?>
-      </select>
-    </div>
-  </div>
 
   <div class="form-group row">
     <label for="masa_penilaian" class="col-md-2 col-form-label text-right">Masa Penilaian</label>
@@ -20,11 +10,36 @@
     </div>
   </div>
 
+  <hr>
+
   <div class="form-group row">
     <label for="nama" class="col-lg-2 col-form-label text-right">Nama</label>
     <div class="col-lg-6 col-sm-10 ">
       <input type="hidden" name="id_sdm" value="<?= $sdm->id_sdm; ?>">
-      <input type="text" class="form-control" name="nama" id="nama" value="<?= $sdm->nama; ?>" required>
+      <!-- <input type="text" class="form-control" name="nama" id="nama" value="<?= $sdm->nama; ?>" required> -->
+      <input type="text" class="form-control" name="nama" id="nama" value="<?= trim(trim($info->gelar_depan) . ' ' . trim(ucwords(strtolower($sdm->nama))) . ', ' . trim($info->gelar_belakang)) ?>" required>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="tempat_lahir" class="col-lg-2 col-form-label text-right">Tempat Lahir</label>
+    <div class="col-lg-2 col-md-4">
+      <input type="text" id="tempat_lahir" name="tempat_lahir" class="form-control" value="<?= $sdm->tempat_lahir; ?>" required>
+    </div>
+    <label for="tanggal_lahir" class="col-lg-2 col-form-label text-right">Tanggal Lahir</label>
+    <div class="col-lg-2 col-md-4">
+      <input type="date" id="tanggal_lahir" class="form-control" name="tanggal_lahir" value="<?= $sdm->tanggal_lahir; ?>" required>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="jenis_kelamin" class="col-lg-2 col-form-label text-right">Jenis Kelamin</label>
+    <div class="col-lg-2 col-md-4">
+      <select name="jenis_kelamin" id="jenis_kelamin" class="form-control" required>
+        <option value="L" <?= $sdm->jenis_kelamin == 'L' ? 'selected' : '' ?>>Laki-laki</option>
+        <option value="P" <?= $sdm->jenis_kelamin == 'P' ? 'selected' : '' ?>>Perempuan</option>
+      </select>
+      <!-- <input type="text" id="jenis_kelamin" class="form-control" name="jenis_kelamin" value="<?= $sdm->jenis_kelamin; ?>" required> -->
     </div>
   </div>
 
@@ -47,29 +62,18 @@
   </div>
 
   <div class="form-group row">
-    <label for="gol" class="col-lg-2 col-form-label text-right">Golongan</label>
-    <div class="col-lg-2 col-md-4">
-      <input type="text" id="gol" name="gol" class="form-control" value="<?= (isset($kepangkatan->pangkat_golongan) ? $kepangkatan->pangkat_golongan : ''); ?>" required>
+    <label for="fakultas" class="col-lg-2 col-form-label text-right">Fakultas</label>
+    <div class="col-sm-4">
+      <input type="text" name="fakultas" id="fakultas" class="form-control" value="<?= $info->fakultas ?? '' ?>">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="unit_kerja" class="col-lg-2 col-form-label text-right">Program Studi</label>
+    <div class="col-sm-4">
+      <input type="text" name="unit_kerja" id="unit_kerja" class="form-control" value="<?= $penugasan->jenjang_pendidikan . ' ' . $penugasan->unit_kerja  ?>">
     </div>
   </div>
 
-  <div class="form-group row">
-    <label for="tempat_lahir" class="col-lg-2 col-form-label text-right">Tempat Lahir</label>
-    <div class="col-lg-2 col-md-4">
-      <input type="text" id="tempat_lahir" name="tempat_lahir" class="form-control" value="<?= $sdm->tempat_lahir; ?>" required>
-    </div>
-    <label for="tanggal_lahir" class="col-lg-2 col-form-label text-right">Tanggal Lahir</label>
-    <div class="col-lg-2 col-md-4">
-      <input type="date" id="tanggal_lahir" class="form-control" name="tanggal_lahir" value="<?= $sdm->tanggal_lahir; ?>" required>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <label for="jenis_kelamin" class="col-lg-2 col-form-label text-right">Jenis Kelamin</label>
-    <div class="col-lg-1 col-md-2">
-      <input type="text" id="jenis_kelamin" class="form-control" name="jenis_kelamin" value="<?= $sdm->jenis_kelamin; ?>" required>
-    </div>
-  </div>
 
   <div class="form-group row">
     <label for="pendidikan_terakhir" class="col-lg-2 col-form-label text-right">Pendidikan Terakhir</label>
@@ -77,6 +81,24 @@
       <input type="text" id="pendidikan_terakhir" class="form-control" name="pendidikan_terakhir" value="<?= $pendidikan->jenjang_pendidikan . ' ' . $pendidikan->bidang_studi ?>" required>
     </div>
   </div>
+
+  <hr>
+
+  <div class="form-group row">
+    <label for="gol" class="col-lg-2 col-form-label text-right">Golongan</label>
+    <div class="col-lg-2 col-md-4">
+      <input type="text" id="gol" name="gol" class="form-control" value="<?= (isset($kepangkatan->pangkat_golongan) ? $kepangkatan->pangkat_golongan : ''); ?>" required>
+    </div>
+    <label for="tmt_gol" class="col-lg-2 col-form-label text-right">TMT </label>
+    <div class="col-lg-2">
+      <input type="date" class="form-control" name="tmt_gol" value="<?= (isset($kepangkatan->tanggal_mulai)) ? $kepangkatan->tanggal_mulai : ''; ?>" required>
+    </div>
+  </div>
+
+
+
+
+
 
   <div class="form-group row">
     <label for="jab_fung" class="col-lg-2 col-form-label text-right">Jabatan Fungsional</label>
@@ -115,6 +137,15 @@
       <input type="number" id="mk_baru_bln" name="mk_baru_bln" class="form-control" value="" required>
     </div>
     <label for="mk_baru_bln" class="col-form-label text-right">Bulan</label>
+  </div>
+
+  <hr>
+
+  <div class="form-group row">
+    <label for="mata_kuliah" class="col-lg-2 col-form-label text-right">Dalam Mata Kuliah</label>
+    <div class="col-lg-6 col-sm-10 ">
+      <input type="text" class="form-control" name="mata_kuliah" id="mata_kuliah" value="" required>
+    </div>
   </div>
 
   <hr>

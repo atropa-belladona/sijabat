@@ -25,7 +25,7 @@
         <thead class="bg-gradient-dark text-white">
           <tr>
             <th class="align-middle text-center">No.</th>
-            <th class="align-middle text-center">Periode Penilaian</th>
+            <th class="align-middle text-center">Masa Penilaian Penilaian</th>
             <th class="align-middle text-left">Nama</th>
             <th class="align-middle text-center">NIP</th>
             <th class="align-middle text-center">NIDN</th>
@@ -41,7 +41,7 @@
           <?php foreach ($dupak as $item) : ?>
             <tr>
               <td class="align-middle text-center"><?= $i++ ?></td>
-              <td class="align-middle text-center"><?= $item->tgl_mulai . ' s.d. ' . $item->tgl_selesai ?></td>
+              <td class="align-middle text-center"><?= $item->masa_awal . ' s.d. ' . $item->masa_akhir ?></td>
               <td class="align-middle text-left"><?= $item->nama_sdm ?></td>
               <td class="align-middle text-center"><?= $item->nip ?></td>
               <td class="align-middle text-center"><?= $item->nidn ?></td>
@@ -54,7 +54,7 @@
               </td>
               <td class="align-middle d-flex justify-content-center">
                 <div class="proses mr-3">
-                  <a href="<?= route_to('dupak_detail', $item->id) ?>" class="btn btn-xs btn-success"><i class="fas fa-fw fa-arrow-right"></i> Proses</a>
+                  <a href="<?= route_to('dupak_detail', $item->id) ?>" class="btn btn-xs btn-success"><i class="fas fa-fw fa-arrow-right"></i> Lihat</a>
                 </div>
 
                 <?php if ($item->tahap_id <= 10) : ?>

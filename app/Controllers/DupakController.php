@@ -78,18 +78,20 @@ class DupakController extends BaseController
         $data['menu'] = 'dupak-buat';
         $data['content_title'] = 'Buat Usulan';
 
-        $data['periode_penilaian'] = $this->dataModel->getOpenPeriodePenilaian();
+        // $data['periode_penilaian'] = $this->dataModel->getOpenPeriodePenilaian();
 
-        if ($data['periode_penilaian']) {
-            // if role is dosen then nidn = username
-            if (in_groups('dosen')) {
-                $nidn = user()->username;
-            }
-
-            $data['sdm'] = $this->pegawaiModel->getProfileSDMByNIDN($nidn);
-            $data['pendidikan'] = $this->pegawaiModel->getPendidikanTerakhirSDM($data['sdm']->id_sdm);
-            $data['kepangkatan'] = $this->pegawaiModel->getGolonganTerakhir($data['sdm']->id_sdm);
+        // if ($data['periode_penilaian']) {
+        // if role is dosen then nidn = username
+        if (in_groups('dosen')) {
+            $nidn = user()->username;
         }
+
+        $data['sdm'] = $this->pegawaiModel->getProfileSDMByNIDN($nidn);
+        $data['info'] = $this->pegawaiModel->getProfileTambahanByNIDN($nidn);
+        $data['pendidikan'] = $this->pegawaiModel->getPendidikanTerakhirSDM($data['sdm']->id_sdm);
+        $data['kepangkatan'] = $this->pegawaiModel->getGolonganTerakhir($data['sdm']->id_sdm);
+        $data['penugasan'] = $this->pegawaiModel->getPenugasanTerakhir($data['sdm']->id_sdm);
+        // }
 
         return view('dupak/create', $data);
     }
@@ -100,13 +102,15 @@ class DupakController extends BaseController
         $data['menu'] = 'dupak-buat';
         $data['content_title'] = 'Buat Usulan';
 
-        $data['periode_penilaian'] = $this->dataModel->getOpenPeriodePenilaian();
+        // $data['periode_penilaian'] = $this->dataModel->getOpenPeriodePenilaian();
 
-        if ($data['periode_penilaian']) {
-            $data['sdm'] = $this->pegawaiModel->getInfoPegawaiByIdSDM($id_sdm);
-            $data['pendidikan'] = $this->pegawaiModel->getPendidikanTerakhirSDM($id_sdm);
-            $data['kepangkatan'] = $this->pegawaiModel->getGolonganTerakhir($id_sdm);
-        }
+        // if ($data['periode_penilaian']) {
+        $data['sdm'] = $this->pegawaiModel->getInfoPegawaiByIdSDM($id_sdm);
+        $data['info'] = $this->pegawaiModel->getProfileTambahanByNIDN($data['sdm']->nidn);
+        $data['pendidikan'] = $this->pegawaiModel->getPendidikanTerakhirSDM($id_sdm);
+        $data['kepangkatan'] = $this->pegawaiModel->getGolonganTerakhir($id_sdm);
+        $data['penugasan'] = $this->pegawaiModel->getPenugasanTerakhir($data['sdm']->id_sdm);
+        // }
 
         if (!$data['sdm'] or !$data['pendidikan']) {
             return redirect()->back()->with('app_error', 'Harap import data pegawai terlebih dahulu. Terima kasih');
@@ -119,7 +123,6 @@ class DupakController extends BaseController
     {
         $rules = $this->validation->setRules(
             [
-                'periode_penilaian' => 'required',
                 'id_sdm' => 'required',
                 'nama' => 'required',
                 'nidn' => 'required',
@@ -131,13 +134,14 @@ class DupakController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
         }
 
-        $id_periode = $this->request->getPost('periode_penilaian');
+        // $id_periode = $this->request->getPost('periode_penilaian');
         $masa_awal = $this->request->getPost('masa_awal');
         $masa_akhir = $this->request->getPost('masa_akhir');
         $id_sdm = $this->request->getPost('id_sdm');
         $nama_sdm = $this->request->getPost('nama');
         $nip = $this->request->getPost('nip');
         $nidn = $this->request->getPost('nidn');
+        $unit_kerja = $this->request->getPost('unit_kerja');
         $no_karpeg = $this->request->getPost('no_karpeg');
         $pendidikan_terakhir = $this->request->getPost('pendidikan_terakhir');
         $jabfung = $this->request->getPost('jab_fung');
@@ -147,20 +151,23 @@ class DupakController extends BaseController
         $mk_baru_thn = $this->request->getPost('mk_baru_thn');
         $mk_baru_bln = $this->request->getPost('mk_baru_bln');
 
+        $mata_kuliah = $this->request->getPost('mata_kuliah');
+        $fakultas = $this->request->getPost('fakultas');
+
         // store code here
         try {
 
             $this->dupakModel->transBegin();
 
             // check if pegawai already has pak request
-            $check = $this->dupakModel->where('id_periode', $id_periode)
+            $check = $this->dupakModel->where('tahap_id !=', 60)
                 ->where('id_sdm', $id_sdm)
                 ->where('active', '1')
                 ->get()
                 ->getResult();
 
-            if (count($check)) {
-                return redirect()->route('dupak_index')->with('app_error', 'Pegawai memiliki pengajuan aktif pada periode ini');
+            if (count($check) > 0) {
+                return redirect()->route('dupak_index')->with('app_error', 'Pegawai memiliki pengajuan aktif yang belum selesai');
             }
 
             // draft as default process
@@ -175,13 +182,13 @@ class DupakController extends BaseController
             // if not insert data
             $store = $this->dupakModel->insert([
                 'id' => $id_dupak,
-                'id_periode' => $id_periode,
                 'id_sdm' => $id_sdm,
                 'masa_awal' => $masa_awal,
                 'masa_akhir' => $masa_akhir,
                 'nama_sdm' => $nama_sdm,
                 'nip' => $nip,
                 'nidn' => $nidn,
+                'unit_kerja' => $unit_kerja,
                 'no_karpeg' => $no_karpeg,
                 'pendidikan_terakhir' => $pendidikan_terakhir,
                 'jabfung' => $jabfung,
@@ -191,6 +198,8 @@ class DupakController extends BaseController
                 'mk_baru_thn' => $mk_baru_thn,
                 'mk_baru_bln' => $mk_baru_bln,
                 'tahap_id' => $tahap_id,
+                'mata_kuliah' => $mata_kuliah,
+                'fakultas' => $fakultas,
                 'created_by' => user()->id,
             ]);
 
@@ -700,6 +709,11 @@ class DupakController extends BaseController
         // perbaikan unit as default
         $tahap_id = 25;
         $pesan = 'Data usulan telah dikembalikan ke pegawai untuk diperbaiki';
+
+        if (in_groups('koordinator')) {
+            $tahap_id = 35;
+            $pesan = 'Data usulan telah dikembalikan ke Admin Fakultas untuk diperbaiki';
+        }
 
         if (in_groups('reviewer')) {
             $tahap_id = 45;

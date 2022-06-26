@@ -10,23 +10,10 @@
 
 <?= $this->section('content'); ?>
 <div class="container-fluid">
-  <?php if (!$periode_penilaian) : ?>
-    <!-- There's no open periode penilaian -->
-    <div class="row">
-      <div class="col">
-        <p>
-          Belum masa periode penilaian
-        </p>
-      </div>
+  <div class="row">
+    <div class="col">
+      <?= $this->include('dupak/form/_usulan'); ?>
     </div>
-  <?php else : ?>
-    <!-- Open Periode Penilaian -->
-
-    <div class="row">
-      <div class="col">
-        <?= $this->include('dupak/form/_usulan'); ?>
-      </div>
-    </div>
-  <?php endif ?>
+  </div>
 </div>
 <?= $this->endSection(); ?>

@@ -14,8 +14,8 @@
       <li class="nav-item">
         <a class="nav-link active" id="list-dokumen-tab" data-toggle="pill" href="#list-dokumen" role="tab" aria-controls="list-dokumen" aria-selected="true"><i class="fas fa-fw fa-list-alt"></i> List</a>
       </li>
-      <?php if (in_groups('operator')) : ?>
-        <?php if ($dupak->tahap_id == 1 or $dupak->tahap_id == 10 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45) : ?>
+      <?php if (in_groups('operator') or in_groups('dosen')) : ?>
+        <?php if ($dupak->tahap_id == 1 or $dupak->tahap_id == 10 or $dupak->tahap_id == 25 or $dupak->tahap_id == 35 or $dupak->tahap_id == 45) : ?>
           <li class="nav-item">
             <a class="nav-link" id="upload-dokumen-tab" data-toggle="pill" href="#upload-dokumen" role="tab" aria-controls="upload-dokumen" aria-selected="false"><i class="fas fa-fw fa-upload"></i> Upload</a>
           </li>
@@ -41,7 +41,7 @@
 
         </table>
       </div>
-      <?php if (in_groups('operator')) : ?>
+      <?php if (in_groups('operator') or in_groups('dosen')) : ?>
         <?php if ($dupak->tahap_id == 1 or $dupak->tahap_id == 10 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45) : ?>
           <div class="tab-pane fade" id="upload-dokumen" role="tabpanel" aria-labelledby="upload-dokumen-tab">
             <div class="upload-dokumen">

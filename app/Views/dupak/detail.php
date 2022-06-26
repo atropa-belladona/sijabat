@@ -11,7 +11,10 @@
 
 <?= $this->section('right-button-menu'); ?>
 <div class="right-button">
-  <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modal-logs"><i class="fas fa-history"></i> Lihat sejarah usulan</button>
+
+  <button type="button" class="btn btn-sm btn-success mr-3" data-toggle="modal" data-target="#modal-kendali"><i class="fas fa-list-alt"></i> Kartu Kendali</button>
+  <button type="button" class="btn btn-sm btn-success mr-3" data-toggle="modal" data-target="#modal-rekap"><i class="fas fa-list-alt"></i> Rekap Dupak</button>
+  <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#modal-logs"><i class="fas fa-history"></i> Lihat sejarah usulan</button>
 </div>
 <?= $this->endSection(); ?>
 
@@ -60,12 +63,10 @@
 <hr class="bt-5">
 <div class="row mb-0">
   <div class="col-lg-8 col-md-12">
-    <?php if ($dupak->tahap_id > 1) : ?>
-      <section class="dokumen-pengantar">
-        <!-- include view parts 03 usulan angka kredit -->
-        <?= $this->include('dupak/parts/_04_dokumen_pengantar'); ?>
-      </section>
-    <?php endif ?>
+    <section class="dokumen-pengantar">
+      <!-- include view parts 03 usulan angka kredit -->
+      <?= $this->include('dupak/parts/_04_dokumen_pengantar'); ?>
+    </section>
   </div>
   <div class="col d-flex flex-row-reverse align-items-end">
     <!-- button actions -->
@@ -77,16 +78,17 @@
       <?php endif ?>
 
       <?php if (in_groups('operator') and ($dupak->tahap_id == 1 or $dupak->tahap_id == 10 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45)) : ?>
-        <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="fas fa-fw fa-arrow-right"></i><?= ($dupak->tahap_id == 25 or $dupak->tahap_id == 45) ? 'Kirim Perbaikan' : 'Kirim Usulan ke Verifikator Fakultas' ?> </button>
+        <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="fas fa-fw fa-arrow-right"></i><?= ($dupak->tahap_id == 25 or $dupak->tahap_id == 45) ? 'Kirim Perbaikan' : 'Kirim Usulan ke Senat Fakultas' ?> </button>
       <?php endif ?>
 
       <?php if (in_groups('verifikator') and $dupak->tahap_id == 20) : ?>
-        <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modal-catatan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan untuk diperbaiki</button>
+        <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modal-catatan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan ke Admin Fakultas</button>
         <button type="submit" class="btn btn-sm btn-success bg-gradient-success mt-4"><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Bagian Kepegawaian</button>
       <?php endif ?>
 
       <?php if (in_groups('koordinator') and $dupak->tahap_id == 30) : ?>
-        <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Tim Penilai PAK</button>
+        <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modal-catatan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan ke Admin Fakultas</button>
+        <button type="submit" class="btn btn-sm btn-success bg-gradient-success mt-4"><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Tim Penilai PAK</button>
       <?php endif ?>
 
       <?php if (in_groups('reviewer') and $dupak->tahap_id == 40) : ?>
@@ -158,6 +160,40 @@
         </form>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<!-- modal kartu kendali -->
+<div class="modal fade" id="modal-kendali">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h6 class="modal-title font-weight-bold">Kartu Kendali Usul Kenaikan/Penyesuaian Jabatan</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <?= $this->include('dupak/parts/modal-content/_97_kartu_kendali') ?>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal rekap dupak -->
+<div class="modal fade" id="modal-rekap">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h6 class="modal-title font-weight-bold">Rekap Daftar Usul Penetapan Angka Kredit</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <?= $this->include('dupak/parts/modal-content/_97_rekap_dupak') ?>
+      </div>
     </div>
   </div>
 </div>
