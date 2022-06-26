@@ -22,8 +22,9 @@
     html,
     body {
       /* background-image: url('img/black.jpg'); */
-      background-image: url('https://source.unsplash.com/1600x900/?nature');
-      background-color: black;
+      /* background-image: url('https://source.unsplash.com/1600x900/?nature'); */
+      background: rgb(0, 172, 107);
+      background: radial-gradient(circle, rgba(0, 172, 107, 1) 0%, rgba(0, 139, 86, 1) 0%, rgba(5, 105, 66, 1) 68%, rgba(10, 69, 46, 1) 100%);
       background-size: cover;
       background-repeat: no-repeat;
       height: 100vh;
