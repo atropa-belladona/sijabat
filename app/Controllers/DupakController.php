@@ -252,6 +252,12 @@ class DupakController extends BaseController
 
         $data['dupak_detail'] = $this->dupakDetailModel->getListDetailDupak($id_dupak);
 
+        $data['total_ak_bidang_a'] = $this->dupakDetailModel->getSumUsulanBidangPerBidang($id_dupak, '10');
+        $data['total_ak_bidang_b'] = $this->dupakDetailModel->getSumUsulanBidangPerBidang($id_dupak, '11');
+        $data['total_ak_bidang_c'] = $this->dupakDetailModel->getSumUsulanBidangPerBidang($id_dupak, '12');
+        $data['total_ak_bidang_d'] = $this->dupakDetailModel->getSumUsulanBidangPerBidang($id_dupak, '13');
+        $data['total_ak_bidang_e'] = $this->dupakDetailModel->getSumUsulanBidangPerBidang($id_dupak, '14');
+
         $data['total_ak_usulan'] = $this->dupakDetailModel->getSumUsulanAngkaKredit($id_dupak);
 
         $data['dokumen_pengantar'] = $this->dupakDokumenModel->getDokumenByDupakId($id_dupak);

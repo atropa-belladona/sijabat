@@ -5,10 +5,10 @@
         <a class="nav-link active" id="evaluasi-catatan-tab" data-toggle="pill" href="#evaluasi-catatan" role="tab" aria-controls="evaluasi-catatan" aria-selected="true">Informasi Kegiatan</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="evaluasi-verifikasi-tab" data-toggle="pill" href="#evaluasi-verifikasi-log" role="tab" aria-controls="evaluasi-verifikasi-log" aria-selected="false">Sejarah Catatan Verifikasi Unit</a>
+        <a class="nav-link" id="evaluasi-verifikasi-tab" data-toggle="pill" href="#evaluasi-verifikasi-log" role="tab" aria-controls="evaluasi-verifikasi-log" aria-selected="false">Sejarah Catatan (Senat Fakultas)</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="evaluasi-penilaian-tab" data-toggle="pill" href="#evaluasi-penilaian-log" role="tab" aria-controls="evaluasi-penilaian-log" aria-selected="false">Sejarah Catatan Tim Penilai PAK</a>
+        <a class="nav-link" id="evaluasi-penilaian-tab" data-toggle="pill" href="#evaluasi-penilaian-log" role="tab" aria-controls="evaluasi-penilaian-log" aria-selected="false">Sejarah Catatan (Tim Penilai PAK)</a>
       </li>
     </ul>
   </div>

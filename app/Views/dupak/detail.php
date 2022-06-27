@@ -61,16 +61,23 @@
 </div>
 
 <hr class="bt-5">
-<div class="row mb-0">
-  <div class="col-lg-8 col-md-12">
+<div class="row mb-4">
+  <div class="col-lg-12 col-md-12">
     <section class="dokumen-pengantar">
       <!-- include view parts 03 usulan angka kredit -->
       <?= $this->include('dupak/parts/_04_dokumen_pengantar'); ?>
     </section>
   </div>
-  <div class="col d-flex flex-row-reverse align-items-end">
+
+</div>
+
+<hr class="bt-5">
+
+<div class="row">
+  <!-- <div class="col d-flex flex-row-reverse align-items-end"> -->
+  <div class="col">
     <!-- button actions -->
-    <form action="<?= route_to('dupak_send', $dupak->id); ?>" method="POST" class="d-flex flex-column justify-content-between">
+    <form action="<?= route_to('dupak_send', $dupak->id); ?>" method="POST" class="d-flex justify-content-between">
       <?= csrf_field(); ?>
 
       <?php if (in_groups('dosen') and ($dupak->tahap_id == 1)) : ?>
@@ -83,18 +90,20 @@
 
       <?php if (in_groups('verifikator') and $dupak->tahap_id == 20) : ?>
         <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modal-catatan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan ke Admin Fakultas</button>
-        <button type="submit" class="btn btn-sm btn-success bg-gradient-success mt-4"><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Bagian Kepegawaian</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fas fa-fw fa-thumbs-down"></i> Tidak Menyetujui</button>
+        <button type="button" class="btn btn-sm btn-outline-primary"><i class="fas fa-fw fa-thumbs-up"></i> Setujui</button>
+        <button type="submit" class="btn btn-sm btn-success bg-gradient-success "><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Bagian Kepegawaian</button>
       <?php endif ?>
 
       <?php if (in_groups('koordinator') and $dupak->tahap_id == 30) : ?>
         <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modal-catatan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan ke Admin Fakultas</button>
-        <button type="submit" class="btn btn-sm btn-success bg-gradient-success mt-4"><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Tim Penilai PAK</button>
+        <button type="submit" class="btn btn-sm btn-success bg-gradient-success "><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Tim Penilai PAK</button>
       <?php endif ?>
 
       <?php if (in_groups('reviewer') and $dupak->tahap_id == 40) : ?>
-        <button type="button" class="btn btn-sm btn-outline-danger mt-4" data-toggle="modal" data-target="#modal-catatan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan untuk diperbaiki</button>
-        <button type="button" class="btn btn-sm btn-default bg-gradient-default mt-4" data-toggle="modal" data-target="#modal-alasan"><i class="far fa-fw fa-thumbs-down"></i> Tolak Usulan</button>
-        <button type="submit" class="btn btn-sm btn-success bg-gradient-success mt-4"><i class="far fa-fw fa-thumbs-up"></i> Setujui dan Kirim ke Bagian Kepegawaian</button>
+        <button type="button" class="btn btn-sm btn-outline-danger " data-toggle="modal" data-target="#modal-catatan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan untuk diperbaiki</button>
+        <button type="button" class="btn btn-sm btn-default bg-gradient-default " data-toggle="modal" data-target="#modal-alasan"><i class="far fa-fw fa-thumbs-down"></i> Tolak Usulan</button>
+        <button type="submit" class="btn btn-sm btn-success bg-gradient-success "><i class="far fa-fw fa-thumbs-up"></i> Setujui dan Kirim ke Bagian Kepegawaian</button>
       <?php endif ?>
     </form>
     <!-- /. button actions -->
@@ -192,7 +201,7 @@
           </button>
       </div>
       <div class="modal-body">
-        <?= $this->include('dupak/parts/modal-content/_97_rekap_dupak') ?>
+        <?= $this->include('dupak/parts/modal-content/_96_rekap_dupak') ?>
       </div>
     </div>
   </div>

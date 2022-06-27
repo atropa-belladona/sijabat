@@ -32,6 +32,13 @@ class DupakDetailModel extends Model
 		return $data->getRow()->ak_usulan;
 	}
 
+	public function getSumUsulanBidangPerBidang($id_dupak, $kode_bidang)
+	{
+		$data = $this->where('id_dupak', $id_dupak)->like('id_subkegiatan', $kode_bidang, 'after')->selectSum('ak_usulan')->get();
+
+		return $data->getRow()->ak_usulan;
+	}
+
 	public function getSumSetujuiAngkaKredit($id_dupak)
 	{
 		$data = $this->where('id_dupak', $id_dupak)->selectSum('ak_setujui')->get();

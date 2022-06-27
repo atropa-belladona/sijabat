@@ -9,7 +9,7 @@
   <div class="card-header p-0 pt-1">
     <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
       <li class="pt-2 px-3">
-        <h6 class="card-title font-weight-bold text-primary">Dokumen Pengantar</h6>
+        <h6 class="card-title font-weight-bold text-primary">Dokumen Persyaratan</h6>
       </li>
       <li class="nav-item">
         <a class="nav-link active" id="list-dokumen-tab" data-toggle="pill" href="#list-dokumen" role="tab" aria-controls="list-dokumen" aria-selected="true"><i class="fas fa-fw fa-list-alt"></i> List</a>
@@ -24,6 +24,16 @@
     </ul>
   </div>
   <div class="card-body py-2">
+    <?php if (in_groups('dosen') or in_groups('operator')) : ?>
+      <div class="row mb-4">
+        <div class="col">
+          <button type="button" class="btn btn-sm btn-outline-info mr-2" data-toggle="modal" data-target="#modal-cetak"><i class="fas fa-fw fa-print"></i> Cetak Surat Pernyataan Melaksanakan Pendidikan</button>
+          <button type="button" class="btn btn-sm btn-outline-info mr-2" data-toggle="modal" data-target="#modal-cetak"><i class="fas fa-fw fa-print"></i> Cetak Surat Pernyataan Melaksanakan Penelitian</button>
+          <button type="button" class="btn btn-sm btn-outline-info mr-2" data-toggle="modal" data-target="#modal-cetak"><i class="fas fa-fw fa-print"></i> Cetak Surat Pernyataan Melaksanakan Pengabdian</button>
+          <button type="button" class="btn btn-sm btn-outline-info mr-2" data-toggle="modal" data-target="#modal-cetak"><i class="fas fa-fw fa-print"></i> Cetak Surat Pernyataan Melaksanakan Penunjang Tugas Dosen</button>
+        </div>
+      </div>
+    <?php endif ?>
     <div class="tab-content" id="custom-tabs-two-tabContent">
       <div class="tab-pane fade show active" id="list-dokumen" role="tabpanel" aria-labelledby="list-dokumen-tab">
         <table id="table-dokumen-pengantar" class="table table-sm table-warning" style="width: 100%;">
