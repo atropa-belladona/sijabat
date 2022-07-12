@@ -78,7 +78,7 @@
   <div class="form-group row">
     <label for="pendidikan_terakhir" class="col-lg-2 col-form-label text-right">Pendidikan Terakhir</label>
     <div class="col-lg-4 col-md-10">
-      <input type="text" id="pendidikan_terakhir" class="form-control" name="pendidikan_terakhir" value="<?= $pendidikan?->jenjang_pendidikan . ' ' . $pendidikan?->bidang_studi ?>" required>
+      <input type="text" id="pendidikan_terakhir" class="form-control" name="pendidikan_terakhir" value="<?= $pendidikan->jenjang_pendidikan . ' ' . $pendidikan->bidang_studi ?>" required>
     </div>
   </div>
 
@@ -130,7 +130,7 @@
       <select name="gol_1" id="gol_1" class="form-control" required>
         <option value="">Pilih ...</option>
         <?php foreach ($list_golongan as $lgol) : ?>
-          <option value="<?= $lgol->nama; ?>" <?= $lgol->nama == $kepangkatan?->pangkat_golongan ? 'selected' : ''; ?>><?= $lgol->nama; ?></option>
+          <option value="<?= $lgol->nama; ?>" <?= $lgol->nama == $kepangkatan->pangkat_golongan ? 'selected' : ''; ?>><?= $lgol->nama; ?></option>
         <?php endforeach ?>
       </select>
     </div>
