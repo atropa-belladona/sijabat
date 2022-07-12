@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="<?= csrf_token(); ?>">
 
   <link rel="shortcut icon" href="<?= base_url('img/favicon.png'); ?>">
   <title>SIJABAT <?= (isset($titlePage) ? '| ' . $titlePage : ''); ?></title>
@@ -31,6 +32,8 @@
   <!-- Bootstrap selectpicker -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
   <!-- My CSS -->
   <link rel="stylesheet" href="<?= base_url(); ?>/css/my.css">
 
@@ -41,9 +44,7 @@
   <div class="wrapper">
 
     <!-- Preloader -->
-    <div class="preloader flex-column justify-content-center align-items-center">
-      <img class="animation__wobble" src="<?= base_url(); ?>/img/logo_unj.png" alt="AdminLTELogo" height="auto" width="60">
-    </div>
+
 
     <!-- Include parts navbar -->
     <?= $this->include('layouts/parts/navbar'); ?>
@@ -124,6 +125,51 @@
   <!-- Bootstrap select -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+  <script>
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+  </script>
+
+  <script>
+    toastr.options = {
+      "progressBar": true,
+      "positionClass": "toast-top-center",
+      "showDuration": "1000",
+    }
+
+    <?php if (session('toast_success')) : ?>
+      toastr.success("<?= session('toast_success') ?>").css({
+        'width': 'auto',
+        'max-width': 'fit-content'
+      });
+    <?php endif ?>
+
+    <?php if (session('toast_error')) : ?>
+      toastr.error("<?= session('toast_error') ?>").css({
+        'width': 'auto',
+        'max-width': 'fit-content'
+      });
+    <?php endif ?>
+
+    <?php if (session('toast_info')) : ?>
+      toastr.info("<?= session('toast_info') ?>").css({
+        'width': 'auto',
+        'max-width': 'fit-content'
+      });
+    <?php endif ?>
+
+    <?php if (session('toast_warning')) : ?>
+      toastr.warning("<?= session('toast_warning') ?>").css({
+        'width': 'auto',
+        'max-width': 'fit-content'
+      });
+    <?php endif ?>
+  </script>
 
   <!-- Custom script -->
   <script>
@@ -148,9 +194,17 @@
     });
   </script>
 
+  <script>
+    function window_popup(popup) {
+      window.open('about:blank', popup, 'width=800,height=600');
+    }
+  </script>
+
+
   <?= $this->renderSection('script'); ?>
 
   <?= $this->renderSection('script1'); ?>
+
 
 </body>
 

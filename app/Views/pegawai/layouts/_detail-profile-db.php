@@ -21,7 +21,7 @@
               <b>NIP</b> <span class="float-right"><?= $pegawai->nip; ?></span>
             </li>
             <li class="list-group-item">
-              <b>Fakultas</b> <span class="float-right"></span>
+              <b>Fakultas</b> <span class="float-right"><?= $penugasan->fakultas; ?></span>
             </li>
             <li class="list-group-item">
               <b>Prodi</b> <span class="float-right">
@@ -207,7 +207,7 @@
                       <td><?= $i++; ?></td>
                       <td><?= $log->ip; ?></td>
                       <td><?= $log->created_at; ?></td>
-                      <td><?= $log->name; ?></td>
+                      <td><?= $log->created_by; ?></td>
                     </tr>
                   <?php endforeach ?>
                 </tbody>

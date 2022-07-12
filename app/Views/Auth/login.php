@@ -54,13 +54,6 @@
       top: -45px;
     }
 
-    .input-group-prepend span {
-      width: 50px;
-      background-color: #FFC312;
-      color: black;
-      border: 0 !important;
-    }
-
     input:focus {
       outline: 0 0 0 0 !important;
       box-shadow: 0 0 0 0 !important;
@@ -113,21 +106,36 @@
           <div class="row">
             <div class="col-md-6 d-flex flex-column justify-content-center align-items-center mb-2">
               <img src="<?= base_url('img/logo_unj_green.png'); ?>" width="auto" height="250" />
-              <?php if ($_SERVER['CI_ENVIRONMENT'] == 'development') : ?>
-                <div>
+              <?php // if ($_SERVER['CI_ENVIRONMENT'] == 'development') : 
+              ?>
+              <!-- <div>
                   Dosen : [nidn] [nidn] ;
                   Operator Unit : operator_unit operator ;
                   Verifikator unit : verifikator verifikator123 ;
                   Koordinator BUK : koordinator koordinator123 ;
                   Tim Penilai PAK : reviewer reviewer123 ;
-                </div>
-              <?php endif ?>
+                </div> -->
+              <?php //endif 
+              ?>
             </div>
             <div class="col-md-6">
               <form action="<?= route_to('login') ?>" method="post">
                 <?= csrf_field() ?>
-
                 <h3 align="center" style="color: green">Sistem Informasi Jabatan</h3> <br>
+
+                <div class="form-group">
+                  <i class="fa fa-tag"></i>
+                  <label for="log_as">Login sebagai</label>
+                  <select name="log_as" id="log_as" class="form-control <?php if (session('errors.log_as')) : ?>is-invalid<?php endif ?>" autocomplete="off">
+                    <option value="">Pilih ...</option>
+                    <?php foreach ($auth_groups as $auth_group) : ?>
+                      <option value="<?= $auth_group->id; ?>" <?= ($auth_group->id == old('log_as')) ? 'selected' : ''; ?>><?= $auth_group->description; ?></option>
+                    <?php endforeach ?>
+                  </select>
+                  <div class="invalid-feedback">
+                    <?= session('errors.log_as') ?>
+                  </div>
+                </div>
 
                 <div class="form-group">
                   <i class="fa fa-users"></i>
@@ -145,6 +153,23 @@
                   <div class="invalid-feedback">
                     <?= session('errors.password') ?>
                   </div>
+                </div>
+
+                <div class="form-group">
+                  <?php if ($captcha->id == null) : ?>
+                    <span class="text-danger"><?= $captcha->quest; ?></span>
+                  <?php else : ?>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <span class="security-field">Berapakah <?= $captcha->quest; ?> ?</span>
+                        </span>
+                      </div>
+                      <input type="text" id="securid" name="securid" class="form-control" placeholder="Jawaban" required="" autocomplete="off">
+                      <input type="hidden" name="captcha_id" id="captcha_id" value="<?= $captcha->id; ?>" />
+                    </div>
+                  <?php endif ?>
+
                 </div>
 
                 <?php if ($config->allowRemembering) : ?>
@@ -207,6 +232,7 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 
 </body>
 

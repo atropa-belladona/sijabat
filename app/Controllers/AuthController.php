@@ -60,7 +60,21 @@ class AuthController extends Controller
 		// Set a return URL if none is specified
 		$_SESSION['redirect_url'] = session('redirect_url') ?? previous_url() ?? site_url('/');
 
-		return $this->_render($this->config->views['login'], ['config' => $this->config]);
+		helper('siakadapi');
+
+		$captcha = getCaptchaSiakad();
+
+		if ($captcha->status == true) {
+			$captcha->id = $captcha->data->id;
+			$captcha->quest = $captcha->data->quest;
+		} else {
+			$captcha->id = null;
+			$captcha->quest = $captcha->error;
+		}
+
+		$auth_groups = $this->db->table('auth_groups')->get()->getResult();
+
+		return $this->_render($this->config->views['login'], ['config' => $this->config, 'auth_groups' => $auth_groups, 'captcha' => $captcha]);
 	}
 
 	/**
@@ -70,34 +84,60 @@ class AuthController extends Controller
 	public function attemptLogin()
 	{
 		$rules = [
+			'log_as' => 'required',
 			'login'	=> 'required',
 			'password' => 'required',
 		];
-		if ($this->config->validFields == ['email']) {
-			$rules['login'] .= '|valid_email';
-		}
 
 		if (!$this->validate($rules)) {
 			return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
 		}
 
+		$log_as = $this->request->getPost('log_as');
 		$login = $this->request->getPost('login');
 		$password = $this->request->getPost('password');
+		$captcha_id = $this->request->getPost('captcha_id');
+		$securid = $this->request->getPost('securid');
+
 		$remember = (bool)$this->request->getPost('remember');
 
 		// Determine credential type
 		$type = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-		// Try to log them in...
-		if (!$this->auth->attempt([$type => $login, 'password' => $password], $remember)) {
-			return redirect()->back()->withInput()->with('error', $this->auth->error() ?? lang('Auth.badAttempt'));
-		}
+		if ($log_as == 2) {
+			helper('siakadapi');
+			$siakad_auth = siakad_authorize($log_as, $login, $password, $captcha_id, $securid);
 
-		// Is the user being forced to reset their password?
-		if ($this->auth->user()->force_pass_reset === true) {
-			return redirect()->to(route_to('reset-password') . '?token=' . $this->auth->user()->reset_hash)->withCookies();
-		}
+			if ($siakad_auth->status == false) {
+				return redirect()->back()->withInput()->with('error', $siakad_auth->msg ?? $siakad_auth->error);
+			}
 
+			// login as dosen
+			$login = 'dosen';
+			$password = 'dosenunj123';
+
+			if (!$this->auth->attempt([$type => $login, 'password' => $password], $remember)) {
+				return redirect()->back()->withInput()->with('error', $this->auth->error() ?? lang('Auth.badAttempt'));
+			}
+
+			// set user session
+			$this->session->set([
+				'siakad_username' => $siakad_auth->username,
+				'siakad_nama' => $siakad_auth->nama,
+			]);
+
+			///
+		} else {
+			// Try to log them in...
+			if (!$this->auth->attempt([$type => $login, 'password' => $password], $remember)) {
+				return redirect()->back()->withInput()->with('error', $this->auth->error() ?? lang('Auth.badAttempt'));
+			}
+
+			// Is the user being forced to reset their password?
+			if ($this->auth->user()->force_pass_reset === true) {
+				return redirect()->to(route_to('reset-password') . '?token=' . $this->auth->user()->reset_hash)->withCookies();
+			}
+		}
 
 		$home = site_url('/');
 
@@ -105,17 +145,15 @@ class AuthController extends Controller
 		unset($_SESSION['redirect_url']);
 
 		// get user and password for sister authorization
-		$sister = $this->db->table('zz_sister_password')->where('active', '1')->get()->getRowObject();
+		// $sister = $this->db->table('zz_sister_password')->where('active', '1')->get()->getRowObject();
 
-		// set as session
-		$this->session->set([
-			'sister_username' => $sister->username,
-			'sister_password' => $sister->password,
-			'sister_pengguna' => $sister->id_pengguna
-		]);
+		// // set as session
+		// $this->session->set([
+		// 	'sister_username' => $sister->username,
+		// 	'sister_password' => $sister->password,
+		// 	'sister_pengguna' => $sister->id_pengguna
+		// ]);
 
-		helper('sisterws');
-		sister_authorize();
 
 		return redirect()->to($redirectURL)->withCookies()->with('message', lang('Auth.loginSuccess'));
 	}
@@ -125,7 +163,11 @@ class AuthController extends Controller
 	 */
 	public function logout()
 	{
+		helper('cookie');
+
 		if ($this->auth->check()) {
+
+			delete_cookie('sister_token');
 
 			$this->auth->logout();
 		}

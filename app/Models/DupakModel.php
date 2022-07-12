@@ -7,11 +7,12 @@ use CodeIgniter\Model;
 class DupakModel extends Model
 {
 	protected $table                = 't_dupak';
+	protected $useAutoIncrement 		= false;
+
 	protected $protectFields        = true;
 	protected $allowedFields        = [
-		'id', 'id_periode', 'id_sdm', 'masa_awal', 'masa_akhir', 'nama_sdm', 'nip', 'nidn', 'no_karpeg', 'pendidikan_terakhir',
-		'jabfung', 'tmt_jabfung', 'mk_lama_thn', 'mk_lama_bln', 'mk_baru_thn', 'mk_baru_bln', 'unit_kerja', 'fakultas', 'mata_kuliah', 'acc_fakultas',
-		'active', 'tahap_id'
+		'id', 'id_periode', 'id_sdm', 'masa_awal', 'masa_akhir', 'nama_sdm', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'nip', 'nidn', 'no_karpeg', 'pendidikan_terakhir',
+		'jabfung', 'tmt_jabfung', 'kum_lama', 'jabfung_baru', 'kum_baru', 'gol_lama', 'tmt_gol_lama', 'gol_baru', 'mk_lama_thn', 'mk_lama_bln', 'mk_baru_thn', 'mk_baru_bln', 'unit_kerja', 'fakultas', 'mata_kuliah', 'bidang_ilmu', 'acc_fakultas', 'created_by', 'active', 'tahap_id'
 	];
 
 	// Dates

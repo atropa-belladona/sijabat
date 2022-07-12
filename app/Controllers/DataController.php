@@ -28,7 +28,7 @@ class DataController extends BaseController
 	{
 		helper('cookie');
 
-		if (get_cookie('sister_token') == null) {
+		if (get_cookie('sister_cookie') == null) {
 			helper('sisterws');
 			sister_authorize();
 		}
@@ -57,11 +57,10 @@ class DataController extends BaseController
 		$data['menu'] = 'data-pegawai';
 		$data['content_title'] = 'Data Pegawai';
 
-
 		// get all pegawai data
 		$pegawai = $this->pegawaiModel->orderBy('nama_sdm', 'asc')->findAll();
 		$status_aktif = $this->pegawaiModel->groupBy('status_aktif')
-			->select('status_aktif, count(id) as jumlah')
+			->select('status_aktif, count(id_sdm) as jumlah')
 			->get()
 			->getResult();
 
@@ -77,8 +76,8 @@ class DataController extends BaseController
 		ini_set('max_execution_time', 600);
 
 		try {
+			helper('siakadapi');
 			helper('sisterws');
-
 			$response = sister_getDataPegawai();
 
 			if ($response->getStatusCode() == 200) {
@@ -86,7 +85,7 @@ class DataController extends BaseController
 
 				foreach ($pegawai as $dos) {
 					// insert data into table pegawai
-					$this->pegawaiModel->ignore(true)->insert([
+					$this->pegawaiModel->replace([
 						'id_sdm' => $dos->id_sdm,
 						'nama_sdm' => $dos->nama_sdm,
 						'nidn' => $dos->nidn,
@@ -94,8 +93,31 @@ class DataController extends BaseController
 						'status_aktif' => $dos->nama_status_aktif,
 						'status_pegawai' => $dos->nama_status_pegawai,
 						'jenis_sdm' => $dos->jenis_sdm,
-						'password_hash' => Password::hash($dos->nidn)
 					]);
+
+					$dosen_siakad = getDataDosenSiakad($dos->nidn);
+
+					if ($dosen_siakad->status) {
+						$record = [
+							'nidn' => $dosen_siakad->isi[0]->nidn,
+							'nik' => $dosen_siakad->isi[0]->nik,
+							'nama_lengkap' => $dosen_siakad->isi[0]->nama,
+							'tempat_lahir' => $dosen_siakad->isi[0]->tempatLahir,
+							'tanggal_lahir' => $dosen_siakad->isi[0]->tanggalLahir,
+							'tanggal_lahir' => $dosen_siakad->isi[0]->tanggalLahir,
+							'jenis_kelamin' => $dosen_siakad->isi[0]->kelamin,
+							'alamat' => $dosen_siakad->isi[0]->alamat,
+							'no_hp' => $dosen_siakad->isi[0]->kontak,
+							'email' => $dosen_siakad->isi[0]->email,
+							'gelar_depan' => $dosen_siakad->isi[0]->gelard,
+							'gelar_belakang' => $dosen_siakad->isi[0]->gelarb,
+							'prodi' => $dosen_siakad->isi[0]->prodi,
+							'nip' => $dosen_siakad->isi[0]->nip,
+							'npwp' => $dosen_siakad->isi[0]->npwp,
+						];
+
+						$this->db->table('r_dosen_unj')->replace($record);
+					}
 				}
 			}
 
@@ -128,7 +150,7 @@ class DataController extends BaseController
 
 		// prevent unauthorized access
 		if (in_groups('dosen')) {
-			if ($pegawai->nidn != user()->username) {
+			if ($pegawai->nidn != session('siakad_username')) {
 				return redirect()->back()->with('app_error', 'Anda tidak punya akses untuk data ini');
 			}
 		}

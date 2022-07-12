@@ -111,6 +111,7 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 
 		// detail dupak route
 		$routes->get('detail/(:segment)', 'DupakController::show/$1', ['as' => 'dupak_detail']);
+		$routes->post('detail/(:segment)', 'DupakController::update/$1', ['as' => 'dupak_update', 'filter' => 'role:dosen,operator']);
 
 		// list usulan by kategori kegiatan route
 		$routes->get('detail/(:segment)/list', 'DupakController::list_usulan/$1', ['as' => 'dupak_list', 'filter' => 'role:dosen,operator']);
@@ -119,6 +120,9 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 
 		$routes->get('evaluasi', 'DupakController::dupak_evaluasi', ['as' => 'dupak_evaluasi']);
 		$routes->post('evaluasi/(:any)/store', 'DupakController::dupak_evaluasi_store/$1', ['as' => 'dupak_evaluasi_store']);
+
+		$routes->get('cetak_sp', 'DupakController::view_cetak_sp', ['as' => 'view_cetak_sp']);
+		$routes->post('cetak_sp', 'DupakController::store_cetak_sp', ['as' => 'store_cetak_sp']);
 
 		// add dupak component
 		$routes->get('detail/(:any)/(:any)/kategori', 'DupakController::add_ak/$1/$2', ['as' => 'dupak_addak']);
@@ -143,6 +147,13 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 	// Import data by id_sdm from sister unj
 	$routes->post('data/pegawai/(:segment)', 'DataController::import_data_sdm_sister/$1', ['as' => 'import_data_sdm_sister']);
 });
+
+$routes->get('print/rekap-dupak/(:segment)', 'PrintController::pdf_rekapdupak/$1', ['as' => 'pdf_rekapdupak']);
+$routes->get('print/kartu-kendali/(:segment)', 'PrintController::pdf_kartukendali/$1', ['as' => 'pdf_kartukendali']);
+$routes->get('print/sp-pendidikan/(:segment)', 'PrintController::pdf_sp_pendidikan/$1', ['as' => 'pdf_sp_pendidikan']);
+$routes->get('print/sp-penelitian/(:segment)', 'PrintController::pdf_sp_penelitian/$1', ['as' => 'pdf_sp_penelitian']);
+$routes->get('print/sp-pengabdian/(:segment)', 'PrintController::pdf_sp_pengabdian/$1', ['as' => 'pdf_sp_pengabdian']);
+$routes->get('print/sp-penunjang/(:segment)', 'PrintController::pdf_sp_penunjang/$1', ['as' => 'pdf_sp_penunjang']);
 
 $routes->get('dokumen/(:any)/(:any)/(:any)/download', 'DataController::download_dokumen/$1/$2/$3', ['as' => 'download_dokumen']);
 

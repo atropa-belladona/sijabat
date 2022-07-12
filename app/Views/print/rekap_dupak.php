@@ -1,14 +1,14 @@
-<form action="<?= route_to('pdf_rekapdupak', $dupak->id); ?>" method="get" target="print_popup" onsubmit="window_popup('print_popup')">
-  <button type="submit" class="btn btn-sm btn-success"><i class="fas fa-fw fa-print"></i> Cetak Rekap Dupak</button>
-</form>
+<?= $this->extend('print/layout/print', ['title' => 'Cetak Rekap DUPAK']); ?>
 
+<?= $this->section('content'); ?>
 <div id="rekap-dupak" class="rekap-dupak">
   <div class="row">
     <div class="col text-center">
-      <h6 class="font-weight-bold">DAFTAR USUL PENETAPAN ANGKA KREDIT</h6>
-      <h6 class="font-weight-bold">JABATAN AKADEMIK DOSEN</h6>
+      <div class="font-weight-bold text-lg">DAFTAR USUL PENETAPAN ANGKA KREDIT</div>
+      <div class="font-weight-bold text-lg">JABATAN AKADEMIK DOSEN</div>
     </div>
   </div>
+
   <div class="row mb-3">
     <div class="col text-center">
       Nomor : ...
@@ -16,25 +16,29 @@
   </div>
 
   <div class="row">
-    <div class="col d-flex justify-content-between">
-      <div class="left">Instansi : Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi</div>
-      <div class="right">Masa Penilaian : <?= date_str($dupak->masa_awal) . ' s.d. ' . date_str($dupak->masa_akhir) ?></div>
+    <div class="col">
+      <table class="text-sm">
+        <tr>
+          <td style="width: 420px;">Instansi : Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi</td>
+          <td>Masa Penilaian : <?= date_str($dupak->masa_awal) . ' s.d. ' . date_str($dupak->masa_akhir) ?></td>
+        </tr>
+      </table>
     </div>
   </div>
 
   <div class="row mt-2">
     <div class="col table-responsive">
-      <table class="table table-sm table-bordered" style="width: 100%;">
+      <table class="table table-sm table-bordered text-sm" style="width: 100%;">
         <thead>
           <tr>
-            <th class="text-center" style="width: 1em;">No</th>
+            <th class="text-center" style="width: 20px;">No</th>
             <th class="text-center" colspan="3">Keterangan Perorangan</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="align-middle text-center">1.</td>
-            <td class="align-middle" colspan="2">Nama</td>
+            <td class="align-middle" colspan="2" style="width: 280px">Nama</td>
             <td class="align-middle">
               <?php if (isset($dupak->nama_sdm)) : ?>
                 <?= $dupak->nama_sdm; ?>
@@ -160,14 +164,14 @@
 
   <div class="row mt-2">
     <div class="col table-responsive">
-      <table class="table table-sm table-bordered table-hover" style="width: 100%;">
+      <table class="table table-sm table-bordered table-hover text-sm" style="width: 100%;">
         <thead>
           <tr>
-            <th class="align-middle text-center" rowspan="4" style="width: 1em;">No.</th>
+            <th class="align-middle text-center" rowspan="4" style="width: 20px;">No.</th>
             <th class="align-middle text-center" colspan="7">Unsur yang Dinilai</th>
           </tr>
           <tr>
-            <th class="align-middle text-center" rowspan="3">Unsur, Sub Unsur dan Butir Kegiatan</th>
+            <th class="align-middle text-center" rowspan="3" style="width: 386px">Unsur, Sub Unsur dan Butir Kegiatan</th>
             <th class="align-middle text-center" colspan="6">Angka Kredit Menurut</th>
           </tr>
           <tr>
@@ -197,3 +201,4 @@
     </div>
   </div>
 </div>
+<?= $this->endSection(); ?>

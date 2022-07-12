@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Models\UserModel;
 use App\Models\PegawaiModel;
 use App\Models\DataModel;
-
 use Config\Database;
 
 class Home extends BaseController
@@ -30,9 +29,13 @@ class Home extends BaseController
 		$data['menu'] = 'beranda';
 		$data['content_title'] = 'Beranda';
 
+		helper('sisterws');
+		sister_authorize();
+
+		// dd($re);
 		// home for pegawai
 		if (in_groups('dosen')) {
-			$pegawai = $this->pegawaiModel->where('nidn', user()->username)->get();
+			$pegawai = $this->pegawaiModel->where('nidn', session('siakad_username'))->get();
 			$data['pegawai'] = $pegawai->getRow();
 
 			$home_data = $this->pegawaiModel->getDetailSDM($data['pegawai']->id_sdm);

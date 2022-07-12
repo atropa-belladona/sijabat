@@ -20,7 +20,7 @@
        <li class="nav-item dropdown">
          <a class="nav-link" data-toggle="dropdown" href="#">
            <i class="far fa-bell"></i>
-           <span class="badge badge-warning navbar-badge">15</span>
+           <!-- <span class="badge badge-warning navbar-badge">15</span> -->
          </a>
          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
            <span class="dropdown-item dropdown-header">15 Notifications</span>
@@ -50,7 +50,11 @@
        <li class="nav-item dropdown no-arrow">
          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
            <img class="img-profile rounded-circle" src="<?= base_url('img/profile/' . user()->profile_img); ?>">
-           <span class="mr-2 d-none d-lg-inline text-gray-600 small font-weight-bold"><?= (isset(user()->username)) ? user()->username : 'Guest' ?></span>
+           <?php if (in_groups('dosen')) : ?>
+             <span class="mr-2 d-none d-lg-inline text-gray-600 small font-weight-bold"><?= session('siakad_username') ?? 'Guest' ?></span>
+           <?php else : ?>
+             <span class="mr-2 d-none d-lg-inline text-gray-600 small font-weight-bold"><?= user()->username ?? 'Guest' ?></span>
+           <?php endif ?>
          </a>
          <!-- Dropdown - User Information -->
          <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

@@ -63,7 +63,7 @@ class DupakController extends BaseController
         $data['content_title'] = 'Daftar Usulan';
 
         if (in_groups('dosen')) {
-            $data['dupak'] = $this->dupakModel->getListUsulanPegawai(user()->username);
+            $data['dupak'] = $this->dupakModel->getListUsulanPegawai(session('siakad_username'));
         } else {
             $data['dupak'] = $this->dupakModel->getListUsulan();
         }
@@ -78,20 +78,25 @@ class DupakController extends BaseController
         $data['menu'] = 'dupak-buat';
         $data['content_title'] = 'Buat Usulan';
 
-        // $data['periode_penilaian'] = $this->dataModel->getOpenPeriodePenilaian();
-
-        // if ($data['periode_penilaian']) {
-        // if role is dosen then nidn = username
         if (in_groups('dosen')) {
-            $nidn = user()->username;
+            $nidn = session('siakad_username');
         }
 
         $data['sdm'] = $this->pegawaiModel->getProfileSDMByNIDN($nidn);
         $data['info'] = $this->pegawaiModel->getProfileTambahanByNIDN($nidn);
         $data['pendidikan'] = $this->pegawaiModel->getPendidikanTerakhirSDM($data['sdm']->id_sdm);
         $data['kepangkatan'] = $this->pegawaiModel->getGolonganTerakhir($data['sdm']->id_sdm);
+        $data['jabfung'] = $this->pegawaiModel->getJabfungTerakhir($data['sdm']->id_sdm);
         $data['penugasan'] = $this->pegawaiModel->getPenugasanTerakhir($data['sdm']->id_sdm);
-        // }
+
+        // referensi golongan
+        $data['list_golongan'] = $this->db->table('r_golongan')->get()->getResult();
+
+
+        if (!$data['sdm'] or !$data['pendidikan']) {
+            return redirect()->route('home')->with('app_error', 'Harap import data pegawai terlebih dahulu. Terima kasih');
+        }
+
 
         return view('dupak/create', $data);
     }
@@ -102,15 +107,15 @@ class DupakController extends BaseController
         $data['menu'] = 'dupak-buat';
         $data['content_title'] = 'Buat Usulan';
 
-        // $data['periode_penilaian'] = $this->dataModel->getOpenPeriodePenilaian();
-
-        // if ($data['periode_penilaian']) {
         $data['sdm'] = $this->pegawaiModel->getInfoPegawaiByIdSDM($id_sdm);
         $data['info'] = $this->pegawaiModel->getProfileTambahanByNIDN($data['sdm']->nidn);
         $data['pendidikan'] = $this->pegawaiModel->getPendidikanTerakhirSDM($id_sdm);
         $data['kepangkatan'] = $this->pegawaiModel->getGolonganTerakhir($id_sdm);
+        $data['jabfung'] = $this->pegawaiModel->getJabfungTerakhir($id_sdm);
         $data['penugasan'] = $this->pegawaiModel->getPenugasanTerakhir($data['sdm']->id_sdm);
-        // }
+
+        // referensi golongan
+        $data['list_golongan'] = $this->db->table('r_golongan')->get()->getResult();
 
         if (!$data['sdm'] or !$data['pendidikan']) {
             return redirect()->back()->with('app_error', 'Harap import data pegawai terlebih dahulu. Terima kasih');
@@ -139,20 +144,34 @@ class DupakController extends BaseController
         $masa_akhir = $this->request->getPost('masa_akhir');
         $id_sdm = $this->request->getPost('id_sdm');
         $nama_sdm = $this->request->getPost('nama');
+        $tempat_lahir = $this->request->getPost('tempat_lahir');
+        $tanggal_lahir = $this->request->getPost('tanggal_lahir');
+        $jenis_kelamin = $this->request->getPost('jenis_kelamin');
+
         $nip = $this->request->getPost('nip');
         $nidn = $this->request->getPost('nidn');
-        $unit_kerja = $this->request->getPost('unit_kerja');
         $no_karpeg = $this->request->getPost('no_karpeg');
+        $fakultas = $this->request->getPost('fakultas');
+        $unit_kerja = $this->request->getPost('unit_kerja');
         $pendidikan_terakhir = $this->request->getPost('pendidikan_terakhir');
-        $jabfung = $this->request->getPost('jab_fung');
-        $tmt_jabfung = $this->request->getPost('tmt_jab_fung');
+
+        $jabfung_1 = $this->request->getPost('jabfung_1');
+        $tmt_jabfung_1 = $this->request->getPost('tmt_jabfung_1');
+        $kum_jabfung_1 = $this->request->getPost('kum_jabfung_1');
+        $jabfung_2 = $this->request->getPost('jabfung_2');
+        $kum_jabfung_2 = $this->request->getPost('kum_jabfung_2');
+
+        $gol_1 = $this->request->getPost('gol_1');
+        $tmt_gol_1 = $this->request->getPost('tmt_gol_1');
+        $gol_2 = $this->request->getPost('gol_2');
+
         $mk_lama_thn = $this->request->getPost('mk_lama_thn');
         $mk_lama_bln = $this->request->getPost('mk_lama_bln');
         $mk_baru_thn = $this->request->getPost('mk_baru_thn');
         $mk_baru_bln = $this->request->getPost('mk_baru_bln');
 
         $mata_kuliah = $this->request->getPost('mata_kuliah');
-        $fakultas = $this->request->getPost('fakultas');
+        $bidang_ilmu = $this->request->getPost('bidang_ilmu');
 
         // store code here
         try {
@@ -186,20 +205,30 @@ class DupakController extends BaseController
                 'masa_awal' => $masa_awal,
                 'masa_akhir' => $masa_akhir,
                 'nama_sdm' => $nama_sdm,
+                'tempat_lahir' => $tempat_lahir,
+                'tanggal_lahir' => $tanggal_lahir,
+                'jenis_kelamin' => $jenis_kelamin,
                 'nip' => $nip,
                 'nidn' => $nidn,
-                'unit_kerja' => $unit_kerja,
                 'no_karpeg' => $no_karpeg,
+                'fakultas' => $fakultas,
+                'unit_kerja' => $unit_kerja,
                 'pendidikan_terakhir' => $pendidikan_terakhir,
-                'jabfung' => $jabfung,
-                'tmt_jabfung' => $tmt_jabfung,
+                'jabfung' => $jabfung_1,
+                'tmt_jabfung' => $tmt_jabfung_1,
+                'kum_lama' => $kum_jabfung_1,
+                'jabfung_baru' => $jabfung_2,
+                'kum_baru' => $kum_jabfung_2,
+                'gol_lama' => $gol_1,
+                'tmt_gol_lama' => $tmt_gol_1,
+                'gol_baru' => $gol_2,
                 'mk_lama_thn' => $mk_lama_thn,
                 'mk_lama_bln' => $mk_lama_bln,
                 'mk_baru_thn' => $mk_baru_thn,
                 'mk_baru_bln' => $mk_baru_bln,
                 'tahap_id' => $tahap_id,
                 'mata_kuliah' => $mata_kuliah,
-                'fakultas' => $fakultas,
+                'bidang_ilmu' => $bidang_ilmu,
                 'created_by' => user()->id,
             ]);
 
@@ -208,7 +237,105 @@ class DupakController extends BaseController
 
             $this->dupakModel->transCommit();
 
-            return redirect()->route('dupak_index')->with('app_success', 'Data Usulan berhasil disimpan');
+            return redirect()->route('dupak_index')->with('toast_success', 'Data Usulan berhasil disimpan');
+        } catch (Exception $ex) {
+            $this->dupakModel->transRollback();
+            return redirect()->back()->with('app_error', $ex->getMessage());
+        }
+    }
+
+
+    public function update($id_dupak)
+    {
+        $rules = $this->validation->setRules(
+            [
+                'id_sdm' => 'required',
+                'nama' => 'required',
+                'nidn' => 'required',
+            ]
+        );
+
+        // run input validation
+        if (!$this->validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
+        }
+
+        // $id_periode = $this->request->getPost('periode_penilaian');
+        $masa_awal = $this->request->getPost('masa_awal');
+        $masa_akhir = $this->request->getPost('masa_akhir');
+        $id_sdm = $this->request->getPost('id_sdm');
+        $nama_sdm = $this->request->getPost('nama');
+        $tempat_lahir = $this->request->getPost('tempat_lahir');
+        $tanggal_lahir = $this->request->getPost('tanggal_lahir');
+        $jenis_kelamin = $this->request->getPost('jenis_kelamin');
+
+        $nip = $this->request->getPost('nip');
+        $nidn = $this->request->getPost('nidn');
+        $no_karpeg = $this->request->getPost('no_karpeg');
+        $fakultas = $this->request->getPost('fakultas');
+        $unit_kerja = $this->request->getPost('unit_kerja');
+        $pendidikan_terakhir = $this->request->getPost('pendidikan_terakhir');
+
+        $jabfung_1 = $this->request->getPost('jabfung_1');
+        $tmt_jabfung_1 = $this->request->getPost('tmt_jabfung_1');
+        $kum_jabfung_1 = $this->request->getPost('kum_jabfung_1');
+        $jabfung_2 = $this->request->getPost('jabfung_2');
+        $kum_jabfung_2 = $this->request->getPost('kum_jabfung_2');
+
+        $gol_1 = $this->request->getPost('gol_1');
+        $tmt_gol_1 = $this->request->getPost('tmt_gol_1');
+        $gol_2 = $this->request->getPost('gol_2');
+
+        $mk_lama_thn = $this->request->getPost('mk_lama_thn');
+        $mk_lama_bln = $this->request->getPost('mk_lama_bln');
+        $mk_baru_thn = $this->request->getPost('mk_baru_thn');
+        $mk_baru_bln = $this->request->getPost('mk_baru_bln');
+
+        $mata_kuliah = $this->request->getPost('mata_kuliah');
+        $bidang_ilmu = $this->request->getPost('bidang_ilmu');
+
+        // store code here
+        try {
+
+            $this->dupakModel->transBegin();
+
+            $record = [
+                'masa_awal' => $masa_awal,
+                'masa_akhir' => $masa_akhir,
+                'nama_sdm' => $nama_sdm,
+                'tempat_lahir' => $tempat_lahir,
+                'tanggal_lahir' => $tanggal_lahir,
+                'jenis_kelamin' => $jenis_kelamin,
+                'nip' => $nip,
+                'nidn' => $nidn,
+                'no_karpeg' => $no_karpeg,
+                'fakultas' => $fakultas,
+                'unit_kerja' => $unit_kerja,
+                'pendidikan_terakhir' => $pendidikan_terakhir,
+                'jabfung' => $jabfung_1,
+                'tmt_jabfung' => $tmt_jabfung_1,
+                'kum_lama' => $kum_jabfung_1,
+                'jabfung_baru' => $jabfung_2,
+                'kum_baru' => $kum_jabfung_2,
+                'gol_lama' => $gol_1,
+                'tmt_gol_lama' => $tmt_gol_1,
+                'gol_baru' => $gol_2,
+                'mk_lama_thn' => $mk_lama_thn,
+                'mk_lama_bln' => $mk_lama_bln,
+                'mk_baru_thn' => $mk_baru_thn,
+                'mk_baru_bln' => $mk_baru_bln,
+                'mata_kuliah' => $mata_kuliah,
+                'bidang_ilmu' => $bidang_ilmu,
+            ];
+
+            $store = $this->dupakModel->where('id', $id_dupak)
+                ->where('id_sdm', $id_sdm)
+                ->set($record)
+                ->update();
+
+            $this->dupakModel->transCommit();
+
+            return redirect()->back()->with('toast_success', 'Data Usulan berhasil diperbaharui');
         } catch (Exception $ex) {
             $this->dupakModel->transRollback();
             return redirect()->back()->with('app_error', $ex->getMessage());
@@ -222,7 +349,7 @@ class DupakController extends BaseController
             'active' => '0',
         ]);
 
-        return redirect()->back()->with('app_success', 'Data berhasil dihapus');
+        return redirect()->back()->with('toast_success', 'Data berhasil dihapus');
     }
 
     public function show($id_dupak)
@@ -238,15 +365,20 @@ class DupakController extends BaseController
             return redirect()->route('home')->with('app_error', 'Data tidak ditemukan');
         }
 
+        helper('sisterws');
+        $foto = sister_getDataFotoSDM($data['dupak']->id_sdm);
+
+        $data['foto'] = 'data:image/png;base64,' . base64_encode($foto);
+
         // else do below
 
-        $pangkat = $this->pegawaiModel->getGolonganTerakhir($data['dupak']->id_sdm);
+        // $pangkat = $this->pegawaiModel->getGolonganTerakhir($data['dupak']->id_sdm);
 
-        helper('sisterws');
-        $data['kepangkatan'] = sister_getDetailKepangkatan($pangkat->id);
+        // $data['kepangkatan'] = sister_getDetailKepangkatan($pangkat->id);
+        $data['kepangkatan'] = $this->db->table('r_golongan')->where('nama', $data['dupak']->gol_lama)->get()->getRowObject();
 
-        $data_sdm = $this->pegawaiModel->getProfile($data['dupak']->id_sdm);
-        $data_pendidikan = $this->pegawaiModel->getKualifikasi($data['dupak']->id_sdm);
+        // $data_sdm = $this->pegawaiModel->getProfile($data['dupak']->id_sdm);
+        // $data_pendidikan = $this->pegawaiModel->getKualifikasi($data['dupak']->id_sdm);
 
         $data['bidang_kegiatan'] = $this->db->table('r_kegiatan')->where('active', '1')->get()->getResult();
 
@@ -264,7 +396,99 @@ class DupakController extends BaseController
 
         $data['dupak_logs'] = $this->dupakLogModel->getLogsById($id_dupak)->getResult();
 
-        return view('dupak/detail', array_merge($data, $data_sdm, $data_pendidikan));
+        // referensi golongan
+        $data['list_golongan'] = $this->db->table('r_golongan')->get()->getResult();
+
+
+
+
+
+
+        return view('dupak/detail', array_merge($data));
+    }
+
+    public function view_cetak_sp()
+    {
+        $id_dupak = $this->request->getGet('id_dupak');
+
+        $dupak = $this->dupakModel->getDetailUsulan($id_dupak);
+
+        // get info penandatangan surat pernyataan
+        $penandatangan_sp = $this->db->table('t_dupak_cetak_sp')->where('id_dupak', $id_dupak)->get()->getRowObject();
+
+        if (!isset($penandatangan_sp->id_dupak)) {
+            $dosen_info = $this->db->table('r_dosen_unj')->where('nidn', $dupak->nidn)->get()->getRowObject();
+
+            $penandatangan_sp = $this->db->table('v_ref_koorprodi')->where('kode', $dosen_info->prodi)->get()->getRowObject();
+
+            if (isset($penandatangan_sp->nama_lengkap)) {
+                $penandatangan_sp->penandatangan_nama = $penandatangan_sp->gelar_depan . ' ' . $penandatangan_sp->nama_lengkap . ' ' . $penandatangan_sp->gelar_belakang;
+                $penandatangan_sp->penandatangan_nip = $penandatangan_sp->nip_koord;
+            }
+        }
+
+        $data['penandatangan_sp'] = $penandatangan_sp;
+
+        // referensi golongan
+        $data['list_golongan'] = $this->db->table('r_golongan')->get()->getResult();
+        $data['dupak_info'] = $dupak;
+
+        return view('dupak/parts/modal-content/_95_cetak_sp', $data);
+    }
+
+    public function store_cetak_sp()
+    {
+        try {
+            $id_dupak = $this->request->getPost('id_dupak');
+            $penandatangan_nama = $this->request->getPost('penandatangan_nama');
+            $penandatangan_nip = $this->request->getPost('penandatangan_nip');
+            $penandatangan_gol = $this->request->getPost('penandatangan_gol');
+            $penandatangan_tmt_gol = $this->request->getPost('penandatangan_tmt_gol');
+            $penandatangan_jabfung = $this->request->getPost('penandatangan_jabfung');
+            $penandatangan_jabstruk = $this->request->getPost('penandatangan_jabstruk');
+            $tanggal_sp = $this->request->getPost('tanggal_sp');
+
+            // save data to db
+            $record = [
+                'id_dupak' => $id_dupak,
+                'penandatangan_nama' => $penandatangan_nama,
+                'penandatangan_nip' => $penandatangan_nip,
+                'penandatangan_golongan' => $penandatangan_gol,
+                'penandatangan_tmt_golongan' => $penandatangan_tmt_gol,
+                'jabfung' => $penandatangan_jabfung,
+                'jabstruk' => $penandatangan_jabstruk,
+                'tanggal_surat' => $tanggal_sp,
+            ];
+
+            $this->db->table('t_dupak_cetak_sp')->replace($record);
+
+            // show form again
+            $dupak = $this->dupakModel->getDetailUsulan($id_dupak);
+
+            // get info penandatangan surat pernyataan
+            $penandatangan_sp = $this->db->table('t_dupak_cetak_sp')->where('id_dupak', $id_dupak)->get()->getRowObject();
+
+            if (!isset($penandatangan_sp->id_dupak)) {
+                $dosen_info = $this->db->table('r_dosen_unj')->where('nidn', $dupak->nidn)->get()->getRowObject();
+
+                $penandatangan_sp = $this->db->table('v_ref_koorprodi')->where('kode', $dosen_info->prodi)->get()->getRowObject();
+
+                if (isset($penandatangan_sp->nama_lengkap)) {
+                    $penandatangan_sp->penandatangan_nama = $penandatangan_sp->gelar_depan . ' ' . $penandatangan_sp->nama_lengkap . ' ' . $penandatangan_sp->gelar_belakang;
+                    $penandatangan_sp->penandatangan_nip = $penandatangan_sp->nip_koord;
+                }
+            }
+
+            $data['penandatangan_sp'] = $penandatangan_sp;
+
+            // referensi golongan
+            $data['list_golongan'] = $this->db->table('r_golongan')->get()->getResult();
+            $data['dupak_info'] = $dupak;
+
+            return view('dupak/parts/modal-content/_95_cetak_sp', $data);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
+        }
     }
 
     public function list_usulan($id_dupak)
@@ -435,7 +659,7 @@ class DupakController extends BaseController
 
             $this->dupakDetailModel->insert($data);
 
-            return redirect()->route('dupak_detail', [$id_dupak])->with('app_success', 'Angka kredit telah ditambahkan');
+            return redirect()->route('dupak_detail', [$id_dupak])->with('toast_success', 'Angka kredit telah ditambahkan');
         } catch (Exception $ex) {
             $err_msg = $ex->getMessage();
 
@@ -525,7 +749,7 @@ class DupakController extends BaseController
             return redirect()->route('dupak_detail', [$dupak->id])->with('app_error', 'Evaluasi tidak bisa dilakukan');
         }
 
-        return redirect()->route('dupak_detail', [$dupak->id])->with('app_success', 'Hasil evaluasi telah disimpan');
+        return redirect()->route('dupak_detail', [$dupak->id])->with('toast_success', 'Hasil evaluasi telah disimpan');
     }
 
 
@@ -571,7 +795,7 @@ class DupakController extends BaseController
             // logs
             $this->setDupakLogs($id_dupak, $next_process['tahap']);
 
-            return redirect()->route('dupak_index')->with('app_success', $next_process['pesan']);
+            return redirect()->route('dupak_index')->with('toast_success', $next_process['pesan']);
         } catch (Exception $ex) {
 
             return redirect()->back()->with('app_error', $ex->getMessage());
@@ -596,7 +820,7 @@ class DupakController extends BaseController
             // logs
             $this->setDupakLogs($id_dupak, $return_process['tahap'], $catatan);
 
-            return redirect()->route('dupak_index')->with('app_success', $return_process['pesan']);
+            return redirect()->route('dupak_index')->with('toast_success', $return_process['pesan']);
         } catch (Exception $ex) {
             return redirect()->back()->with('app_error', $ex->getMessage());
         }
@@ -620,7 +844,7 @@ class DupakController extends BaseController
             // logs
             $this->setDupakLogs($id_dupak, $reject['tahap'], $alasan);
 
-            return redirect()->route('dupak_index')->with('app_success', $reject['pesan']);
+            return redirect()->route('dupak_index')->with('toast_success', $reject['pesan']);
         } catch (Exception $ex) {
             return redirect()->back()->with('app_error', $ex->getMessage());
         }
@@ -676,7 +900,10 @@ class DupakController extends BaseController
 
         if (in_groups('operator')) {
             // usulan masuk ke verifikator untuk diverifikasi
-            $tahap_id = 20;
+            // $tahap_id = 20;
+
+            // usulan langsung masuk ke kepegawaian
+            $tahap_id = 30;
 
             $pesan = 'Data usulan telah berhasil dikirim ke Verifikator Fakultas';
 

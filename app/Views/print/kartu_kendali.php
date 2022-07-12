@@ -1,13 +1,17 @@
-<form action="<?= route_to('pdf_kartukendali', $dupak->id); ?>" method="get" target="print_popup" onsubmit="window_popup('print_popup')">
-  <button type="submit" class="btn btn-sm btn-success"><i class="fas fa-fw fa-print"></i> Cetak Kartu Kendali</button>
-</form>
+<?= $this->extend('print/layout/print', ['title' => 'Cetak Kartu Kendali']); ?>
 
-
-<div class="kartu-kendali mt-3">
+<?= $this->section('content'); ?>
+<div class="kartu-kendali">
 
   <div class="row">
-    <div class="col">
-      <h6 class="font-weight-bold">I. DATA YANG BERSANGKUTAN</h6>
+    <div class="col text-center">
+      <h6 class="font-weight-bold text-lg">KARTU KENDALI USUL KENAIKAN/PENYESUAIAN JABATAN</h6>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col mb-1">
+      <span class="font-weight-bold text-md">I. DATA YANG BERSANGKUTAN</span>
     </div>
   </div>
   <div class="row mb-3">
@@ -83,8 +87,8 @@
   </div>
 
   <div class="row">
-    <div class="col">
-      <h6 class="font-weight-bold">II. PERINCIAN ANGKA KREDIT</h6>
+    <div class="col mb-1">
+      <span class="font-weight-bold text-md">II. PERINCIAN ANGKA KREDIT</sp>
     </div>
   </div>
   <div class="row mb-3">
@@ -198,7 +202,7 @@
 
   <div class="row">
     <div class="col">
-      <h6 class="font-weight-bold">III. HASIL PENILAIAN</h6>
+      <span class="font-weight-bold text-md">III. HASIL PENILAIAN</span>
     </div>
   </div>
   <div class="row">
@@ -206,19 +210,19 @@
       <table class="table table-sm" style="width: 100%;">
         <tbody>
           <tr>
-            <td style="width: 120px;">Penilai I</td>
-            <td>:</td>
-            <td> </td>
+            <td class="border-bottom" style="width: 90px;">Penilai I</td>
+            <td class="border-bottom">:</td>
+            <td class="border-bottom"> </td>
           </tr>
           <tr>
-            <td>Penilai II</td>
-            <td>:</td>
-            <td> </td>
+            <td class="border-bottom">Penilai II</td>
+            <td class="border-bottom">:</td>
+            <td class="border-bottom"> </td>
           </tr>
           <tr>
-            <td>Penilai III</td>
-            <td>:</td>
-            <td> </td>
+            <td class="border-bottom">Penilai III</td>
+            <td class="border-bottom">:</td>
+            <td class="border-bottom"> </td>
           </tr>
 
         </tbody>
@@ -232,7 +236,7 @@
           </td>
         </tr>
         <tr>
-          <td style="width: 60%;">dengan catatan :</td>
+          <td style="width: 480px;">dengan catatan :</td>
           <td></td>
         </tr>
         <tr>
@@ -252,3 +256,4 @@
   </div>
 
 </div>
+<?= $this->endSection(); ?>

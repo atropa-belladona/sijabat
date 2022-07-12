@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use Config\Database;
 use Exception;
 
 class PegawaiModel extends Model
@@ -12,6 +13,9 @@ class PegawaiModel extends Model
 	protected $allowedFields        = [
 		'id_sdm', 'nama_sdm', 'nidn', 'nip', 'tempat_lahir', 'tgl_lahir', 'status_aktif', 'status_pegawai', 'jenis_sdm', 'password_hash'
 	];
+
+	protected $primaryKey = 'id_sdm';
+	protected $useAutoIncrement = false;
 
 	// Dates
 	protected $useTimestamps        = true;
@@ -60,6 +64,16 @@ class PegawaiModel extends Model
 		return $gol->getRow();
 	}
 
+	public function getJabfungTerakhir($id_sdm)
+	{
+		$jabfung = $this->db->table('t_sdm_jabfung')
+			->where('id_sdm', $id_sdm)
+			->orderBy('tanggal_mulai', 'desc')
+			->get();
+
+		return $jabfung->getRow();
+	}
+
 	public function getPenugasanTerakhir($id_sdm)
 	{
 		$penugasan = $this->db->table('t_sdm_penugasan')
@@ -72,9 +86,16 @@ class PegawaiModel extends Model
 
 	public function getListPegawaiAktif()
 	{
-		$list = $this->db->table('v_pegawai')
-			->where('status_aktif', 'Aktif')
-			->get();
+		if (in_groups('operator')) {
+			$list = $this->db->table('v_pegawai')
+				->where('jenis_sdm', 'Dosen')
+				->like('kode_prodi', user()->kd_fakultas, 'after')
+				->get();
+		} else {
+			$list = $this->db->table('v_pegawai')
+				->where('jenis_sdm', 'Dosen')
+				->get();
+		}
 
 		return $list->getResult();
 	}
@@ -135,9 +156,13 @@ class PegawaiModel extends Model
 
 		$data['about_me'] = $sdm_profile;
 
-		$penugasan = $this->db->table('t_sdm_penugasan')
+		// $penugasan = $this->db->table('t_sdm_penugasan')
+		// 	->where('id_sdm', $id_sdm)
+		// 	->orderBy('tanggal_mulai', 'desc')
+		// 	->get();
+
+		$penugasan = $this->db->table('v_pegawai')
 			->where('id_sdm', $id_sdm)
-			->orderBy('tanggal_mulai', 'desc')
 			->get();
 
 		$data['penugasan'] = $penugasan->getRow();
@@ -207,10 +232,9 @@ class PegawaiModel extends Model
 	public function getImportLogs($id_sdm)
 	{
 		$data['import_logs'] = $this->db->table('t_sdm_importlogs as a')->where('id_sdm', $id_sdm)
-			->join('users', 'users.id = a.created_by')
 			->orderBy('created_at', 'desc')
 			->limit(5)
-			->select('a.id, a.ip, a.created_at, users.name')
+			->select('a.id, a.ip, a.created_at, a.created_by')
 			->get()
 			->getResult();
 
@@ -318,16 +342,24 @@ class PegawaiModel extends Model
 	protected function setImportLog($id_sdm)
 	{
 		try {
+			$db = Database::connect();
+
 
 			$ip_addr = $this->_getClientIpAddress();
+
+			$created_by = user()->name;
+
+			if (in_groups('dosen')) {
+				$created_by = session('siakad_nama');
+			}
 
 			$data = [
 				'id_sdm' => $id_sdm,
 				'ip' => $ip_addr,
-				'created_by' => user()->id
+				'created_by' => $created_by
 			];
 
-			$this->_insertInto('t_sdm_importlogs', $data);
+			$db->table('t_sdm_importlogs')->insert($data);
 
 			return true;
 		} catch (Exception $ex) {

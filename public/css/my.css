@@ -123,3 +123,22 @@ hr.bt-5 {
   font-weight: bold;
   color: black;
 }
+
+/* form usulan */
+#form-usulan {
+  font-size: 0.8rem;
+}
+
+#form-usulan input {
+  font-size: 0.8rem;
+}
+
+#form-usulan select {
+  font-size: 0.8rem;
+}
+
+.toast-top-center {
+  top: 60px !important;
+  text-align: center;
+  white-space: nowrap;
+}

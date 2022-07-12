@@ -1,8 +1,6 @@
-<h6 class="font-weight-bold text-primary">Usulan Angka Kredit <?= ($total_ak_usulan > 0) ? '<span class="ml-3 badge badge-warning">' . number_format2($total_ak_usulan) . '</span>' : ''; ?></h6>
-
 <?php if (in_groups('dosen') or in_groups('operator')) : ?>
   <?php if ($dupak->tahap_id == 1 or $dupak->tahap_id == 10 or $dupak->tahap_id == 25 or $dupak->tahap_id == 35 or $dupak->tahap_id == 45) : ?>
-    <div class="button-actions d-flex py-2">
+    <div class="button-actions d-flex pb-2">
       <?php foreach ($bidang_kegiatan as $bidang) : ?>
         <button type="button" class="btn btn-sm btn-outline-success mr-4" data-toggle="modal" data-target="#modal-tambah-kegiatan" data-dupak="<?= $dupak->id; ?>" data-kegiatan="<?= $bidang->id; ?>"><i class="fas fa-fw fa-plus"></i> <?= $bidang->nama; ?></button>
       <?php endforeach ?>
@@ -11,7 +9,7 @@
 <?php endif ?>
 
 <div class="kegiatan py-2">
-  <table id="table-ak-usulan" class="table table-sm table-success table-hover" style="width: 100%;">
+  <table id="table-ak-usulan" class="table table-sm table-success table-hover text-xs" style="width: 100%;">
     <thead class="bg-dark text-white">
       <tr>
         <th class="text-center">No.</th>
@@ -123,109 +121,3 @@
     </div>
   </div>
 </div>
-
-<?= $this->section('script'); ?>
-<script>
-  $('#table-ak-usulan').DataTable({
-    'paging': false,
-    'searching': false,
-    'bInfo': false,
-  });
-
-  $('#modal-tambah-kegiatan').on('show.bs.modal', function(event) {
-    var button = $(event.relatedTarget);
-    var id_kegiatan = button.data('kegiatan');
-    var modal = $(this);
-
-    modal.find('.modal-preloader').toggleClass('d-none');
-    modal.find('.content').html('');
-
-    $.ajax({
-      url: '<?= route_to('dupak_list', $dupak->id); ?>',
-      type: 'get',
-      data: {
-        'id_kegiatan': id_kegiatan
-      },
-      success: function(data) {
-        $('.modal-preloader').toggleClass('d-none');
-
-        modal.find('.datatable').DataTable().clear().destroy();
-
-        modal.find('.content').html(data);
-
-        modal.find('.datatable').DataTable({
-          'responsive': true
-        });
-
-      },
-      error: function(data) {
-        console.log(data);
-      }
-    })
-
-  });
-
-
-  $('#modal-detail-kegiatan').on('show.bs.modal', function(event) {
-    var button = $(event.relatedTarget);
-    var id_usulan = button.data('id');
-    var modal = $(this);
-
-    modal.find('.modal-preloader').toggleClass('d-none');
-    modal.find('.content').html('');
-
-    $.ajax({
-      url: '<?= route_to('dupak_detail_kegiatan', $dupak->id); ?>',
-      type: 'get',
-      data: {
-        'id_usulan': id_usulan
-      },
-      success: function(data) {
-        modal.find('.modal-preloader').toggleClass('d-none');
-
-        modal.find('.dt-nopaging-nosearch').DataTable().clear().destroy();
-
-        modal.find('.content').html(data);
-
-        modal.find('.dt-nopaging-nosearch').DataTable({
-          'searching': false,
-          'paging': false,
-          'bInfo': false,
-          'language': {
-            'emptyTable': '-- Tidak ada data --'
-          }
-        });
-      },
-      error: function(data) {
-        console.log(data);
-      }
-    })
-
-  });
-
-  $('#modal-evaluasi').on('show.bs.modal', function(event) {
-    var button = $(event.relatedTarget);
-    var id_usulan = button.data('id');
-    var modal = $(this);
-
-    modal.find('.modal-preloader').toggleClass('d-none');
-    modal.find('.content').html('');
-
-
-    $.ajax({
-      url: '<?= route_to('dupak_evaluasi'); ?>',
-      type: 'get',
-      data: {
-        'id_usulan': id_usulan,
-      },
-      success: function(data) {
-        modal.find('.modal-preloader').toggleClass('d-none');
-        modal.find('.content').html(data);
-      },
-      error: function(data) {
-        console.log(data);
-      }
-    })
-  });
-</script>
-<?= $this->endSection(); ?>

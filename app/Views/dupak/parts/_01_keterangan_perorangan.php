@@ -1,5 +1,5 @@
 <div class="table-responsive pl-4">
-  <table id="table-keterangan-perorangan" class="table table-sm table-hover table-borderless">
+  <table id="table-keterangan-perorangan" class="table table-sm table-borderless text-sm">
     <tbody>
       <tr>
         <td style="width: 1em;"></td>
@@ -55,8 +55,8 @@
             <?= ' / ' . $kepangkatan->golongan; ?>
           <?php endif ?>
 
-          <?php if (isset($kepangkatan->tanggal_mulai)) : ?>
-            <?= ' / ' . date_str($kepangkatan->tanggal_mulai); ?>
+          <?php if (isset($dupak->tmt_gol_lama)) : ?>
+            <?= ' / ' . date_str($dupak->tmt_gol_lama); ?>
           <?php endif ?>
         </td>
       </tr>
@@ -65,12 +65,12 @@
         <td class="align-middle" colspan="2">Tempat dan Tanggal Lahir</td>
         <td class="align-middle">:</td>
         <td class="align-middle">
-          <?php if (isset($about_me->tempat_lahir)) : ?>
-            <?= $about_me->tempat_lahir; ?>
+          <?php if (isset($dupak->tempat_lahir)) : ?>
+            <?= $dupak->tempat_lahir; ?>
           <?php endif ?>
 
-          <?php if (isset($about_me->tanggal_lahir)) : ?>
-            <?= ', ' . date_str($about_me->tanggal_lahir); ?>
+          <?php if (isset($dupak->tanggal_lahir)) : ?>
+            <?= ', ' . date_str($dupak->tanggal_lahir); ?>
           <?php endif ?>
         </td>
       </tr>
@@ -79,8 +79,8 @@
         <td class="align-middle" colspan="2">Jenis Kelamin</td>
         <td class="align-middle">:</td>
         <td class="align-middle">
-          <?php if (isset($about_me->jenis_kelamin)) : ?>
-            <?= ($about_me->jenis_kelamin == 'L') ? 'Pria' : 'Wanita' ?>
+          <?php if (isset($dupak->jenis_kelamin)) : ?>
+            <?= ($dupak->jenis_kelamin == 'L') ? 'Laki-laki' : 'Perempuan' ?>
           <?php endif ?>
         </td>
       </tr>
@@ -89,12 +89,7 @@
         <td class="align-middle" colspan="2">Pendidikan Terakhir</td>
         <td class="align-middle">:</td>
         <td class="align-middle">
-          <?php if (isset($pendidikan[0]->jenjang_pendidikan)) : ?>
-            <?= $pendidikan[0]->jenjang_pendidikan; ?>
-          <?php endif ?>
-          <?php if (isset($pendidikan[0]->bidang_studi)) : ?>
-            <?= $pendidikan[0]->bidang_studi; ?>
-          <?php endif ?>
+          <?= $dupak->pendidikan_terakhir ?? ''; ?>
         </td>
       </tr>
       <tr>
@@ -142,17 +137,7 @@
         <td class="align-middle" colspan="2">Unit Kerja</td>
         <td class="align-middle">:</td>
         <td class="align-middle">
-          <?php if (isset($penugasan->jenjang_pendidikan)) : ?>
-            <?= $penugasan->jenjang_pendidikan; ?>
-          <?php endif ?>
-
-          <?php if (isset($penugasan->unit_kerja)) : ?>
-            <?= $penugasan->unit_kerja; ?>
-          <?php endif ?>
-
-          <?php if (isset($penugasan->perguruan_tinggi)) : ?>
-            <?= $penugasan->perguruan_tinggi; ?>
-          <?php endif ?>
+          <?= $dupak->unit_kerja ?? ''; ?>
         </td>
       </tr>
     </tbody>

@@ -1,5 +1,6 @@
 <?php
 
+use Config\Database;
 use Config\Services;
 
 // get sisterws curl options
@@ -32,45 +33,45 @@ function decryptToken($token)
 // create cookie sister_token for authorization in sister ws
 function sister_authorize()
 {
-  $client = Services::curlrequest(getSisterWSOptions());
-
-  $session = Services::session();
-
-
-  $response = $client->request('POST', 'authorize', [
-    'form_params' => [
-      'username' => $session->get('sister_username'),
-      'password' => $session->get('sister_password'),
-      'id_pengguna' => $session->get('sister_pengguna')
-    ]
-  ]);
-
   try {
+    $db = Database::connect();
+    $session = service('session');
+
+    $sister = $db->table('zz_sister_password')->where('active', '1')->get()->getRowObject();
+
+    $client = Services::curlrequest(getSisterWSOptions());
+
+    $response = $client->request('POST', 'authorize', [
+      'form_params' => [
+        'username' => $sister->username,
+        'password' => $sister->password,
+        'id_pengguna' => $sister->id_pengguna
+      ]
+    ]);
+
     // if OK
     if ($response->getStatusCode() == 200) {
       $body = json_decode($response->getBody());
 
       $plain_token = 'Bearer ' . $body->token;
 
+      $session->set([
+        'sister_token' => $plain_token
+      ]);
+
       // set cookie for sister token
       helper('cookie');
-      set_cookie('sister_token', md5(uniqid()), 3600);
-
-      $_SESSION['sister_token'] = encryptToken($plain_token);
-
-      // for development purpose
-      // disable in production
-      set_cookie('sister_plain_token', $plain_token, 3600);
+      set_cookie('sister_cookie', md5(uniqid()), 3600);
 
       return $response;
     }
 
     $error_msg = $response->getReason();
 
-    return redirect()->back()->with('app_error', $error_msg);
+    return redirect()->back()->with('app_error', 'a' . $error_msg);
   } catch (Exception $ex) {
     // if Error
-    return redirect()->back()->with('app_error', $ex->getMessage());
+    return redirect()->back()->with('app_error', 'b' . $ex->getMessage());
   }
 }
 
@@ -80,7 +81,7 @@ function sister_getReferensiUnitKerja($id_perguruantinggi)
   helper('cookie');
 
   // if it doesnt have token to authorize
-  if (get_cookie('sister_token') == null) {
+  if (get_cookie('sister_cookie') == null) {
     $sa = sister_authorize();
   }
 
@@ -88,7 +89,7 @@ function sister_getReferensiUnitKerja($id_perguruantinggi)
 
   $token = session('sister_token');
 
-  $token = decryptToken($token);
+
 
   $response = $client->request('GET', 'referensi/unit_kerja', [
     'headers' => [
@@ -108,7 +109,7 @@ function sister_getDataPegawai()
   helper('cookie');
 
   // if it doesnt have token to authorize
-  if (get_cookie('sister_token') == null) {
+  if (get_cookie('sister_cookie') == null) {
     $sa = sister_authorize();
   }
 
@@ -116,7 +117,7 @@ function sister_getDataPegawai()
 
   $token = session('sister_token');
 
-  $token = decryptToken($token);
+
 
   $response = $client->request('GET', 'referensi/sdm', [
     'headers' => [
@@ -133,7 +134,7 @@ function sister_getProfileSDM($id_sdm)
   helper('cookie');
 
   // if it doesnt have token to authorize
-  if (get_cookie('sister_token') == null) {
+  if (get_cookie('sister_cookie') == null) {
     $sa = sister_authorize();
   }
 
@@ -141,7 +142,7 @@ function sister_getProfileSDM($id_sdm)
 
   $token = session('sister_token');
 
-  $token = decryptToken($token);
+
 
   $response = $client->request('GET', 'data_pribadi/profil/' . $id_sdm, [
     'headers' => [
@@ -158,7 +159,7 @@ function sister_getDataPenugasanPegawai($id_sdm)
   helper('cookie');
 
   // if it doesnt have token to authorize
-  if (get_cookie('sister_token') == null) {
+  if (get_cookie('sister_cookie') == null) {
     $sa = sister_authorize();
   }
 
@@ -166,7 +167,7 @@ function sister_getDataPenugasanPegawai($id_sdm)
 
   $token = session('sister_token');
 
-  $token = decryptToken($token);
+
 
   $response = $client->request('GET', 'penugasan', [
     'headers' => [
@@ -186,7 +187,7 @@ function sister_getDataPenugasanDetail($id_penugasan)
   helper('cookie');
 
   // if it doesnt have token to authorize
-  if (get_cookie('sister_token') == null) {
+  if (get_cookie('sister_cookie') == null) {
     $sa = sister_authorize();
   }
 
@@ -194,7 +195,7 @@ function sister_getDataPenugasanDetail($id_penugasan)
 
   $token = session('sister_token');
 
-  $token = decryptToken($token);
+
 
   $response = $client->request('GET', 'penugasan/' . $id_penugasan, [
     'headers' => [
@@ -216,15 +217,13 @@ function sister_query_getDataByIdSDM($get_path, $id_sdm)
   helper('cookie');
 
   // if it doesnt have token to authorize
-  if (get_cookie('sister_token') == null) {
+  if (get_cookie('sister_cookie') == null) {
     $sa = sister_authorize();
   }
 
   $client = Services::curlrequest(getSisterWSOptions());
 
   $token = session('sister_token');
-
-  $token = decryptToken($token);
 
   $response = $client->request('GET', $get_path, [
     'headers' => [
@@ -247,15 +246,13 @@ function sister_path_getDataByIdSDM($get_path, $id_sdm)
   helper('cookie');
 
   // if it doesnt have token to authorize
-  if (get_cookie('sister_token') == null) {
+  if (get_cookie('sister_cookie') == null) {
     $sa = sister_authorize();
   }
 
   $client = Services::curlrequest(getSisterWSOptions());
 
   $token = session('sister_token');
-
-  $token = decryptToken($token);
 
   $response = $client->request('GET', $get_path . $id_sdm, [
     'headers' => [
@@ -271,7 +268,7 @@ function sister_path_getDataByID($get_path, $id)
   helper('cookie');
 
   // if it doesnt have token to authorize
-  if (get_cookie('sister_token') == null) {
+  if (get_cookie('sister_cookie') == null) {
     $sa = sister_authorize();
   }
 
@@ -279,7 +276,7 @@ function sister_path_getDataByID($get_path, $id)
 
   $token = session('sister_token');
 
-  $token = decryptToken($token);
+
 
   $response = $client->request('GET', $get_path . $id, [
     'headers' => [

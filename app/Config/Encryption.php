@@ -23,7 +23,7 @@ class Encryption extends BaseConfig
 	 *
 	 * @var string
 	 */
-	public $key = 'Kijang1Kijang2Ganti.InikunciYgDipakaidiaplikasisijabat/UNJPustikom';
+	public $key = 'kBLDZpOKCBONjY3d6Q0NSuIYyOb7HHXPvgx43Txtr2BfkjVR3yKHXl19rHBv91fs4b';
 
 	/**
 	 * --------------------------------------------------------------------------
