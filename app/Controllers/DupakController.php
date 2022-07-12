@@ -15,6 +15,7 @@ use App\Models\PegawaiModel;
 use Config\Database;
 use Config\Services;
 use Exception;
+use Irsyadulibad\DataTables\DataTables;
 
 class DupakController extends BaseController
 {
@@ -852,7 +853,7 @@ class DupakController extends BaseController
 
     public function getDokumenPengantar($id_dupak)
     {
-        return \Irsyadulibad\DataTables\DataTables::use('t_dupak_dokumen')
+        return DataTables::use('t_dupak_dokumen')
             ->where(['id_dupak' => $id_dupak])
             ->addColumn('action', function ($data) {
                 if ($data->created_by == user()->id) {
