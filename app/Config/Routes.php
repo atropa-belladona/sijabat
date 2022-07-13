@@ -111,7 +111,7 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 
 		// detail dupak route
 		$routes->get('detail/(:segment)', 'DupakController::show/$1', ['as' => 'dupak_detail']);
-		$routes->post('detail/(:segment)', 'DupakController::update/$1', ['as' => 'dupak_update', 'filter' => 'role:dosen,operator']);
+		$routes->post('detail/(:segment)', 'DupakController::update/$1', ['as' => 'dupak_update', 'filter' => 'role:dosen,operator,koordinator']);
 
 		// list usulan by kategori kegiatan route
 		$routes->get('detail/(:segment)/list', 'DupakController::list_usulan/$1', ['as' => 'dupak_list', 'filter' => 'role:dosen,operator']);
@@ -132,6 +132,15 @@ $routes->group('', ['filter' => 'login'], function ($routes) {
 		$routes->post('detail/(:any)/upload_dokumen', 'DupakController::store_dupak_dokumen/$1', ['as' => 'dupak_store_dokumen']);
 		$routes->get('detail/(:any)/dokumen', 'DupakController::getDokumenPengantar/$1', ['as' => 'dupak_get_dokumen']);
 		$routes->post('detail/dokumen/delete/(:any)', 'DupakController::deleteDokumenPengantar/$1', ['as' => 'dupak_delete_dokumen']);
+
+		// acc fakultas
+		$routes->post('acc_fakultas_yes/(:segment)', 'DupakController::acc_fakultas_yes/$1', ['as' => 'acc_fakultas_yes']);
+		$routes->post('acc_fakultas_no/(:segment)', 'DupakController::acc_fakultas_no/$1', ['as' => 'acc_fakultas_no']);
+
+		// tambah penilai
+		$routes->post('store_penilai/(:segment)', 'DupakController::store_penilai/$1', ['as' => 'store_penilai']);
+		$routes->post('delete_penilai/(:segment)', 'DupakController::delete_penilai/$1', ['as' => 'delete_penilai']);
+
 
 		// send dupak
 		$routes->post('detail/(:segment)/kirim', 'DupakController::send_dupak/$1', ['as' => 'dupak_send']);

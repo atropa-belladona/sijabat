@@ -15,7 +15,17 @@
   <button type="button" class="btn btn-sm btn-success mr-3" data-toggle="modal" data-target="#modal-kendali"><i class="fas fa-list-alt"></i> Kartu Kendali</button>
   <button type="button" class="btn btn-sm btn-success mr-3" data-toggle="modal" data-target="#modal-rekap"><i class="fas fa-list-alt"></i> Rekap Dupak</button>
   <button type="button" class="btn btn-sm btn-success mr-3" data-toggle="modal" data-target="#modal-logs"><i class="fas fa-history"></i> Lihat sejarah usulan</button>
-  <button type="button" class="btn btn-sm btn-warning mr-3" data-toggle="modal" data-target="#modal-ubah-usulan" title="Ubah Data Usulan"><i class="fas fa-edit"></i> Ubah Info Usulan</button>
+
+  <?php if (in_groups('dosen') or in_groups('operator')) : ?>
+    <?php if ($dupak->tahap_id == 1 or $dupak->tahap_id == 10 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45) : ?>
+      <button type="button" class="btn btn-sm btn-warning mr-3" data-toggle="modal" data-target="#modal-ubah-usulan" title="Ubah Data Usulan"><i class="fas fa-edit"></i> Ubah Info Usulan</button>
+    <?php endif ?>
+  <?php endif ?>
+
+  <?php if (in_groups('koordinator')) : ?>
+    <button type="button" class="btn btn-sm btn-warning mr-3" data-toggle="modal" data-target="#modal-ubah-usulan" title="Ubah Data Usulan"><i class="fas fa-edit"></i> Ubah Info Usulan</button>
+  <?php endif ?>
+
 </div>
 <?= $this->endSection(); ?>
 
@@ -93,12 +103,29 @@
               <?= $this->include('dupak/parts/_04_dokumen_pengantar'); ?>
             </section>
           </div>
+
           <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
+            <?php if (in_groups('operator') and $dupak->tahap_id == 10) : ?>
+              <div class="row">
+                <div class="col d-flex">
+                  <form action="<?= route_to('acc_fakultas_yes', $dupak->id); ?>" method="POST">
+                    <?= csrf_field(); ?>
+                    <button type="submit" class="btn btn-sm btn-outline-primary mr-3"><i class="fas fa-fw fa-thumbs-up"></i> Disetujui Tim Penilai PAK Fakultas</button>
+                  </form>
+
+                  <form action="<?= route_to('acc_fakultas_no', $dupak->id); ?>" method="POST">
+                    <?= csrf_field(); ?>
+                    <button type="submit" class="btn btn-sm btn-outline-secondary mr-3"><i class="fas fa-fw fa-thumbs-down"></i> Tidak disetujui Tim Penilai PAK Fakultas</button>
+                  </form>
+                </div>
+              </div>
+            <?php endif ?>
+
+            <?= $this->include('dupak/parts/_05_pilih_penilai_pak') ?>
+
             <div class="row">
-              <!-- <div class="col d-flex flex-row-reverse align-items-end"> -->
               <div class="col">
-                <!-- button actions -->
-                <form action="<?= route_to('dupak_send', $dupak->id); ?>" method="POST" class="d-flex justify-content-between">
+                <form action="<?= route_to('dupak_send', $dupak->id); ?>" method="POST">
                   <?= csrf_field(); ?>
 
                   <?php if (in_groups('dosen')) : ?>
@@ -109,12 +136,16 @@
                     <?php endif ?>
                   <?php endif ?>
 
-                  <?php if (in_groups('operator') and ($dupak->tahap_id == 1 or $dupak->tahap_id == 10 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45)) : ?>
-
-                    <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fas fa-fw fa-thumbs-down"></i> Tidak disetujui Tim Penilai PAK Fakultas</button>
-                    <button type="button" class="btn btn-sm btn-outline-primary"><i class="fas fa-fw fa-thumbs-up"></i> Disetujui Tim Penilai PAK Fakultas</button>
-
-                    <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="fas fa-fw fa-arrow-right"></i><?= ($dupak->tahap_id == 25 or $dupak->tahap_id == 45) ? 'Kirim Perbaikan' : 'Kirim Usulan ke Bagian Kepegawaian UNJ' ?> </button>
+                  <?php if (in_groups('operator')) : ?>
+                    <?php if ($dupak->tahap_id == 1 or $dupak->tahap_id == 10 or $dupak->tahap_id == 25 or $dupak->tahap_id == 45) : ?>
+                      <div class="mt-4">
+                        <?php if ($dupak->acc_fakultas == '1') : ?>
+                          <button type="submit" class="btn btn-sm btn-success bg-gradient-success"><i class="fas fa-fw fa-arrow-right"></i><?= ($dupak->tahap_id == 25 or $dupak->tahap_id == 45) ? 'Kirim Perbaikan' : 'Kirim Usulan ke Bagian Kepegawaian UNJ' ?> </button>
+                        <?php endif ?>
+                      </div>
+                    <?php else : ?>
+                      <span class="font-italic">Pengajuan sudah terkirim (Status : <?= $dupak->ur_tahap; ?>)</span>
+                    <?php endif ?>
                   <?php endif ?>
 
                   <?php if (in_groups('verifikator') and $dupak->tahap_id == 20) : ?>
@@ -126,7 +157,9 @@
 
                   <?php if (in_groups('koordinator') and $dupak->tahap_id == 30) : ?>
                     <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modal-catatan"><i class="fas fa-fw fa-arrow-left"></i> Kembalikan ke Admin Fakultas</button>
-                    <button type="submit" class="btn btn-sm btn-success bg-gradient-success "><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Tim Penilai PAK</button>
+                    <?php if ($penilai) : ?>
+                      <button type="submit" class="btn btn-sm btn-success bg-gradient-success "><i class="fas fa-fw fa-arrow-right"></i> Kirim Usulan ke Tim Penilai PAK</button>
+                    <?php endif ?>
                   <?php endif ?>
 
                   <?php if (in_groups('reviewer') and $dupak->tahap_id == 40) : ?>
@@ -293,6 +326,47 @@
       </div>
       <div class="modal-body">
         <?= $this->include('dupak/parts/modal-content/_100_ubah_usulan') ?>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--  -->
+<div class="modal fade" id="modal-pilih-penilai">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h6 class="modal-title font-weight-bold">Ubah Data Usulan PAK</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <form action="<?= route_to('store_penilai', $dupak->id); ?>" method="post">
+          <?= csrf_field(); ?>
+
+          <div class="form-group">
+            <label for="penilai">Penilai</label>
+            <select name="penilai" id="penilai" class="form-control" required>
+              <option value="">Pilih ...</option>
+              <?php foreach ($list_penilai as $lp) : ?>
+                <option value="<?= $lp->id; ?>"><?= $lp->name; ?></option>
+              <?php endforeach ?>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="sebagai">Sebagai</label>
+            <select name="sebagai" id="sebagai" class="form-control" required>
+              <option value="">Pilih ...</option>
+              <option value="ketua">Ketua</option>
+              <option value="anggota">Anggota</option>
+            </select>
+          </div>
+          <hr>
+          <div class="form-group d-flex justify-content-end">
+            <button type="submit" class="btn btn-sm btn-success"><i class="fas fa-fw fa-save"></i> Simpan</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

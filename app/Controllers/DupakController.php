@@ -400,8 +400,11 @@ class DupakController extends BaseController
         // referensi golongan
         $data['list_golongan'] = $this->db->table('r_golongan')->get()->getResult();
 
+        // referensi penilai
+        $data['list_penilai'] = $this->db->table('v_users')->where('role_id', 5)->where('active', 1)->get()->getResult();
 
-
+        // get penilai
+        $data['penilai'] = $this->db->table('v_dupak_penilai')->where('id_dupak', $id_dupak)->get()->getResult();
 
 
 
@@ -491,6 +494,44 @@ class DupakController extends BaseController
             return $ex->getMessage();
         }
     }
+
+    public function store_penilai($id_dupak)
+    {
+        $penilai_id = $this->request->getPost('penilai');
+        $sebagai = $this->request->getPost('sebagai');
+
+        $record = [
+            'id_dupak' => $id_dupak,
+            'user_id' => $penilai_id,
+            'sebagai' => $sebagai
+        ];
+
+        if ($sebagai == 'ketua') {
+            $cek_ketua = $this->db->table('t_dupak_penilai')->where('id_dupak', $id_dupak)->where('sebagai', 'ketua')->get()->getRowObject();
+
+            if ($cek_ketua) {
+                return redirect()->back()->with('toast_error', 'Sudah ada penilai yang berstatus sebagai Ketua');
+            }
+        }
+
+        $cek_double = $this->db->table('t_dupak_penilai')->where('id_dupak', $id_dupak)->where('user_id', $penilai_id)->get()->getRowObject();
+
+        if ($cek_double) {
+            return redirect()->back()->with('toast_error', 'Penilai sudah terdaftar');
+        }
+
+        $this->db->table('t_dupak_penilai')->insert($record);
+
+        return redirect()->back()->with('toast_success', 'Penilai berhasil ditambahkan');
+    }
+
+    public function delete_penilai($penilai_id)
+    {
+        $this->db->table('t_dupak_penilai')->where('id', $penilai_id)->delete();
+
+        return redirect()->back()->with('toast_success', 'Penilai berhasil dihapus');
+    }
+
 
     public function list_usulan($id_dupak)
     {
@@ -709,6 +750,24 @@ class DupakController extends BaseController
         $detail->delete();
 
         return redirect()->back();
+    }
+
+    public function acc_fakultas_yes($id_dupak)
+    {
+        $this->dupakModel->where('id', $id_dupak)
+            ->set(['acc_fakultas' => '1'])
+            ->update();
+
+        return redirect()->back()->with('toast_success', 'Pengajuan Usulan Angka Kredit telah disetujui Tim Penilai PAK Fakultas');
+    }
+
+    public function acc_fakultas_no($id_dupak)
+    {
+        $this->dupakModel->where('id', $id_dupak)
+            ->set(['acc_fakultas' => '2'])
+            ->update();
+
+        return redirect()->back()->with('toast_warning', 'Pengajuan Usulan Angka Kredit tidak disetujui Tim Penilai PAK Fakultas');
     }
 
 
