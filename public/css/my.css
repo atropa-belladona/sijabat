@@ -11,6 +11,18 @@ body {
   background-blend-mode: luminosity;
 }
 
+.bg-gradient-unj {
+  background: rgb(0, 111, 69);
+  background: radial-gradient(
+    circle,
+    rgba(0, 111, 69, 1) 0%,
+    rgba(26, 140, 97, 1) 0%,
+    rgba(21, 117, 81, 1) 42%,
+    rgba(12, 75, 51, 1) 100%,
+    rgba(0, 111, 69, 1) 100%
+  );
+}
+
 .brand-link {
   height: 55px;
   background-color: #00472c !important;
@@ -76,9 +88,10 @@ hr.sidebar-divider {
 
 .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active,
 .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
-  background-color: #005434;
+  background-color: #196a4b;
   font-weight: bold;
   color: #eaf571;
+  border-left: 4px solid yellow;
 }
 
 /* misc css */

@@ -3,7 +3,7 @@
     <div class="col-md-3 fixedElement">
 
       <!-- Profile Image -->
-      <div class="card card-primary card-outline ">
+      <div class="card card-success card-outline">
         <div class="card-body box-profile">
           <div class="text-center">
             <img class="profile-kategori-img img-fluid" src="<?= (isset($foto)) ? $foto : ''; ?>" alt="<?= $pegawai->nama_sdm; ?>" style="width: auto !important;">
@@ -40,8 +40,8 @@
       <!-- /.card -->
 
       <!-- About Me Box -->
-      <div class="card card-primary">
-        <div class="card-header">
+      <div class="card card-success">
+        <div class="card-header bg-gradient-unj">
           <h3 class="card-title">Tentang Saya</h3>
         </div>
         <!-- /.card-header -->

@@ -32,7 +32,7 @@
             <tr>
               <td class="align-middle text-center"><?= $i++; ?></td>
               <td class="align-middle text-left"><?= $user->name; ?></td>
-              <td class="align-middle text-center"><?= ucfirst($user->role_name) . ' ' . $user->fakultas; ?></td>
+              <td class="align-middle text-center"><?= ucfirst($user->role_desc) . ' ' . $user->fakultas; ?></td>
               <td class="align-middle text-center">
                 <?= ($user->active == 1) ? 'aktif' : 'non aktif'; ?>
               </td>

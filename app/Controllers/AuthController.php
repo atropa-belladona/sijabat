@@ -72,7 +72,7 @@ class AuthController extends Controller
 			$captcha->quest = $captcha->error;
 		}
 
-		$auth_groups = $this->db->table('auth_groups')->get()->getResult();
+		$auth_groups = $this->db->table('auth_groups')->where('active', '1')->get()->getResult();
 
 		return $this->_render($this->config->views['login'], ['config' => $this->config, 'auth_groups' => $auth_groups, 'captcha' => $captcha]);
 	}

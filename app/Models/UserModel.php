@@ -133,7 +133,7 @@ class UserModel extends Model
 
     public function getUserRoles()
     {
-        $roles = $this->db->table('auth_groups')->get();
+        $roles = $this->db->table('auth_groups')->where('active', '1')->get();
 
         return $roles->getResult();
     }

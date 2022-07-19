@@ -161,7 +161,7 @@ class DataController extends BaseController
 
 			$data['import'] = $this->pegawaiModel->importDataSisterBySDM($pegawai->id_sdm);
 
-			return redirect()->back()->with('app_success', 'Data berhasil diimport');
+			return redirect()->back()->with('toast_success', 'Data berhasil diimport');
 		} catch (Exception $ex) {
 			return redirect()->back()->with('app_error', $ex->getMessage());
 		}

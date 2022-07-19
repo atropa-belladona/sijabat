@@ -1,13 +1,13 @@
     <!-- Main Sidebar Container -->
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <aside class="main-sidebar sidebar-dark-primary">
       <!-- Brand Logo -->
-      <a href="<?= route_to('home') ?>" class="brand-link d-flex align-items-center">
+      <a href="<?= route_to('home') ?>" class="brand-link d-flex align-items-center elevation-2">
         <img src="<?= base_url(); ?>/img/logo_unj.png" alt="SIJABAT Logo" class="brand-image" style="opacity: .8">
-        <span class="brand-text font-weigh-bolder ml-4 text-lg" style="opacity: .8">SIJABAT</span>
+        <span class="brand-text font-weigh-bolder ml-4 text-lg " style="opacity: .8">SIJABAT</span>
       </a>
 
       <!-- Sidebar -->
-      <div class="sidebar">
+      <div class="sidebar bg-gradient-unj">
 
         <!-- Sidebar Menu -->
         <nav class="mt-3">

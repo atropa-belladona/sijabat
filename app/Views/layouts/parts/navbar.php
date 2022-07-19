@@ -1,5 +1,5 @@
    <!-- Navbar -->
-   <nav class="main-header navbar navbar-expand navbar-dark shadow shadow-sm">
+   <nav class="main-header navbar navbar-expand navbar-dark bg-gradient-unj elevation-2">
      <!-- Left navbar links -->
      <ul class="navbar-nav font-weight-bold text-white">
        <li class="nav-item">
